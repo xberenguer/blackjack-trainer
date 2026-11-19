@@ -20,7 +20,7 @@ Keep the terminal open while playing. Use Ctrl+C there to stop the server. Openi
 
 Sound starts after a button/key gesture if the browser requires one. Start at Settings → Sound if you want to audition the cues. Fresh preferences are20% volume, Fast speed and Hi-Lo strategy; saved choices take precedence. Training still boots Off.
 
-Saves belong to that browser profile and origin. Changing the port/browser, using a private window or clearing site data can give you a separate or empty save. They do not automatically synchronize with the Stick. The supplied browser is for local review until the asset/publication review in[PUBLISHING](PUBLISHING.md) is complete.
+Saves belong to that browser profile and origin. Changing the port/browser, using a private window or clearing site data can give you a separate or empty save. They do not automatically synchronize with the Stick. The browser retains the third-party notices and outstanding review items described in[PUBLISHING](PUBLISHING.md).
 
 ## StickS3
 

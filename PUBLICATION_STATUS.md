@@ -1,7 +1,7 @@
 # Publication status
 
 Target: https://github.com/xberenguer/blackjack-trainer (public).
-Version:0.11.2. Publication is awaiting explicit confirmation after automatic review.
+Version:0.11.2. The maintainer explicitly approved public publication with the current assets on2026-11-18.
 
 The source, illustrated guide, screenshots and matching browser WASM are prepared together. Private device dumps, saved sessions, credentials and host validation logs are excluded. All native fixtures remain intact.
 

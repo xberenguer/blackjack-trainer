@@ -1,16 +1,15 @@
 # Preparing blackjack-trainer for publication
 
-This is a local preparation guide, reviewed2026-11-18 against0.11.2. No repository
-or release URL is assigned here. No remote has been created or pushed by this
-audit. The proposed GitHub repository name is `blackjack-trainer`.
+This records the preparation audit for0.11.2, reviewed2026-11-18. The maintainer
+subsequently approved public publication with the current assets at
+https://github.com/xberenguer/blackjack-trainer. That approval does not establish
+third-party redistribution rights or grant a blanket license.
 
-The immediate deliverable is a **complete local review candidate** with the
-approved game assets intact, private device data excluded, and the asset-rights
-questions clearly attached. It is not a statement that the current archive is
-cleared for public upload. No stripped or unbuildable public export is created
-as part of this preparation.
+The published source retains the game assets and their notices, with private
+device data excluded. The audit findings below remain recorded for follow-up;
+public availability does not resolve the asset-rights questions.
 
-## What needs review before an external upload
+## Outstanding licensing and release review
 
 - Resolve the source-code license text and its scope. The Rust Cargo metadata
   declares MIT; the predecessor Video Poker program is GPL-2.0-or-later. They

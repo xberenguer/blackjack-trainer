@@ -1,0 +1,12 @@
+[package]
+name = "stardust-round-storage-check"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = ["waveshare175c"]
+waveshare175c = []
+
+[dependencies]
+stardust-blackjack = { path = "../../.." }
+private-resume-journal-prototype = { path = "../../../resume-journal" }

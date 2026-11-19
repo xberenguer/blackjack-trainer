@@ -17,6 +17,12 @@ pub struct Speaker {
 }
 impl Speaker {
     pub fn new(tx: I2sTx<'static, Blocking>) -> Self {
+        // The round framebuffer and factory-flash commits have a larger worst-case
+        // service gap. Keep DMA alive across that bounded work without changing
+        // the Stick's validated cue latency or PCM/gain policy.
+        #[cfg(feature = "waveshare175c")]
+        let mut b = dma_tx_stream_buffer!(16384, 1024);
+        #[cfg(not(feature = "waveshare175c"))]
         let mut b = dma_tx_stream_buffer!(8192, 1024);
         while b.push_with(|s| {
             s.fill(0);

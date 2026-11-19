@@ -16,6 +16,7 @@ pub mod strategy;
 
 pub mod assets;
 pub mod canvas;
+pub mod round;
 pub mod render;
 
 pub mod audio;

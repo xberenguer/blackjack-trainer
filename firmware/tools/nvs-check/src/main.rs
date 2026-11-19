@@ -86,6 +86,9 @@ mod tests {
         packet[..332].copy_from_slice(&current[..332]);
         packet[4..6].copy_from_slice(&5u16.to_le_bytes());
         packet[6..8].copy_from_slice(&336u16.to_le_bytes());
+        // V5 predates seat/audio settings. Their old reserved bytes must stay zero;
+        // current V10 defaults write volume/speed here and are not valid V5 bytes.
+        packet[200..204].fill(0);
         let c = storage_format::crc32(&packet[..332]);
         packet[332..].copy_from_slice(&c.to_le_bytes());
         let mut raw = vec![255; 0x5000];

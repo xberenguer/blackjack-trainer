@@ -22,6 +22,9 @@ The accepted 0.1.3 appearance and controls remain the design contract. The game 
 
 | 0.11.2 | Hi-Lo strategy defaults on new installations; connected device switched to Hi-Lo. Existing saved strategy selections and historical Basic-only saves are preserved. |
 
+| 0.11.3 | Guide insurance choices remain visible; illustrated main guide, hosted web game and signed flasher release contract. |
+| 0.12.0 | Rust Waveshare 1.75C port: native round layout, top physical buttons, touch disabled, centered card fans, fixed card size/height, OLED backgrounds and Stardust back colors, six-row menus with a next-row preview. |
+
 ## How feedback shaped the result
 
 - **Cards first.** Large approved faces and text remain; the main logo, chip stacks, redundant “Chips” label, automatic totals, shoe details and action-button row were removed from normal play.

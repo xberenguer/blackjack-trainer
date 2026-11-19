@@ -1,4 +1,6 @@
-//! NVS is read-only. Writes are confined to the explicitly declared rustsave partition.
+//! NVS is read-only. Stick writes require explicit rustsave/rustresume partitions.
+//! Waveshare writes require its exact factory map and an independently bounded
+//! application image; only the reserved application-tail journals are writable.
 use crate::storage_format::{self as fmt, JOURNAL_BYTES, PACKET};
 use esp_storage::{Flash, FlashStorage};
 use stardust_blackjack::persistence::Save;
@@ -61,55 +63,84 @@ impl Storage {
             self.errors += 1;
             return None;
         }
-        // Reject overlapping/overflowing/nonstandard partitions before enabling any write.
-        let mut ends = [(0u32, 0u32); 96];
-        let mut count = 0;
-        let mut nvs = None;
-        let mut journal = None;
-        let mut private = None;
-        for e in b.chunks_exact(32) {
-            if e[..2] == [255, 255] || e[..2] == [0xeb, 0xeb] {
-                break;
-            }
-            if e[..2] != [0xaa, 0x50] || count == 96 {
+        #[cfg(feature = "waveshare175c")]
+        let (journal, private) = {
+            if !crate::round_storage_layout::valid_table(b) {
+                self.read_failed = true;
+                self.errors += 1;
                 return None;
             }
-            let start = u32::from_le_bytes(e[4..8].try_into().ok()?);
-            let size = u32::from_le_bytes(e[8..12].try_into().ok()?);
-            let end = start.checked_add(size)?;
-            if start < 0x9000 || end > 0x800000 || size == 0 {
+            if crate::round_storage_layout::application_end(|at, out| {
+                self.flash.read_nor(at, out).map_err(|_| ())
+            })
+            .is_err()
+            {
+                self.read_failed = true;
+                self.errors += 1;
                 return None;
             }
-            for &(a, z) in &ends[..count] {
-                if start < z && a < end {
+            (
+                Some(crate::round_storage_layout::PUBLIC_START),
+                Some(crate::round_storage_layout::PRIVATE_START as usize),
+            )
+        };
+        #[cfg(not(feature = "waveshare175c"))]
+        let (nvs, journal, private) = {
+            // Reject overlapping/overflowing/nonstandard partitions before enabling any write.
+            let mut ends = [(0u32, 0u32); 96];
+            let mut count = 0;
+            let mut nvs = None;
+            let mut journal = None;
+            let mut private = None;
+            for e in b.chunks_exact(32) {
+                if e[..2] == [255, 255] || e[..2] == [0xeb, 0xeb] {
+                    break;
+                }
+                if e[..2] != [0xaa, 0x50] || count == 96 {
                     return None;
                 }
+                let start = u32::from_le_bytes(e[4..8].try_into().ok()?);
+                let size = u32::from_le_bytes(e[8..12].try_into().ok()?);
+                let end = start.checked_add(size)?;
+                if start < 0x9000 || end > 0x800000 || size == 0 {
+                    return None;
+                }
+                for &(a, z) in &ends[..count] {
+                    if start < z && a < end {
+                        return None;
+                    }
+                }
+                ends[count] = (start, end);
+                count += 1;
+                if e[12..16] == *b"nvs\0"
+                    && e[2] == 1
+                    && e[3] == 2
+                    && start == 0x9000
+                    && size == 0x5000
+                {
+                    nvs = Some((start, size));
+                }
+                if e[12..23] == *b"rustresume\0"
+                    && e[2] == 1
+                    && e[3] == 0x41
+                    && start == 0x770000
+                    && size == 0x80000
+                    && e[28..32] == [0; 4]
+                {
+                    private = Some(start as usize);
+                }
+                if e[12..21] == *b"rustsave\0"
+                    && e[2] == 1
+                    && e[3] == 0x40
+                    && start == 0x7f0000
+                    && size == 0x2000
+                    && e[28..32] == [0; 4]
+                {
+                    journal = Some(start);
+                }
             }
-            ends[count] = (start, end);
-            count += 1;
-            if e[12..16] == *b"nvs\0" && e[2] == 1 && e[3] == 2 && start == 0x9000 && size == 0x5000
-            {
-                nvs = Some((start, size));
-            }
-            if e[12..23] == *b"rustresume\0"
-                && e[2] == 1
-                && e[3] == 0x41
-                && start == 0x770000
-                && size == 0x80000
-                && e[28..32] == [0; 4]
-            {
-                private = Some(start as usize);
-            }
-            if e[12..21] == *b"rustsave\0"
-                && e[2] == 1
-                && e[3] == 0x40
-                && start == 0x7f0000
-                && size == 0x2000
-                && e[28..32] == [0; 4]
-            {
-                journal = Some(start);
-            }
-        }
+            (nvs, journal, private)
+        };
         self.base = journal;
         self.private_base = private;
         if let Some(base) = journal {
@@ -150,13 +181,14 @@ impl Storage {
             }
         }
 
-        let save = nvs.and_then(|(start, size)| self.import_nvs(start, size));
-        if let Some(s) = save {
+        #[cfg(not(feature = "waveshare175c"))]
+        if let Some(save) = nvs.and_then(|(start, size)| self.import_nvs(start, size)) {
             self.imported = true;
-            return Some(s);
+            return Some(save);
         }
         None
     }
+    #[cfg(not(feature = "waveshare175c"))]
     fn import_nvs(&mut self, start: u32, size: u32) -> Option<Save> {
         let mut failed = false;
         let result = crate::legacy_nvs::import(

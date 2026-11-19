@@ -11,7 +11,7 @@ def source_inputs():
     """Deterministic project-relative fingerprints; omit generated/cache state."""
     required = [
         project / 'Cargo.toml', project / 'Cargo.lock',
-        fw / 'Cargo.toml', fw / 'Cargo.lock', fw / 'build.rs', fw / 'partitions.csv',
+        fw / 'Cargo.toml', fw / 'Cargo.lock', fw / 'build.rs', fw / 'partitions.csv', fw/'partitions-waveshare175c.csv',
         fw / 'hal-patch/Cargo.toml', fw / 'hal-patch/Cargo.lock',
         fw / 'hal-patch/build.rs', fw / 'hal-patch/esp_config.yml',
         project / 'resume-journal/Cargo.toml', project / 'resume-journal/Cargo.lock',
@@ -51,9 +51,13 @@ def assert_source_inputs_unchanged(expected):
         raise SystemExit('Source inputs changed during firmware build: ' + ', '.join(changed))
 
 p = argparse.ArgumentParser(description=__doc__)
+p.add_argument('--board',choices=['sticks3','waveshare175c'],default='sticks3',help='Device target; builds never access USB')
 p.add_argument('--download', action='store_true', help='fetch missing exact Cargo.lock crates after SHA256 verification')
 p.add_argument('--print-paths', action='store_true', help='print selected build/tool paths without writing or building')
 a = p.parse_args()
+round_board=a.board=='waveshare175c'
+binary='stardust-waveshare175c' if round_board else 'stardust-sticks3'
+partition_csv=fw/('partitions-waveshare175c.csv' if round_board else 'partitions.csv')
 env = dict(os.environ)
 build_root = Path(env.get('STARDUST_BUILD_DIR', project / '.build')).expanduser().resolve()
 for key, default in [('CARGO_HOME', build_root / 'cargo'), ('CARGO_TARGET_DIR', build_root / 'firmware-target')]:
@@ -81,7 +85,7 @@ parttool = Path(env.get('STARDUST_PARTITION_TOOL') or shutil.which('gen_esp32par
 if not parttool.is_file():
     raise SystemExit('Set STARDUST_PARTITION_TOOL to Espressif gen_esp32part.py')
 if a.print_paths:
-    print(json.dumps({'project': str(project), 'build_dir': str(build_root), 'cargo_home': env['CARGO_HOME'], 'target_dir': env['CARGO_TARGET_DIR'], 'toolchain': toolchain, 'sysroot_vendor': str(sysroot_vendor), 'vendor': str(vendor), 'gcc': gcc, 'esptool_python': python, 'partition_tool': str(parttool), 'output': str(fw / 'build')}, indent=2))
+    print(json.dumps({'project': str(project), 'build_dir': str(build_root), 'cargo_home': env['CARGO_HOME'], 'target_dir': env['CARGO_TARGET_DIR'], 'toolchain': toolchain, 'sysroot_vendor': str(sysroot_vendor), 'vendor': str(vendor), 'gcc': gcc, 'esptool_python': python, 'partition_tool': str(parttool), 'output': str(fw / ('build-waveshare175c' if round_board else 'build'))}, indent=2))
     raise SystemExit(0)
 if subprocess.run([python, '-c', 'import esptool'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode:
     raise SystemExit('Set STARDUST_ESPTOOL_PYTHON to a Python with esptool installed; see docs/BUILD.md.')
@@ -140,8 +144,8 @@ for source in sysroot_vendor.iterdir():
 config = f'''[build]\ntarget = "xtensa-esp32s3-none-elf"\n[target.xtensa-esp32s3-none-elf]\nlinker = {json.dumps(gcc)}\nrustflags = ["-C", "link-arg=-nostartfiles", "-C", "link-arg=-Tlinkall.x"]\n[unstable]\nbuild-std = ["core"]\n[source.crates-io]\nreplace-with = "local-vendor"\n[source.local-vendor]\ndirectory = {json.dumps(str(vendor))}\n[env]\nESP_HAL_CONFIG_ENSURE_MAIN_STACK_MINIMUM = "262144"\n'''
 (fw / '.cargo').mkdir(exist_ok=True)
 (fw / '.cargo/config.toml').write_text(config)
-subprocess.run(['cargo', '+' + toolchain, 'build', '--release', '--offline'], cwd=fw, env=env, check=True)
-elf = Path(env['CARGO_TARGET_DIR']) / 'xtensa-esp32s3-none-elf/release/stardust-sticks3'
+subprocess.run(['cargo', '+' + toolchain, 'build', '--release', '--offline','--bin',binary]+(['--no-default-features','--features','waveshare175c'] if round_board else []), cwd=fw, env=env, check=True)
+elf = Path(env['CARGO_TARGET_DIR']) / ('xtensa-esp32s3-none-elf/release/'+binary)
 # Verify physical SRAM aliases in the actual ELF, independent of linker intent.
 elfbytes=elf.read_bytes();assert elfbytes[:5]==b'\x7fELF\x01' and elfbytes[5]==1
 shoff=struct.unpack_from('<I',elfbytes,32)[0];shsize,shnum,shstr=struct.unpack_from('<HHH',elfbytes,46)
@@ -157,10 +161,10 @@ for ni,ai,zi in iram:
     for nd,ad,zd in dram:
         overlap=max(0,min(zi,zd)-max(ai,ad));alias_proof['overlap_bytes']+=overlap
 assert alias_proof['overlap_bytes']==0,f'IRAM/DRAM physical alias overlap: {alias_proof}'
-out=fw/'build';out.mkdir(exist_ok=True);(out/'memory-proof.json').write_text(json.dumps(alias_proof,indent=2)+'\n');shutil.copyfile(elf,out/'stardust-sticks3.elf')
-subprocess.run([str(python),'-m','esptool','--chip','esp32s3','elf2image','--flash_mode','qio','--flash_freq','80m','--flash_size','8MB','--elf-sha256-offset','0xb0','-o',str(out/'stardust-sticks3.bin'),str(elf)],check=True)
-subprocess.run([str(python),str(parttool),str(fw/'partitions.csv'),str(out/'partitions.bin')],check=True)
-assert (out/'stardust-sticks3.bin').stat().st_size<=0x600000
+out=fw/('build-waveshare175c' if round_board else 'build');out.mkdir(exist_ok=True);(out/'memory-proof.json').write_text(json.dumps(alias_proof,indent=2)+'\n');shutil.copyfile(elf,out/(binary+'.elf'))
+subprocess.run([str(python),'-m','esptool','--chip','esp32s3','elf2image','--flash_mode',('dio' if round_board else 'qio'),'--flash_freq','80m','--flash_size',('32MB' if round_board else '8MB'),'--elf-sha256-offset','0xb0','-o',str(out/(binary+'.bin')),str(elf)],check=True)
+subprocess.run([str(python),str(parttool),str(partition_csv),str(out/'partitions.bin')],check=True)
+assert (out/(binary+'.bin')).stat().st_size<=(0x570000 if round_board else 0x600000), 'application overlaps reserved journal tail'
 nm=Path(gcc).with_name('xtensa-esp32s3-elf-nm')
 symbols=subprocess.check_output([str(nm),'-n',str(elf)],text=True)
 stack={line.split()[2]:int(line.split()[0],16) for line in symbols.splitlines() if len(line.split())==3 and line.split()[2]in['_stack_end','_stack_start']}
@@ -179,6 +183,7 @@ assert frame_proof['passed'], 'linked frame audit failed; inspect linked-stack-p
 decoder_frames=[r['frame_bytes']for r in frame_proof['functions']if r['hint']=='App::resume_read']
 assert decoder_frames, 'missing linked App::resume_read decoder proof'
 assert_source_inputs_unchanged(inputs_before)
-manifest={'linked_stack_audit':{'functions_audited':frame_proof['functions_audited'],'maximum_frame_bytes':max(r['frame_bytes']for r in frame_proof['functions']),'app_decode_frame_bytes':max(decoder_frames),'ordinary_function_cap':32768,'decoder_cap':8192,'explicit_existing_path_cap':65536,'unknown_sp_mutations':sum(len(r['unresolved_sp'])for r in frame_proof['functions'])},'version':core_version,'language':'Rust','target':'xtensa-esp32s3-none-elf','stack_bytes':stack_bytes,'main_frame_bytes':main_frame_bytes,'iram_dram_overlap_bytes':alias_proof['overlap_bytes'],'app_offset':'0x10000','partition_table_offset':'0x8000','preserve':['bootloader','nvs','otadata','reserved predecessor filesystem except declared rustsave and rustresume partitions'], 'private_resume':{'partition_offset':'0x770000','partition_bytes':524288,'slot_bytes':262144,'max_payload_bytes':262000,'default_enabled':False,'erase_policy':'fixed footer sector first, then actual payload sectors only'}, 'artifacts':{f.name:{'bytes':f.stat().st_size,'sha256':hashlib.sha256(f.read_bytes()).hexdigest()} for f in[out/'stardust-sticks3.elf',out/'stardust-sticks3.bin',out/'partitions.bin']}}
+manifest={'linked_stack_audit':{'functions_audited':frame_proof['functions_audited'],'maximum_frame_bytes':max(r['frame_bytes']for r in frame_proof['functions']),'app_decode_frame_bytes':max(decoder_frames),'ordinary_function_cap':32768,'decoder_cap':8192,'explicit_existing_path_cap':65536,'unknown_sp_mutations':sum(len(r['unresolved_sp'])for r in frame_proof['functions'])},'version':core_version,'language':'Rust','target':'xtensa-esp32s3-none-elf','stack_bytes':stack_bytes,'main_frame_bytes':main_frame_bytes,'iram_dram_overlap_bytes':alias_proof['overlap_bytes'],'device':a.board,'app_offset':('0x200000' if round_board else '0x10000'),'partition_table_offset':'0x8000','flash_partition_table':not round_board,'preserve':(['bootloader','complete factory partition table','nvsfactory','nvs','otadata','phy_init','model','storage'] if round_board else ['bootloader','nvs','otadata','reserved predecessor filesystem except declared rustsave and rustresume partitions']), 'private_resume':{'partition_offset':'0x770000','storage_contract':('reserved factory-application tail' if round_board else 'dedicated partition'),'partition_bytes':524288,'slot_bytes':262144,'max_payload_bytes':262000,'default_enabled':False,'erase_policy':'fixed footer sector first, then actual payload sectors only'}, 'artifacts':{f.name:{'bytes':f.stat().st_size,'sha256':hashlib.sha256(f.read_bytes()).hexdigest()} for f in[out/(binary+'.elf'),out/(binary+'.bin'),out/'partitions.bin']}}
+manifest.update(board=a.board,application_offset=(0x200000 if round_board else 0x10000),flash_bytes=(0x2000000 if round_board else 0x800000),display_orientation_degrees=(270 if round_board else 0),touch_enabled=False)
 manifest['source_inputs'] = inputs_before
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest,indent=2))

@@ -1,5 +1,7 @@
 # Screen guide — Stardust Blackjack 0.11.2
 
+These are the original Stick-format examples. See the [native round-screen guide](WAVESHARE.md) for Waveshare 1.75C.
+
 > These images reproduce the actual renderer using synthetic demonstration sessions. Third-party materials retain their separate rights and notices; see [attribution](THIRD_PARTY.md). Publication does not grant a blanket asset license.
 
 This tour assumes you already play blackjack. It explains this app’s readouts, navigation and training behavior, rather than teaching the underlying game. All cards, bankrolls and scores here are **synthetic demonstrations**, created with deterministic seeds and actual native Rust rendering. No connected device, player save, private checkpoint or installed score was used. Independent walkthrough branches intentionally use different demo histories; values across pictures are not one player’s continuous ledger.

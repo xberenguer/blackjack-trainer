@@ -1,5 +1,7 @@
 #![no_std]
 #![no_main]
+#[cfg(feature="waveshare175c")]
+compile_error!("Build the Waveshare binary with --no-default-features --features waveshare175c");
 mod benchmark;
 mod flash_chunks;
 mod legacy_nvs;

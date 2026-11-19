@@ -1,6 +1,6 @@
 # Optional seats and deeper shoes
 
-This engine was introduced in 0.6 and ships in the shared Rust app. Public seat preferences migrate through the current V10 codec; optional private resume also preserves live tablemates, their held cards and the visibility queues. The [rules audit](rules-audit.md) states every implemented condition and the limits of casino matching.
+This engine was introduced in 0.6 and ships in the shared Rust app. Public seat preferences migrate through the current V12 codec; optional private resume also preserves live tablemates, their held cards and the visibility queues. The [rules audit](rules-audit.md) states every implemented condition and the limits of casino matching.
 
 `configure_seats(extra, player)` accepts zero to six extra seats and a controlled position from zero through `extra`, only between rounds. Zero extra seats preserves the existing shuffle RNG calls, player cut, action behavior, ledgers, card positions and messages. `OtherPlayers` is appended to the phase enum; `other_step()` advances one simulated tablemate decision. The controller can display each new exposed card before continuing. Main player and tablemate bets, split/double costs and settlements remain independent.
 

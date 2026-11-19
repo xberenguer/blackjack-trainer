@@ -1,11 +1,11 @@
-//! Exact little-endian SBTR V10 packets; V1–V9 migration preserves uint64 scores.
+//! Exact little-endian SBTR V12 packets; V1–V11 migration preserves uint64 scores.
 //! Session/shoe/history are deliberately absent at this stage of the roadmap.
 use crate::{
     count_practice,
     rules::{Profile, Rules},
     training::{self, Counters, Mode, Policy},
 };
-pub const VERSION: u16 = 10;
+pub const VERSION: u16 = 12;
 pub const SIZE: usize = 2636;
 pub const V7_SIZE: usize = 584;
 pub const V5_SIZE: usize = 336;
@@ -25,6 +25,8 @@ pub struct Save {
     pub wager_stats: crate::wager_practice::Stats,
     pub mode: Mode,
     pub brightness: u8,
+    pub background: u8,
+    pub card_back: u8,
     pub sound: bool,
     pub audio_volume: u8,
     pub audio_mask: u8,
@@ -56,6 +58,8 @@ impl Default for Save {
             wager_stats: crate::wager_practice::Stats::EMPTY,
             mode: Mode::Off,
             brightness: 255,
+            background: 0,
+            card_back: 0,
             sound: true,
             audio_volume: 20,
             audio_mask: 7,
@@ -116,7 +120,9 @@ impl Save {
         r
     }
     pub fn valid(self) -> bool {
-        self.audio_volume <= 100
+        self.background <= 3
+            && self.card_back <= 2
+            && self.audio_volume <= 100
             && self.audio_mask & !7 == 0
             && self.drill_target <= 31
             && self.drill_mix <= 3
@@ -144,7 +150,9 @@ impl Save {
         out[9] = self.brightness;
         out[10] = u8::from(self.sound)
             | (u8::from(self.flipped) << 1)
-            | (u8::from(self.pause_on_mistake) << 2);
+            | (u8::from(self.pause_on_mistake) << 2)
+            | (self.background << 3)
+            | (self.card_back << 5);
         out[11] = self.profile as u8;
         out[12] = self.penetration;
         out[13] = self.count_display;
@@ -223,14 +231,22 @@ impl Save {
             3 | 4 => PREVIOUS_SIZE,
             5 | 6 => V5_SIZE,
             7 => V7_SIZE,
-            8..=10 => SIZE,
+            8..=12 => SIZE,
             _ => return None,
         };
         if b.len() != expected
             || u16_at(b, 6)? as usize != expected
             || u32_at(b, expected - 4)? != crc32(&b[..expected - 4])
             || b[9] < 20
-            || b[10] & 0xf8 != 0
+            || b[10]
+                & if version >= 12 {
+                    0x80
+                } else if version >= 11 {
+                    0xe0
+                } else {
+                    0xf8
+                }
+                != 0
             || b[8] > if version == 1 { 2 } else { 3 }
         {
             return None;
@@ -252,6 +268,8 @@ impl Save {
             policy: Policy::Basic,
             mode: Mode::from_id(b[8])?,
             brightness: b[9],
+            background: if version >= 11 { (b[10] >> 3) & 3 } else { 0 },
+            card_back: if version >= 12 { (b[10] >> 5) & 3 } else { 0 },
             sound: b[10] & 1 != 0,
             flipped: b[10] & 2 != 0,
             pause_on_mistake: b[10] & 4 != 0,

@@ -210,7 +210,7 @@ fn optin_policy_stats_restore_once_and_roundtrip_exact_u64() {
         ..Save::default()
     };
     let packet = s.encode().unwrap();
-    assert_eq!(VERSION, 10);
+    assert_eq!(VERSION, 12);
     assert_eq!(SIZE, 2636);
     assert_eq!(Save::decode(&packet), Some(s));
     let mut a = App::new(1);

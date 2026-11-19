@@ -82,7 +82,7 @@ fn corruption_malformed_sizes_reserved_bytes_and_invalid_fields_are_rejected() {
         (4, 6),
         (8, 4),
         (9, 19),
-        (10, 8),
+        (10, 128),
         (11, 6),
         (12, 99),
         (13, 3),

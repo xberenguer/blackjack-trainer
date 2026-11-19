@@ -47,6 +47,7 @@ if not build['passed']:print((OUT/'build.log').read_text());sys.exit(1)
 checks=[
  ('wasm',[NODE,str(BROWSER/'tests/wasm.cjs')]),
  ('platform',[NODE,str(BROWSER/'tests/platform.cjs')]),
+ ('settings',[NODE,str(BROWSER/'tests/settings.cjs')]),
  ('audio',[NODE,str(BROWSER/'tests/audio.cjs')]),
  ('chrome',[NODE,str(BROWSER/'tests/chrome.cjs')]),
  ('journal',['cargo','test','--manifest-path',str(BROWSER/'journal/Cargo.toml'),'--offline']),

@@ -1,5 +1,7 @@
 # StickS3 Rust firmware
 
+The [Waveshare 1.75C target](../docs/WAVESHARE.md) is also pure Rust. Build it with `python3 firmware/tools/build.py --board waveshare175c`; it uses a separate round renderer, CO5300 QSPI driver and physical buttons. Touch is held in reset. Its factory-map app-only installation differs from the Stick instructions below.
+
 The application, controller, renderer, codec, flash journal and hardware drivers are Rust `no_std`, with no allocator, C++ adapter, Arduino application runtime or radios. The existing bootloader and chip ROM remain in use. Core1 is not started.
 
 Build/package from the project root:
@@ -48,7 +50,7 @@ PM1 GPIO3 must be configured as GPIO, push-pull and output before its output lat
 
 ## Persistence and recovery
 
-See[resume protocol](../docs/RESUME.md). Public Save V10 remains 2636 bytes; byte583 is the default-off resume preference. Byte202 stores volume, byte203 stores category bits and Fast speed. V1–V9 receive20% volume, all categories and Fast speed without changing existing scores. Exact V9 raw public binding bytes remain intact while an old private checkpoint is offered. After explicit resume, output and new private capture wait for verified canonical V10 migration. Legacy NVS remains read-only. Existing SBRJ V1 records remain authoritative over old NVS; new public SBRJ V2 records carry exact public bytes plus64-bit generation/epoch and an independent128-bit nonce.
+See[resume protocol](../docs/RESUME.md). Public Save V12 remains 2636 bytes; byte583 is the default-off resume preference. Byte202 stores volume, byte203 stores category bits and Fast speed. V1–V9 receive20% volume, all categories and Fast speed without changing existing scores. Exact V9 raw public binding bytes remain intact while an old private checkpoint is offered. After explicit resume, output and new private capture wait for verified canonical V12 migration. Legacy NVS remains read-only. Existing SBRJ V1 records remain authoritative over old NVS; new public SBRJ V2 records carry exact public bytes plus64-bit generation/epoch and an independent128-bit nonce.
 
 New meaningful state invalidates older private checkpoints through a verified public commit before showing its frame, exposing status or playing its grading cue. Private snapshots capture after1200ms of stability and write cooperatively. Each step hashes/copies at most512 bytes or performs one4KB erase. The target footer sector is erased first, followed only by actual payload sectors; the commit footer is last. A measured142326-byte full bound checkpoint needs36 erased pages rather than all64.
 
@@ -77,3 +79,5 @@ cargo +stable test --release --offline --manifest-path resume-journal/Cargo.toml
 ```
 
 The read-only NVS tool accepts exact20480-byte NVS or8192-byte public journal backups and prints only game preferences/counters. It does not accept private partition images. Keep actual user backup inputs outside releases.
+
+Round background/card-back preferences use the same public packet and mirrored private TLV; [V12 compatibility details](../docs/RESUME.md#round-display-preferences-and-older-saves).

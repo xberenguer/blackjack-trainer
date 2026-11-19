@@ -72,3 +72,38 @@ cache/vendor symlinks as if they were portable source.
 This is an independent project. M5Stack, Espressif, VideoPoker.com, Action Gaming,
 Ultimate X, Arial, Venetian and Stardust references identify compatibility or
 provenance and do not assert sponsorship or endorsement.
+
+
+## Waveshare hardware adaptation
+
+The round CO5300 driver follows the Rust hardware implementation in [xberenguer/stopwatch](https://github.com/xberenguer/stopwatch). Panel wiring, pixel orientation and physical button mapping match [xberenguer/Seeder-Fork](https://github.com/xberenguer/Seeder-Fork). The app-only installer is adapted from its MIT-licensed `scripts/flash_waveshare175c.py`. Copyright (c) 2023 Bitmaker and Lunaticoin. Its MIT permission notice is retained below. The ES8311 register/clock configuration follows Waveshare’s published board example; no microphone or touchscreen functionality is used.
+
+```text
+MIT License
+
+Copyright (c) 2023 Bitmaker
+Copyright (c) 2023 Lunaticoin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Libraries:
+
+uBitcoin - MIT License
+Copyright (c) 2019 Stepan Snigirev
+```

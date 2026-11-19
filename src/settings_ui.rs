@@ -28,10 +28,22 @@ const SOUND: [&str; 9] = [
     "Return",
 ];
 const DISPLAY: [&str; 3] = ["Brightness", "Flip screen", "Return"];
-pub(crate) fn item(view: View, selected: usize) -> &'static str {
+// Semantic IDs are stable across private saves: old Return remains ID3.
+const ROUND_DISPLAY: [&str; 5] = [
+    "Brightness",
+    "Flip screen",
+    "Background",
+    "Return",
+    "Card back",
+];
+const ROUND_DISPLAY_ORDER: [usize; 5] = [0, 1, 2, 4, 3];
+pub(crate) const CARD_BACKS: [&str; 3] = ["Gold", "Red", "Blue"];
+pub(crate) const BACKGROUNDS: [&str; 4] = ["Black", "Blue", "Green", "Red"];
+pub(crate) fn item(view: View, selected: usize, round_display: bool) -> &'static str {
     match view {
         View::Settings => SETTINGS.get(selected),
         View::Sound => SOUND.get(selected),
+        View::Display if round_display => ROUND_DISPLAY.get(selected),
         View::Display => DISPLAY.get(selected),
         _ => None,
     }
@@ -142,11 +154,22 @@ impl App {
             View::Display => {
                 self.emit(Cue::MenuMove);
                 if grey {
-                    self.selected = (self.selected + 1) % DISPLAY.len()
+                    self.selected = if self.round_display {
+                        ROUND_DISPLAY_ORDER
+                            .iter()
+                            .position(|id| *id == self.selected)
+                            .map_or(0, |index| {
+                                ROUND_DISPLAY_ORDER[(index + 1) % ROUND_DISPLAY_ORDER.len()]
+                            })
+                    } else {
+                        (self.selected + 1) % DISPLAY.len()
+                    }
                 } else {
                     match self.selected {
                         0 => self.set(View::Brightness),
                         1 => self.flipped = !self.flipped,
+                        2 if self.round_display => self.background = (self.background + 1) % 4,
+                        4 if self.round_display => self.card_back = (self.card_back + 1) % 3,
                         _ => self.set(View::Settings),
                     }
                 }
@@ -160,6 +183,8 @@ impl App {
         self.audio_volume = prefs.audio_volume;
         self.audio_mask = prefs.audio_mask;
         self.fast_mode = prefs.fast_mode;
+        self.background = prefs.background;
+        self.card_back = prefs.card_back;
     }
 }
 fn editor(w: &mut Widgets<'_>, title: &str, value: u8, volume: bool) {
@@ -305,19 +330,42 @@ pub(crate) fn draw(a: &mut App) -> bool {
             w.title("DISPLAY", None, false);
             let mut brightness = Text::<32>::new();
             let _ = write!(brightness, "Brightness: {percent}%");
-            w.list(
-                &[
-                    brightness.as_str(),
-                    if a.flipped {
-                        "Screen: FLIPPED"
-                    } else {
-                        "Screen: NORMAL"
-                    },
-                    "Return",
-                ],
-                a.selected,
-                None,
-            );
+            let screen = if a.flipped {
+                "Screen: FLIPPED"
+            } else {
+                "Screen: NORMAL"
+            };
+            if a.round_display {
+                let mut background = Text::<24>::new();
+                let _ = write!(
+                    background,
+                    "Background: {}",
+                    BACKGROUNDS[a.background.min(3) as usize]
+                );
+                let mut card_back = Text::<24>::new();
+                let _ = write!(
+                    card_back,
+                    "Card back: {}",
+                    CARD_BACKS[a.card_back.min(2) as usize]
+                );
+                let selected = ROUND_DISPLAY_ORDER
+                    .iter()
+                    .position(|id| *id == a.selected)
+                    .unwrap_or(0);
+                w.list(
+                    &[
+                        brightness.as_str(),
+                        screen,
+                        background.as_str(),
+                        card_back.as_str(),
+                        "Return",
+                    ],
+                    selected,
+                    None,
+                );
+            } else {
+                w.list(&[brightness.as_str(), screen, "Return"], a.selected, None);
+            }
         }
         View::AudioVolume => editor(&mut w, "VOLUME", a.audio_volume, true),
         View::Brightness => editor(&mut w, "BRIGHTNESS", percent, false),

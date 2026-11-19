@@ -85,3 +85,8 @@ If USB is missing, try a known data cable/direct port and the board's documented
 ## No account or real money
 
 The app uses virtual chips and local saves. It does not connect the device to a casino account. The firmware does not start Wi-Fi/Bluetooth for play.
+
+
+## Waveshare 1.75C round device
+
+Use the [Waveshare installation and controls guide](WAVESHARE.md). Select Waveshare 1.75C in the same device flasher. This build uses two physical buttons, a native round layout and 270° enclosure orientation, with touch disabled. Installation writes only its application at `0x200000`; retain the factory partition map. The Stick instructions above do not apply to this board.

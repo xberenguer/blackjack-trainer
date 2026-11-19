@@ -39,6 +39,9 @@ impl App {
             frame: _,
             training,
             count_practice,
+            round_display: _,
+            background: _,
+            card_back: _,
             brightness,
             flipped,
             sound_enabled,
@@ -212,6 +215,9 @@ impl App {
             frame: _,
             training,
             count_practice,
+            round_display: _,
+            background: _,
+            card_back: _,
             brightness,
             flipped,
             sound_enabled,
@@ -387,6 +393,9 @@ impl App {
             frame: _,
             training,
             count_practice,
+            round_display,
+            background,
+            card_back,
             brightness,
             flipped,
             sound_enabled,
@@ -474,6 +483,9 @@ impl App {
         game.snapshot_copy_to(&mut out.game);
         training.snapshot_copy_to(&mut out.training);
         count_practice.snapshot_copy_to(&mut out.count_practice);
+        round_display.snapshot_copy_to(&mut out.round_display);
+        background.snapshot_copy_to(&mut out.background);
+        card_back.snapshot_copy_to(&mut out.card_back);
         brightness.snapshot_copy_to(&mut out.brightness);
         flipped.snapshot_copy_to(&mut out.flipped);
         sound_enabled.snapshot_copy_to(&mut out.sound_enabled);
@@ -689,7 +701,10 @@ impl App {
             View::Training => 11,
             View::Settings => 7,
             View::Sound => 9,
-            View::Display => 3,
+            // Display cursor3 stays Return; cursor4 is the new Card back row.
+            // Hardware capability
+            // is intentionally outside the private wire identity.
+            View::Display => 5,
             View::AudioVolume | View::Brightness => 1,
             View::Profile | View::ProfileDepth => 8,
             View::ProfilePreset | View::CountPractice => 7,

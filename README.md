@@ -1,10 +1,10 @@
 # Blackjack Trainer
 
-**[Install on StickS3](docs/INSTALL.md#sticks3) · [Play web version](https://xberenguer.github.io/blackjack-trainer/) · [Screens](docs/SCREEN_GUIDE.md)**
+**[Install on StickS3](docs/INSTALL.md#sticks3) · [Waveshare round](docs/WAVESHARE.md) · [Play web version](https://xberenguer.github.io/blackjack-trainer/) · [Screens](docs/SCREEN_GUIDE.md)**
 
-Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3**, with a browser version using the same Rust game and 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature.
+Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature.
 
-**Current version: 0.11.3.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
+**Current version: 0.12.0.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
 
 The pictures below are actual game screens from **synthetic demonstration sessions**, not player saves or device recordings. Click a screenshot to enlarge it. Both animations use successive native game frames. The separate [screen walkthrough](docs/SCREEN_GUIDE.md) remains the complete screen-by-screen catalogue.
 
@@ -470,7 +470,7 @@ In **Volume**, Grey lowers and Blue raises. Steps are one percentage point throu
 
 ### Display
 
-**Display** has Brightness, Flip screen and Return. In **Brightness**, Grey/Blue adjust by about 5 percentage points, with a readable minimum around 8% and maximum 100%. Hold Grey returns. **Flip screen** rotates the screen 180°. In the browser, the canvas rotates. Hold Grey from Sound/Display returns to Settings.
+**Display** has Brightness, Flip screen and Return. On Waveshare, it also includes saved Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust card backs. In **Brightness**, Grey/Blue adjust by about 5 percentage points, with a readable minimum around 8% and maximum 100%. Hold Grey returns. **Flip screen** rotates the screen 180°. In the browser, the canvas rotates. Hold Grey from Sound/Display returns to Settings.
 
 | Brightness and screen orientation | The brightness editor shows the selected percentage |
 |---|---|
@@ -566,9 +566,9 @@ The shared game, renderer and hardware application are Rust. See [Build and vali
 
 ## Releases and verification
 
-The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.11.3.md).
+The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.0.md).
 
-Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.11.3 update passes targeted Guide insurance/controller checks and firmware memory/stack audits. Earlier 0.11.2 validation includes 7,200 browser rounds, 60 deep tablemate rounds, resume/fault checks and actual Stick checks of Hi-Lo after restart. Earlier sound validation included user-confirmed audible deal and win cues. [Current release evidence](docs/RELEASE-0.11.3.md) · [Previous scoped validation](validation/release-0.11.2.json).
+Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.0 release adds the button-only Rust Waveshare port, round layout and saved appearance choices. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.0.md) and [validation evidence](validation/release-0.12.0.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
 
 ## Project and publication notes
 

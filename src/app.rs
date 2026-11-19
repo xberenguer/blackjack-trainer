@@ -216,6 +216,12 @@ pub struct App {
     pub frame: Canvas,
     pub training: training::Model,
     pub count_practice: count_practice::Model,
+    /// Runtime display capability; never part of a saved game or private wire identity.
+    pub round_display: bool,
+    /// Round OLED background: Black0, Blue1, Green2, Red3. Stick uses its fixed blue felt.
+    pub background: u8,
+    /// Round OLED card back: Gold0, Red1, Blue2. Stick retains the original gold art.
+    pub card_back: u8,
     pub brightness: u8,
     pub flipped: bool,
     pub sound_enabled: bool,
@@ -313,6 +319,9 @@ impl App {
         },
         training: training::Model::EMPTY,
         count_practice: count_practice::Model::EMPTY,
+        round_display: false,
+        background: 0,
+        card_back: 0,
         brightness: 255,
         flipped: false,
         sound_enabled: true,
@@ -406,7 +415,18 @@ impl App {
                 MENU.get(self.selected - n).copied().unwrap_or("")
             }
         } else {
-            settings_ui::item(self.view, self.selected)
+            settings_ui::item(self.view, self.selected, self.round_display)
+        }
+    }
+    /// Publicly displayed tablemate animation only; never exposes a pending shoe.
+    pub(crate) fn round_face_reveal(&self) -> Option<SeatReveal> {
+        if self.other_reveal_len == 0 {
+            None
+        } else {
+            self.other_reveals
+                .get(self.other_reveal_at as usize)
+                .copied()
+                .flatten()
         }
     }
     pub fn is_busy(&self) -> bool {
@@ -1721,6 +1741,8 @@ impl App {
             wager_stats: self.wager_practice.stats(),
             mode: self.training.mode,
             brightness: self.brightness,
+            background: self.background,
+            card_back: self.card_back,
             sound: self.sound_enabled,
             audio_volume: self.audio_volume,
             audio_mask: self.audio_mask,
@@ -1779,6 +1801,8 @@ impl App {
         self.count_display = s.count_display;
         self.guide_count_display = s.guide_count_display;
         self.brightness = s.brightness;
+        self.background = s.background;
+        self.card_back = s.card_back;
         self.flipped = s.flipped;
         self.sound_enabled = s.sound;
         self.audio_volume = s.audio_volume;

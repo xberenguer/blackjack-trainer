@@ -12,9 +12,12 @@ import serial
 
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--port', required=True)
+p.add_argument('--board',choices=['sticks3','waveshare175c'],default='sticks3')
 p.add_argument('--out', type=Path, required=True)
 p.add_argument('--version', default=tomllib.loads((Path(__file__).resolve().parents[1]/'Cargo.toml').read_text())['package']['version'])
 a = p.parse_args()
+width,height=(466,466)if a.board=='waveshare175c'else(240,135)
+frame_bytes=width*height*2
 a.out.mkdir(parents=True, exist_ok=True)
 s = serial.Serial()
 s.port, s.baudrate, s.timeout, s.write_timeout = a.port, 115200, .15, 2
@@ -32,6 +35,9 @@ def status():
         chunk = s.readline()
         if not chunk and found is not None and not pending and time.monotonic() - last > .12:
             assert found['language'] == 'Rust'
+            if a.board=='waveshare175c':
+                assert found['device']=='waveshare175c' and found['display']=='466x466'
+                assert found['orientation']=='270' and found['touch']=='disabled'
             assert found['pmic'] == found['codec'] == found['storage'] == 'true'
             assert found['save_errors'] == '0'
             evidence.append(found)
@@ -50,16 +56,16 @@ def status():
 
 def frame(name):
     s.write(b'f')
-    deadline = time.monotonic() + 8
+    deadline = time.monotonic() + (30 if a.board=='waveshare175c'else 8)
     while time.monotonic() < deadline:
-        if s.readline().strip() == b'RGB565 240 135 64800':
+        if s.readline().strip() == f'RGB565 {width} {height} {frame_bytes}'.encode():
             break
     else:
         raise RuntimeError('No framebuffer header')
     data = bytearray()
-    while len(data) < 64800 and time.monotonic() < deadline:
-        data.extend(s.read(64800 - len(data)))
-    assert len(data) == 64800
+    while len(data) < frame_bytes and time.monotonic() < deadline:
+        data.extend(s.read(frame_bytes - len(data)))
+    assert len(data) == frame_bytes
     (a.out / (name + '.rgb565')).write_bytes(data)
     evidence.append({'frame': name, 'sha256': hashlib.sha256(data).hexdigest()})
 

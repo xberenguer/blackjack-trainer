@@ -1,0 +1,178 @@
+{
+  "version": "0.12.0",
+  "language": "Rust",
+  "checks": {
+    "native_tests": 238,
+    "strict_all_targets_all_features_clippy": true,
+    "storage_harness_tests": {
+      "legacy_nvs": 15,
+      "public_storage": 5,
+      "private_resume": 12,
+      "round_map_and_extent": 8
+    },
+    "panel_rotation_and_rgb565_tests": 2,
+    "round_package_contract_tests": 5,
+    "round_layout_tests": 17,
+    "browser": {
+      "passed": true,
+      "core_guard_sha256": "44f33e58b9ab0b250a16770123da4f667eef4ba48f6be16380cc303e0bd91f52",
+      "wasm": {
+        "file": "stardust-rust.wasm",
+        "bytes": 5807303,
+        "sha256": "f51d876b96747dd479223a1df183e8b28859d0164e8709a6fac9af4741aef59a",
+        "memory_bytes": 16777216,
+        "stack_bytes": 2097152,
+        "runtime_imports": 0
+      },
+      "checks": {
+        "build": true,
+        "wasm": true,
+        "platform": true,
+        "settings": true,
+        "audio": true,
+        "chrome": true,
+        "journal": true,
+        "journal-clippy": true,
+        "bridge-clippy": true
+      }
+    },
+    "web_cut_burn_initial_test_coach_guide_pixel_parity": true,
+    "gallery_native_synthetic_examples": 48,
+    "flasher": {
+      "node_contract_tests": 60,
+      "python_sync_tests": 80,
+      "synthetic_two_device_actual_chrome": true,
+      "physical_browser_installation": false
+    }
+  },
+  "firmware": {
+    "sticks3": {
+      "version": "0.12.0",
+      "target": "xtensa-esp32s3-none-elf",
+      "stack_bytes": 305004,
+      "main_frame_bytes": 20720,
+      "iram_dram_overlap_bytes": 0,
+      "app_offset": "0x10000",
+      "flash_partition_table": true,
+      "preserve": [
+        "bootloader",
+        "nvs",
+        "otadata",
+        "reserved predecessor filesystem except declared rustsave and rustresume partitions"
+      ],
+      "private_resume": {
+        "partition_offset": "0x770000",
+        "storage_contract": "dedicated partition",
+        "partition_bytes": 524288,
+        "slot_bytes": 262144,
+        "max_payload_bytes": 262000,
+        "default_enabled": false,
+        "erase_policy": "fixed footer sector first, then actual payload sectors only"
+      },
+      "linked_stack_audit": {
+        "functions_audited": 618,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "artifacts": {
+        "stardust-sticks3.elf": {
+          "bytes": 9011692,
+          "sha256": "df02acf549a9e983267d040aca4ce245016d93217c16764aea0257a8404f1ef7"
+        },
+        "stardust-sticks3.bin": {
+          "bytes": 3354864,
+          "sha256": "a6d178b73858dd75e6cbf023dd4049853bbe375503bc991f323c27150dec5e0f"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "65b87532f84d5ddec377c550f8bef2fcc846a3aea884cf8c0f25f1b12d3f421a"
+        }
+      },
+      "display_orientation_degrees": 0,
+      "touch_enabled": false
+    },
+    "waveshare175c": {
+      "version": "0.12.0",
+      "target": "xtensa-esp32s3-none-elf",
+      "stack_bytes": 285516,
+      "main_frame_bytes": 24144,
+      "iram_dram_overlap_bytes": 0,
+      "app_offset": "0x200000",
+      "flash_partition_table": false,
+      "preserve": [
+        "bootloader",
+        "complete factory partition table",
+        "nvsfactory",
+        "nvs",
+        "otadata",
+        "phy_init",
+        "model",
+        "storage"
+      ],
+      "private_resume": {
+        "partition_offset": "0x770000",
+        "storage_contract": "reserved factory-application tail",
+        "partition_bytes": 524288,
+        "slot_bytes": 262144,
+        "max_payload_bytes": 262000,
+        "default_enabled": false,
+        "erase_policy": "fixed footer sector first, then actual payload sectors only"
+      },
+      "linked_stack_audit": {
+        "functions_audited": 628,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "artifacts": {
+        "stardust-waveshare175c.elf": {
+          "bytes": 9213320,
+          "sha256": "644c3c537751bb12c877b628f920a307a82392dda04df80d018635c6163e0b88"
+        },
+        "stardust-waveshare175c.bin": {
+          "bytes": 3402080,
+          "sha256": "ee96f2bb82503764f249bb8945a1578c2ec9ec094178b4dfc6fa80d7df40dd7d"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "e2d643a8efe41ebda333ba36280b696a6e7c42c74b95e115ffcfb17704d876dd"
+        }
+      },
+      "display_orientation_degrees": 270,
+      "touch_enabled": false
+    }
+  },
+  "waveshare_actual_device": {
+    "app_only_install": "backup, write, verify and reset passed",
+    "display": "466x466 logical USB frames; enclosure orientation270",
+    "touch": "disabled, reset held low",
+    "serial_gameplay": "cut/deal/hit/stand/dealer/result/menu/Guide/Off passed",
+    "scores_preserved": true,
+    "appearance": "all four RGB565 backgrounds and three saved back choices; Green/Blue survived reboot; Black/Gold restored",
+    "audio_underruns": 0,
+    "audio_dma_bytes": 16384,
+    "protected_prefix_byte_identical": true,
+    "peripherals": {
+      "pmic": "true",
+      "codec": "true",
+      "storage": "true"
+    },
+    "public_save_errors": 0,
+    "two_and_three_card_equal_margins_on_device": true,
+    "automatic_inputs": "stopped; fresh Cut, Off, Black/Gold"
+  },
+  "scope_limits": [
+    "Device frames are logical USB snapshots, not optical panel photographs.",
+    "Serial controls do not substitute for physical-button or acoustic quality acceptance.",
+    "Direct serial installation is verified; physical browser-flasher installation/migration remains separately unqualified.",
+    "Latest Stick application is built and audited; no connected Stick was flashed in this round-device task."
+  ],
+  "privacy": "No device identity, saved score values, recovery dump or private checkpoint is published."
+}

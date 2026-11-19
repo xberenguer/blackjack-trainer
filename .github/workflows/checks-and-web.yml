@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Select the validated native Rust toolchain
+        run: |
+          rustup toolchain install 1.93.0 --profile minimal --component clippy
+          rustup default 1.93.0
       - name: Check documentation and source-bound web bundle
         run: |
           python3 tools/check_docs.py
@@ -45,8 +49,8 @@ jobs:
           RUSTFLAGS: '-C link-arg=-zstack-size=2097152 -C link-arg=--initial-memory=16777216 -C link-arg=--max-memory=16777216'
           CARGO_TARGET_DIR: .build/ci-wasm
         run: |
-          rustup target add wasm32v1-none --toolchain stable
-          cargo +stable build --manifest-path browser/bridge/Cargo.toml --target wasm32v1-none --release --locked --offline
+          rustup toolchain install 1.93.0 --profile minimal --target wasm32v1-none
+          cargo +1.93.0 build --manifest-path browser/bridge/Cargo.toml --target wasm32v1-none --release --locked --offline
           cp .build/ci-wasm/wasm32v1-none/release/stardust_browser.wasm browser/stardust-rust.wasm
           node browser/tests/wasm.cjs
           node browser/tests/platform.cjs

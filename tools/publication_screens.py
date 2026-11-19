@@ -69,7 +69,7 @@ def build_guide(records,manifest):
  '> **Local REVIEW candidate.** These images reproduce the approved renderer/assets. Asset-rights review remains pending; this guide is not a publication permission or license grant.','',
  'This tour assumes you already play blackjack. It explains this app’s readouts, navigation and training behavior, rather than teaching the underlying game. All cards, bankrolls and scores here are **synthetic demonstrations**, created with deterministic seeds and actual native Rust rendering. No connected device, player save, private checkpoint or installed score was used. Independent walkthrough branches intentionally use different demo histories; values across pictures are not one player’s continuous ledger.','',
  'Every one of the65 App screen types is represented, along with the shared recovery layouts and additional table states. The large previews are native240×135 frames enlarged exactly3× with nearest-neighbor scaling; each image links to its native PNG. Animated GIFs contain actual successive native frames and use a shared256-color palette; the PNGs preserve exact decoded RGB565 colors.','',
- 'For the complete feature manual use [Feature guide](FEATURE_GUIDE.md), or [Playing and learning](PLAY.md) for a shorter tour.','',
+ 'For the complete illustrated feature manual use [Blackjack Trainer](../README.md).','',
  '## Contents','']
  for title,_ in GROUPS:lines.append(f'- [{title}](#{title.lower().replace(" ","-")})')
  lines += ['- [Save, resume and recovery](#save-resume-and-recovery)','- [Reproducing and auditing this gallery](#reproducing-and-auditing-this-gallery)','',

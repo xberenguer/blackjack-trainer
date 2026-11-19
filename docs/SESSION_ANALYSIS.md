@@ -26,7 +26,7 @@ The conventional estimated-variance mean interval uses a Student-t critical valu
 
 ## Persistence and implementation
 
-Public preferences and lifetime progress use **SBTR V10, 2636 bytes**, with exact V1–V9 migration. Normal boot starts fresh at $1,000/minimum/Off. Session analysis stays in RAM unless optional private resume is enabled and a complete matching checkpoint has been committed. Explicit resume restores its exact accumulators, rings and settlement-deduplication state. A new session clears session analysis without clearing lifetime trainer progress. See the [player guide](PLAY.md#save-and-resume) for checkpoint availability and recovery behavior.
+Public preferences and lifetime progress use **SBTR V10, 2636 bytes**, with exact V1–V9 migration. Normal boot starts fresh at $1,000/minimum/Off. Session analysis stays in RAM unless optional private resume is enabled and a complete matching checkpoint has been committed. Explicit resume restores its exact accumulators, rings and settlement-deduplication state. A new session clears session analysis without clearing lifetime trainer progress. See the [main guide](../README.md#save-and-resume) for checkpoint availability and recovery behavior.
 
 `session_analysis` consumes only completed money ledgers. `session_metrics` consumes already-recorded immutable decisions and wager attempts. Neither backend receives an engine, shoe, hidden face, future order or RNG. All models provide const `EMPTY` images; the App retains safe static initialization for direct flash-to-PSRAM construction. Source changes are in `app.rs`, `screens.rs`, `wager_ui.rs`, `session_ui.rs`, `session_analysis.rs`, `session_metrics.rs` and module registration; the 0.8 math, engine, controls and public save codec are preserved.
 

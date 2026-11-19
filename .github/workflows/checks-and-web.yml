@@ -1,0 +1,62 @@
+name: Checks and web version
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check documentation and source-bound web bundle
+        run: |
+          python3 tools/check_docs.py
+          python3 tools/verify_web_bundle.py
+      - name: Check shared game and strategy logic
+        run: cargo test --release --offline
+      - name: Check all native targets and features
+        run: cargo clippy --all-targets --all-features --offline -- -D warnings
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: native
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: blackjack-web
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify the matching game before publishing
+        run: python3 tools/verify_web_bundle.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compile the web game from this source revision
+        env:
+          RUSTFLAGS: '-C link-arg=-zstack-size=2097152 -C link-arg=--initial-memory=16777216 -C link-arg=--max-memory=16777216'
+          CARGO_TARGET_DIR: .build/ci-wasm
+        run: |
+          rustup target add wasm32v1-none --toolchain stable
+          cargo +stable build --manifest-path browser/bridge/Cargo.toml --target wasm32v1-none --release --locked --offline
+          cp .build/ci-wasm/wasm32v1-none/release/stardust_browser.wasm browser/stardust-rust.wasm
+          node browser/tests/wasm.cjs
+          node browser/tests/platform.cjs
+          node browser/tests/settings.cjs
+          node browser/tests/audio.cjs
+          python3 tools/verify_web_bundle.py --write
+          python3 tools/verify_web_bundle.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: browser
+      - uses: actions/deploy-pages@v4
+        id: deployment

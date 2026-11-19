@@ -1,39 +1,35 @@
-# Run in the browser or on StickS3
+# Install on StickS3 or play the web version
 
-This guide covers running the app; the [quickstart](PLAY.md) covers its controls and the [screen guide](SCREEN_GUIDE.md) shows every view. No blackjack rules lesson is required.
+The [main feature guide](../README.md) explains the controls and features, and the [screen guide](SCREEN_GUIDE.md) shows every view.
 
 ## Browser
 
-The browser uses the same Rust game and native screen renderer. You do not need a Stick or a Rust toolchain to run an included prebuilt browser.
+**[Play web version](https://xberenguer.github.io/blackjack-trainer/)** — the same Rust game and native screen renderer, without installing firmware or developer tools.
 
-1. Unzip the complete review/release folder and open a terminal in its top-level folder.
-2. With Python3 installed, run:
+Use the Grey/Blue on-screen buttons or Left/Right Arrow keys. Hold an arrow for the same shortcut as holding a device button. Sound starts after a button/key gesture if the browser requires one. Settings → Sound includes named auditions. Fresh preferences are 20% volume, Fast speed and Hi-Lo strategy; saved choices take precedence. Training still boots Off.
 
-   ```sh
-   python3 -m http.server 8000 --bind 127.0.0.1 --directory browser
-   ```
+Saves belong to that browser profile and site. A different browser, a private window or clearing site data can give you a separate or empty save. They do not automatically synchronize with the Stick. Third-party notices remain in [publication notes](PUBLISHING.md).
 
-3. Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
-4. Use the Grey/Blue on-screen buttons or Left/Right Arrow keys. Hold an arrow for the same shortcut as holding a device button.
-
-Keep the terminal open while playing. Use Ctrl+C there to stop the server. Opening index.html directly is insufficient because the browser must fetch the WASM and module files.
-
-Sound starts after a button/key gesture if the browser requires one. Start at Settings → Sound if you want to audition the cues. Fresh preferences are20% volume, Fast speed and Hi-Lo strategy; saved choices take precedence. Training still boots Off.
-
-Saves belong to that browser profile and origin. Changing the port/browser, using a private window or clearing site data can give you a separate or empty save. They do not automatically synchronize with the Stick. The browser retains the third-party notices and outstanding review items described in[PUBLISHING](PUBLISHING.md).
+For developer builds or local hosting, see [Build and validation](BUILD.md#browser-build-and-local-play).
 
 ## StickS3
 
 The firmware target is **M5Stack StickS3 / ESP32-S3,8MB flash and8MB OPI PSRAM**. StickC/StickCPlus/StickCPlus2 are different hardware targets.
 
-### Choose the correct installation path
+### Web flasher
+
+**[Install or update with the Stick flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack)** in desktop Chrome or Edge. Choose **Blackjack Trainer → StickS3**. The catalogue follows the latest stable GitHub release; a newly published release normally appears within 15 minutes.
+
+The flasher checks the device, saves a recovery backup before writing and verifies written bytes. An existing matching trainer layout receives an app-only update, preserving saves. First installations use the reviewed boot/partition/application bundle and initialize only the new trainer journal regions. **StickS3 browser installation is marked Preview**: the migration/recovery logic has software coverage, while the complete browser USB installation path still needs physical qualification.
+
+### Manual installation paths
 
 | Your device | Status and path |
 |---|---|
 | Already running this Rust trainer with the matching partition table | App-only updates are tested. Preserve a backup, then update only the application at0x10000. |
 | Factory firmware, the earlier C++ trainer, another app, or unknown partitions | This is a first installation/partition migration. The app-only update is not a complete first-install bundle. Use the maintainer's board-specific migration instructions after a full backup. |
 
-The current release evidence validates app updates on the existing trainer layout. It does not establish that an arbitrary factory installation is ready for the same update command. A public one-step first-install bundle still needs separate qualification; do not describe the app binary as a universal full-device image.
+The current release evidence validates app updates on the existing trainer layout. It does not establish that an arbitrary factory installation is ready for the same update command. The release also includes a complete bundle for the Preview web flasher above; its migration path has separate safeguards and qualification limits. The application binary alone is not a universal full-device image.
 
 The expected partition-table SHA256 for this build is:
 
@@ -78,9 +74,9 @@ This command writes the application only. It does not request a full erase or wr
 
 ### Check the result
 
-The device should boot to the player-cut screen, unless you have opted into a valid saved-session chooser. Hold Grey to check the small version in the menu. For0.11.2, verify Hi-Lo under Training → Strategy; your saved choice remains selectable. New preferences are20% volume/Fast speed.
+The device should boot to the player-cut screen, unless you have opted into a valid saved-session chooser. Hold Grey to check the small version in the menu. For 0.11.3, confirm the full insurance choices remain visible in Guide; your saved strategy remains selectable. New preferences are20% volume/Fast speed.
 
-Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test deal/Test win if desired. The version's[validation record](../validation/release-0.11.2.json) distinguishes automated checks, actual-device results and physical audio observations.
+Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test deal/Test win if desired. The [release notes](RELEASE-0.11.3.md) distinguish current software checks from previous physical-device observations.
 
 ### If something goes wrong
 

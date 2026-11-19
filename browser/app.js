@@ -79,7 +79,7 @@
     canvas.style.filter = `brightness(${state.brightness / 255})`;
     const saving = journal.status();
     const storageLabel = ({'public-unsaved':'UNSAVED — storage unavailable','playing-unsaved':'UNSAVED — storage unavailable','read-unavailable':wasm.sb_store_public_known()?'UNSAVED — saved session unavailable; known totals kept':'UNSAVED — saved totals unavailable; fresh defaults only','resume-refused':'Saved session could not be restored','scores-saved-checkpoint-unavailable':'Scores saved · resume unavailable','saving-checkpoint':'Saving session…','resume-available':'Saved session available'})[saving.state] || '';
-    const message = `${storageLabel ? storageLabel + ' · ' : ''}Rust ${state.version} · ${state.view}${state.menu_item ? ' / ' + state.menu_item : ''} · ${state.rounds} rounds · $${(state.chips / 100).toFixed(2)} in chips`;
+    const message = `${storageLabel ? storageLabel + ' · ' : ''}v${state.version} · ${state.view}${state.menu_item ? ' / ' + state.menu_item : ''} · ${state.rounds} rounds · $${(state.chips / 100).toFixed(2)} in chips`;
     if (message !== lastStatus) { status.textContent = message; lastStatus = message; }
     if (!wasm.sb_store_output_blocked()) { lastPresented = state; pumpAudio(state.sound); }
   }
@@ -123,9 +123,9 @@
     const result = await WebAssembly.instantiate(await response.arrayBuffer(), {});
     wasm = result.instance.exports;
     const version = text.decode(bytes().subarray(wasm.sb_version(), wasm.sb_version() + wasm.sb_version_len()));
-    document.title = `Stardust Blackjack · Rust ${version}`;
+    document.title = `Stardust Blackjack · v${version}`;
     const versionLabel = document.getElementById('build-version');
-    if (versionLabel) versionLabel.textContent = `BLACKJACK · RUST ${version}`;
+    if (versionLabel) versionLabel.textContent = `BLACKJACK · v${version}`;
     const seed = new Uint32Array(2);
     crypto.getRandomValues(seed);
     wasm.sb_boot(seed[0], seed[1]);

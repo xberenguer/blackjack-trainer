@@ -5,6 +5,51 @@ import argparse, hashlib, json, os, re, shutil, subprocess, struct, sys, tarfile
 
 fw = Path(__file__).resolve().parents[1]
 project = fw.parent
+builder_input_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
+def source_inputs():
+    """Deterministic project-relative fingerprints; omit generated/cache state."""
+    required = [
+        project / 'Cargo.toml', project / 'Cargo.lock',
+        fw / 'Cargo.toml', fw / 'Cargo.lock', fw / 'build.rs', fw / 'partitions.csv',
+        fw / 'hal-patch/Cargo.toml', fw / 'hal-patch/Cargo.lock',
+        fw / 'hal-patch/build.rs', fw / 'hal-patch/esp_config.yml',
+        project / 'resume-journal/Cargo.toml', project / 'resume-journal/Cargo.lock',
+    ]
+    trees = [
+        project / 'src', project / 'assets', fw / 'src', fw / 'tools',
+        fw / 'hal-patch/src', fw / 'hal-patch/ld', project / 'resume-journal/src',
+    ]
+    # Support project-local linker files as well as the patched HAL's scripts.
+    if (fw / 'ld').is_dir():
+        trees.append(fw / 'ld')
+    paths = set(required)
+    for tree in trees:
+        if not tree.is_dir() or tree.is_symlink():
+            raise SystemExit(f'Missing or linked source directory: {tree.relative_to(project)}')
+        for path in tree.rglob('*'):
+            relative = path.relative_to(project)
+            if any(part in {'__pycache__', '.git', '.build', 'build', '.vendor', '.cargo'}
+                   or part.startswith('target') for part in relative.parts):
+                continue
+            if path.is_symlink():
+                raise SystemExit(f'Source input must not be a symlink: {relative.as_posix()}')
+            if path.is_file() and path.suffix not in {'.pyc', '.pyo', '.tmp', '.log'}:
+                paths.add(path)
+    result = {}
+    for path in sorted(paths, key=lambda item: item.relative_to(project).as_posix()):
+        if not path.is_file() or path.is_symlink():
+            raise SystemExit(f'Missing or linked source input: {path.relative_to(project).as_posix()}')
+        result[path.relative_to(project).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return result
+
+def assert_source_inputs_unchanged(expected):
+    actual = source_inputs()
+    changed = sorted(name for name in expected.keys() | actual.keys()
+                     if expected.get(name) != actual.get(name))
+    if changed:
+        raise SystemExit('Source inputs changed during firmware build: ' + ', '.join(changed))
+
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--download', action='store_true', help='fetch missing exact Cargo.lock crates after SHA256 verification')
 p.add_argument('--print-paths', action='store_true', help='print selected build/tool paths without writing or building')
@@ -29,7 +74,9 @@ gcc = env.get('STARDUST_XTENSA_GCC') or shutil.which('xtensa-esp32s3-elf-gcc') o
 gcc = str(Path(gcc).expanduser().resolve())
 if not Path(gcc).is_file():
     raise SystemExit('Set STARDUST_XTENSA_GCC to the installed Xtensa ESP32S3 GCC')
-python = str(Path(env.get('STARDUST_ESPTOOL_PYTHON', sys.executable)).expanduser().resolve())
+# Keep a virtual environment's interpreter path: resolving its executable
+# symlink selects the base interpreter and loses that environment's packages.
+python = str(Path(env.get('STARDUST_ESPTOOL_PYTHON', sys.executable)).expanduser().absolute())
 parttool = Path(env.get('STARDUST_PARTITION_TOOL') or shutil.which('gen_esp32part.py') or Path.home() / '.platformio/packages/framework-arduinoespressif32/tools/gen_esp32part.py').expanduser().resolve()
 if not parttool.is_file():
     raise SystemExit('Set STARDUST_PARTITION_TOOL to Espressif gen_esp32part.py')
@@ -38,12 +85,18 @@ if a.print_paths:
     raise SystemExit(0)
 if subprocess.run([python, '-c', 'import esptool'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode:
     raise SystemExit('Set STARDUST_ESPTOOL_PYTHON to a Python with esptool installed; see docs/BUILD.md.')
-core_version = tomllib.loads((project / 'Cargo.toml').read_text())['package']['version']
+core_manifest_bytes = (project / 'Cargo.toml').read_bytes()
+core_version = tomllib.loads(core_manifest_bytes.decode())['package']['version']
 firmware_manifest = fw / 'Cargo.toml'
 manifest_text = firmware_manifest.read_text()
 manifest_text = re.sub(r'(?m)^version\s*=\s*"[^"]+"', lambda m: 'version = ' + json.dumps(core_version), manifest_text, count=1)
 if firmware_manifest.read_text() != manifest_text:
     firmware_manifest.write_text(manifest_text)
+inputs_before = source_inputs()
+if inputs_before['firmware/tools/build.py'] != builder_input_hash:
+    raise SystemExit('Firmware builder changed while preparing the build')
+if inputs_before['Cargo.toml'] != hashlib.sha256(core_manifest_bytes).hexdigest():
+    raise SystemExit('Core package manifest changed while preparing the build')
 registry = Path(env['CARGO_HOME']) / 'registry'
 sources = registry / 'src/index.crates.io-1949cf8c6b5b557f'
 cache = registry / 'cache/index.crates.io-1949cf8c6b5b557f'
@@ -125,5 +178,7 @@ frame_proof=audit_elf(elf,objdump=objdump,allow_existing=True)
 assert frame_proof['passed'], 'linked frame audit failed; inspect linked-stack-proof.json (entry + literal/movsp, not entry alone)'
 decoder_frames=[r['frame_bytes']for r in frame_proof['functions']if r['hint']=='App::resume_read']
 assert decoder_frames, 'missing linked App::resume_read decoder proof'
+assert_source_inputs_unchanged(inputs_before)
 manifest={'linked_stack_audit':{'functions_audited':frame_proof['functions_audited'],'maximum_frame_bytes':max(r['frame_bytes']for r in frame_proof['functions']),'app_decode_frame_bytes':max(decoder_frames),'ordinary_function_cap':32768,'decoder_cap':8192,'explicit_existing_path_cap':65536,'unknown_sp_mutations':sum(len(r['unresolved_sp'])for r in frame_proof['functions'])},'version':core_version,'language':'Rust','target':'xtensa-esp32s3-none-elf','stack_bytes':stack_bytes,'main_frame_bytes':main_frame_bytes,'iram_dram_overlap_bytes':alias_proof['overlap_bytes'],'app_offset':'0x10000','partition_table_offset':'0x8000','preserve':['bootloader','nvs','otadata','reserved predecessor filesystem except declared rustsave and rustresume partitions'], 'private_resume':{'partition_offset':'0x770000','partition_bytes':524288,'slot_bytes':262144,'max_payload_bytes':262000,'default_enabled':False,'erase_policy':'fixed footer sector first, then actual payload sectors only'}, 'artifacts':{f.name:{'bytes':f.stat().st_size,'sha256':hashlib.sha256(f.read_bytes()).hexdigest()} for f in[out/'stardust-sticks3.elf',out/'stardust-sticks3.bin',out/'partitions.bin']}}
+manifest['source_inputs'] = inputs_before
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps(manifest,indent=2))

@@ -32,7 +32,7 @@ let browser, page;
  const hold=async key=>{await page.keyboard.down(key);await page.waitForTimeout(900);await page.keyboard.up(key);await page.waitForTimeout(90);};
  const focus=async n=>{for(let i=0;(await state()).focus!==n;i++){assert(i<40);await tap('ArrowLeft');}};
  const select=async label=>{for(let i=0;!(await state()).menu_item.includes(label);i++){assert(i<40,`missing ${label}`);await tap('ArrowLeft');}await tap();};
- assert.equal((await state()).training_mode,0);assert.equal(await page.title(),`Stardust Blackjack · Rust ${version}`);
+ assert.equal((await state()).training_mode,0);assert.equal(await page.title(),`Stardust Blackjack · v${version}`);
  await hold('ArrowLeft');await select('Settings');await wait('Settings');await focus(5);await tap();
  await page.screenshot({path:out+'/01-opt-in.png'});
  await focus(6);await tap();await focus(0);await tap();await hold('ArrowRight');await hold('ArrowRight');await hold('ArrowRight');assert.equal((await state()).training_mode,3);

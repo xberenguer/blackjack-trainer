@@ -67,6 +67,15 @@ impl Painter<'_> {
             self.label((202, 103), mode.name(), 17, GOLD, true, Align::Center);
         }
     }
+    fn insurance_toast(&mut self, mode: Option<Mode>) {
+        if let Some(mode) = mode {
+            // Insurance always has two player cards, ending at x116. Keep the
+            // transient mode label in the spare strip, never over the choices.
+            self.frame.rect(120, 76, 42, 59, FELT);
+            self.label((141, 83), "MODE", 8, MUTED, true, Align::Center);
+            self.label((141, 103), mode.name(), 11, GOLD, true, Align::Center);
+        }
+    }
     fn label(&mut self, p: (i32, i32), s: &str, size: u8, color: u16, bold: bool, align: Align) {
         self.render.text(
             self.frame,
@@ -138,7 +147,8 @@ impl Painter<'_> {
             let _ = write!(text, "RC{:+}", t.running_count());
         }
         let mut size = 10;
-        while size > 8 && text_width(text.as_str(), size, true) > 77 {
+        let minimum_size = if g.phase == Phase::Insurance { 7 } else { 8 };
+        while size > minimum_size && text_width(text.as_str(), size, true) > 77 {
             size -= 1
         }
         self.label((237, 22), text.as_str(), size, MUTED, true, Align::Right);
@@ -195,14 +205,26 @@ impl Painter<'_> {
         } else {
             advice.integer_true_count.is_some()
         };
-        let (head, action, reason) = if insurance {
-            (53, 64, 81)
+        let (left, head, action, reason) = if insurance {
+            // Separate advice from the unchanged right-column insurance UI.
+            // Dealer upcard/hole finish at x75; all text ends before x154.
+            (82, 1, 13, 29)
         } else {
-            (76, 87, 105)
+            (164, 76, 87, 105)
         };
         self.label(
-            (164, head),
-            if counted { "HI-LO MOVE" } else { "BASIC MOVE" },
+            (left, head),
+            if insurance {
+                if counted {
+                    "HI-LO ADVICE"
+                } else {
+                    "BASIC ADVICE"
+                }
+            } else if counted {
+                "HI-LO MOVE"
+            } else {
+                "BASIC MOVE"
+            },
             9,
             MUTED,
             true,
@@ -218,30 +240,26 @@ impl Painter<'_> {
             action_name(advice.play.unwrap().best)
         };
         let mut size = 14;
-        while size > 10 && text_width(best, size, true) > 75 {
+        while size > 10 && text_width(best, size, true) > if insurance { 71 } else { 75 } {
             size -= 1
         }
-        self.label((164, action), best, size, GOLD, true, Align::Left);
+        self.label((left, action), best, size, GOLD, true, Align::Left);
         let mut text = Text::<128>::new();
         let why = if counted && insurance {
             exposure.count_aids |= 4;
             let tc = count.integer_true_count(g.rules).unwrap();
             if tc >= 3 && !affordable {
-                let _ = write!(text, "Half bet not\nfunded;\ndecline");
+                let _ = write!(text, "Not funded\nNeed {}", Cash(g.hands[0].bet / 2, false));
             } else {
                 let _ = write!(
                     text,
-                    "TC{:+} trunc\n{}\n{}",
+                    "TC{:+} {} +3\n{}",
                     tc,
+                    if side == Some(true) { ">=" } else { "<" },
                     if side == Some(true) {
-                        "At +3 index"
+                        "Index reached"
                     } else {
-                        "Below +3"
-                    },
-                    if side == Some(true) {
-                        "insure"
-                    } else {
-                        "decline"
+                        "Index not met"
                     }
                 );
             }
@@ -288,15 +306,25 @@ impl Painter<'_> {
             }
             text.as_str()
         } else if insurance {
-            guide::insurance_reason()
+            "Basic policy:\nno side bet"
         } else {
             guide::short_reason(h, up, advice.play.unwrap())
         };
-        for (i, line) in why.split('\n').take(3).enumerate() {
+        for (i, line) in why
+            .split('\n')
+            .take(if insurance { 2 } else { 3 })
+            .enumerate()
+        {
+            let mut size = if insurance { 9 } else { 10 };
+            if insurance {
+                while size > 7 && text_width(line, size, false) > 71 {
+                    size -= 1;
+                }
+            }
             self.label(
-                (164, reason + i as i32 * if insurance { 9 } else { 10 }),
+                (left, reason + i as i32 * 10),
                 line,
-                10,
+                size,
                 WHITE,
                 false,
                 Align::Left,
@@ -352,7 +380,8 @@ pub fn draw(
         Cash(o.reveal.map_or(g.bankroll, |r| r.bankroll), false)
     );
     let mut size = 24;
-    while size > 10 && text_width(text.as_str(), size, true) > 77 {
+    let minimum_size = if g.phase == Phase::Insurance { 7 } else { 10 };
+    while size > minimum_size && text_width(text.as_str(), size, true) > 77 {
         size -= 1
     }
     p.label((237, 1), text.as_str(), size, GOLD, true, Align::Right);
@@ -554,26 +583,11 @@ pub fn draw(
                 text.clear();
                 let _ = write!(text, "YES {}", Cash(g.hands[0].bet / 2, false));
                 let names = ["DECLINE", text.as_str()];
-                if o.toast.is_none() && o.mode == Mode::Guide {
+                if o.mode == Mode::Guide {
                     p.guide(g, tracker, o, &mut exposure, true);
-                    for (i, name) in names.iter().enumerate() {
-                        let y = 109 + i as i32 * 13;
-                        let active = usize::from(o.insurance_yes) == i;
-                        p.frame
-                            .rect(164, y, 76, 13, if active { GOLD } else { DARK });
-                        p.label(
-                            (202, y + 1),
-                            name,
-                            10,
-                            if active { rgb(0, 0, 0) } else { WHITE },
-                            true,
-                            Align::Center,
-                        );
-                    }
-                } else {
-                    p.label((202, 65), "INSURE?", 14, GOLD, true, Align::Center);
-                    p.actions(&names, usize::from(o.insurance_yes));
                 }
+                p.label((202, 65), "INSURE?", 14, GOLD, true, Align::Center);
+                p.actions(&names, usize::from(o.insurance_yes));
             }
             Phase::Dealer => {
                 p.label((202, 82), "DEALER", 14, GOLD, true, Align::Center);
@@ -583,7 +597,11 @@ pub fn draw(
             _ => p.actions(&["DEAL"], 0),
         }
     }
-    p.toast(o.toast);
+    if g.phase == Phase::Insurance && o.reveal.is_none() {
+        p.insurance_toast(o.toast);
+    } else {
+        p.toast(o.toast);
+    }
     exposure
 }
 

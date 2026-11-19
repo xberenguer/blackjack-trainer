@@ -6,7 +6,7 @@ This tour assumes you already play blackjack. It explains this app’s readouts,
 
 Every one of the 65 App screen types is represented, along with the shared recovery layouts and additional table states. The large previews are native 240×135 frames enlarged exactly 3× with nearest-neighbor scaling; each image links to its native PNG. Animated GIFs contain actual successive native frames and use a shared 256-color palette; the PNGs preserve exact decoded RGB565 colors.
 
-For the complete feature manual use [Feature guide](FEATURE_GUIDE.md), or [Playing and learning](PLAY.md) for a shorter tour.
+For the complete illustrated feature manual use [Blackjack Trainer](../README.md).
 
 ## Contents
 

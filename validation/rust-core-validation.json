@@ -1,0 +1,8 @@
+{
+  "version": "0.11.2",
+  "status": "PASS",
+  "targeted_native_tests": 44,
+  "base_full_native_suite": "0.11.1:205passed",
+  "final_release_record": "release-0.11.2.json",
+  "scope": "Hi-Lo default, historical policies, controller/session/deviation/training/persistence; browser/device evidence separate."
+}

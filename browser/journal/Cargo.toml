@@ -1,0 +1,7 @@
+[package]
+name = "stardust-browser-journal"
+version = "0.10.0"
+edition = "2024"
+publish = false
+[lib]
+path = "src/lib.rs"

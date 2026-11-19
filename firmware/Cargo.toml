@@ -1,0 +1,24 @@
+[package]
+name = "stardust-sticks3"
+version = "0.11.2"
+edition = "2024"
+build = "build.rs"
+
+[dependencies]
+stardust-blackjack = { path = "..",features=["validation"] }
+esp-hal = { version = "=1.2.2", features = ["esp32s3", "unstable"] }
+esp-bootloader-esp-idf = { version = "=0.6.0", features = ["esp32s3"] }
+esp-println = { version = "=0.17.0", default-features = false, features = ["esp32s3", "jtag-serial"] }
+esp-storage = { version = "=0.10.0", features = ["esp32s3"] }
+heapless = "0.9"
+private-resume-journal-prototype = {path="../resume-journal"}
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+debug = 1
+
+[patch.crates-io]
+esp-hal = { path = "hal-patch" }

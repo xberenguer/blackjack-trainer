@@ -1,0 +1,37 @@
+[package]
+name = "stardust-blackjack"
+version = "0.11.2"
+edition = "2024"
+license = "MIT"
+description = "Fresh no_std Rust implementation of the Stardust StickS3 blackjack trainer"
+
+[features]
+validation = []
+
+[lib]
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[[example]]
+name = "engine_parity"
+required-features = ["validation"]
+
+[[example]]
+name = "render_parity"
+
+[[example]]
+name = "table_parity"
+
+[[example]]
+name="ev_oracle_dump"
+
+[[example]]
+name="split_ev_oracle_dump"
+
+[[example]]
+name="widgets_parity"

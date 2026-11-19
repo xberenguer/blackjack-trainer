@@ -1,0 +1,5 @@
+{
+  "archive": "outputs/stardust-blackjack-rust/releases/0.5.0/stardust-blackjack-rust-0.5.0.zip",
+  "sha256": "5537c3f7ceba52c80ef787da1e993c2c163fbc450d6181b90e17f920683d83dc",
+  "member": "stardust-blackjack-rust/firmware/src/storage_format.rs"
+}

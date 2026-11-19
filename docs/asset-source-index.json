@@ -1,0 +1,1066 @@
+{
+  "schema": 1,
+  "reviewed": "2026-11-18",
+  "purpose": "Provenance index; not a license grant. Approved current banks unchanged.",
+  "source_project": "https://github.com/xberenguer/videopoker",
+  "rust_migration": {
+    "schema": 1,
+    "source_headers": {
+      "generated_art.h": "cc597dcbbe619a0600c955322bc3ed0f8ea903a12a4d1df82f00b47b8c0c7c06",
+      "generated_venetian.h": "0525a8b52ea452c51b4c5561d85e620d426b133baccecdf93cf83eb9e056abac",
+      "generated_audio.h": "304aee28c541b895e1780c7aaa360734a4747f78820dd58333c6819cdeaac858"
+    },
+    "sprites": [
+      "card_big_0",
+      "card_big_1",
+      "card_big_2",
+      "card_big_3",
+      "card_big_4",
+      "card_big_5",
+      "card_big_6",
+      "card_big_7",
+      "card_big_8",
+      "card_big_9",
+      "card_big_10",
+      "card_big_11",
+      "card_big_12",
+      "card_big_13",
+      "card_big_14",
+      "card_big_15",
+      "card_big_16",
+      "card_big_17",
+      "card_big_18",
+      "card_big_19",
+      "card_big_20",
+      "card_big_21",
+      "card_big_22",
+      "card_big_23",
+      "card_big_24",
+      "card_big_25",
+      "card_big_26",
+      "card_big_27",
+      "card_big_28",
+      "card_big_29",
+      "card_big_30",
+      "card_big_31",
+      "card_big_32",
+      "card_big_33",
+      "card_big_34",
+      "card_big_35",
+      "card_big_36",
+      "card_big_37",
+      "card_big_38",
+      "card_big_39",
+      "card_big_40",
+      "card_big_41",
+      "card_big_42",
+      "card_big_43",
+      "card_big_44",
+      "card_big_45",
+      "card_big_46",
+      "card_big_47",
+      "card_big_48",
+      "card_big_49",
+      "card_big_50",
+      "card_big_51",
+      "card_small_0",
+      "card_small_1",
+      "card_small_2",
+      "card_small_3",
+      "card_small_4",
+      "card_small_5",
+      "card_small_6",
+      "card_small_7",
+      "card_small_8",
+      "card_small_9",
+      "card_small_10",
+      "card_small_11",
+      "card_small_12",
+      "card_small_13",
+      "card_small_14",
+      "card_small_15",
+      "card_small_16",
+      "card_small_17",
+      "card_small_18",
+      "card_small_19",
+      "card_small_20",
+      "card_small_21",
+      "card_small_22",
+      "card_small_23",
+      "card_small_24",
+      "card_small_25",
+      "card_small_26",
+      "card_small_27",
+      "card_small_28",
+      "card_small_29",
+      "card_small_30",
+      "card_small_31",
+      "card_small_32",
+      "card_small_33",
+      "card_small_34",
+      "card_small_35",
+      "card_small_36",
+      "card_small_37",
+      "card_small_38",
+      "card_small_39",
+      "card_small_40",
+      "card_small_41",
+      "card_small_42",
+      "card_small_43",
+      "card_small_44",
+      "card_small_45",
+      "card_small_46",
+      "card_small_47",
+      "card_small_48",
+      "card_small_49",
+      "card_small_50",
+      "card_small_51",
+      "back_big",
+      "back_small",
+      "button_gold",
+      "button_dim",
+      "stardust_logo",
+      "chip_100_20",
+      "chip_100_24",
+      "chip_100_26",
+      "chip_100_28",
+      "chip_100_32",
+      "chip_100_40",
+      "chip_100_48",
+      "chip_100_64",
+      "chip_500_20",
+      "chip_500_24",
+      "chip_500_26",
+      "chip_500_28",
+      "chip_500_32",
+      "chip_500_40",
+      "chip_500_48",
+      "chip_500_64",
+      "chip_2500_20",
+      "chip_2500_24",
+      "chip_2500_26",
+      "chip_2500_28",
+      "chip_2500_32",
+      "chip_2500_40",
+      "chip_2500_48",
+      "chip_2500_64",
+      "chip_10000_20",
+      "chip_10000_24",
+      "chip_10000_26",
+      "chip_10000_28",
+      "chip_10000_32",
+      "chip_10000_40",
+      "chip_10000_48",
+      "chip_10000_64"
+    ],
+    "chip_entries": [
+      {
+        "cents": 100,
+        "diameter": 20,
+        "sprite": 109
+      },
+      {
+        "cents": 100,
+        "diameter": 24,
+        "sprite": 110
+      },
+      {
+        "cents": 100,
+        "diameter": 26,
+        "sprite": 111
+      },
+      {
+        "cents": 100,
+        "diameter": 28,
+        "sprite": 112
+      },
+      {
+        "cents": 100,
+        "diameter": 32,
+        "sprite": 113
+      },
+      {
+        "cents": 100,
+        "diameter": 40,
+        "sprite": 114
+      },
+      {
+        "cents": 100,
+        "diameter": 48,
+        "sprite": 115
+      },
+      {
+        "cents": 100,
+        "diameter": 64,
+        "sprite": 116
+      },
+      {
+        "cents": 500,
+        "diameter": 20,
+        "sprite": 117
+      },
+      {
+        "cents": 500,
+        "diameter": 24,
+        "sprite": 118
+      },
+      {
+        "cents": 500,
+        "diameter": 26,
+        "sprite": 119
+      },
+      {
+        "cents": 500,
+        "diameter": 28,
+        "sprite": 120
+      },
+      {
+        "cents": 500,
+        "diameter": 32,
+        "sprite": 121
+      },
+      {
+        "cents": 500,
+        "diameter": 40,
+        "sprite": 122
+      },
+      {
+        "cents": 500,
+        "diameter": 48,
+        "sprite": 123
+      },
+      {
+        "cents": 500,
+        "diameter": 64,
+        "sprite": 124
+      },
+      {
+        "cents": 2500,
+        "diameter": 20,
+        "sprite": 125
+      },
+      {
+        "cents": 2500,
+        "diameter": 24,
+        "sprite": 126
+      },
+      {
+        "cents": 2500,
+        "diameter": 26,
+        "sprite": 127
+      },
+      {
+        "cents": 2500,
+        "diameter": 28,
+        "sprite": 128
+      },
+      {
+        "cents": 2500,
+        "diameter": 32,
+        "sprite": 129
+      },
+      {
+        "cents": 2500,
+        "diameter": 40,
+        "sprite": 130
+      },
+      {
+        "cents": 2500,
+        "diameter": 48,
+        "sprite": 131
+      },
+      {
+        "cents": 2500,
+        "diameter": 64,
+        "sprite": 132
+      },
+      {
+        "cents": 10000,
+        "diameter": 20,
+        "sprite": 133
+      },
+      {
+        "cents": 10000,
+        "diameter": 24,
+        "sprite": 134
+      },
+      {
+        "cents": 10000,
+        "diameter": 26,
+        "sprite": 135
+      },
+      {
+        "cents": 10000,
+        "diameter": 28,
+        "sprite": 136
+      },
+      {
+        "cents": 10000,
+        "diameter": 32,
+        "sprite": 137
+      },
+      {
+        "cents": 10000,
+        "diameter": 40,
+        "sprite": 138
+      },
+      {
+        "cents": 10000,
+        "diameter": 48,
+        "sprite": 139
+      },
+      {
+        "cents": 10000,
+        "diameter": 64,
+        "sprite": 140
+      }
+    ],
+    "fonts": [
+      "font_regular_7",
+      "font_regular_8",
+      "font_regular_9",
+      "font_regular_10",
+      "font_regular_11",
+      "font_regular_12",
+      "font_regular_13",
+      "font_regular_14",
+      "font_regular_15",
+      "font_regular_16",
+      "font_regular_17",
+      "font_regular_18",
+      "font_regular_19",
+      "font_regular_20",
+      "font_regular_21",
+      "font_regular_22",
+      "font_regular_23",
+      "font_regular_24",
+      "font_bold_7",
+      "font_bold_8",
+      "font_bold_9",
+      "font_bold_10",
+      "font_bold_11",
+      "font_bold_12",
+      "font_bold_13",
+      "font_bold_14",
+      "font_bold_15",
+      "font_bold_16",
+      "font_bold_17",
+      "font_bold_18",
+      "font_bold_19",
+      "font_bold_20",
+      "font_bold_21",
+      "font_bold_22",
+      "font_bold_23",
+      "font_bold_24"
+    ],
+    "audio_cues": [
+      "button",
+      "hold1r",
+      "carddealt",
+      "card5r",
+      "bet1r",
+      "whandr",
+      "tpawrd1r",
+      "button",
+      "loser1",
+      "srtgme1r",
+      "crdtlp2r",
+      "mxbet2r",
+      "cate1r",
+      "lstone2r"
+    ],
+    "banks": {
+      "sprites.bin": {
+        "bytes": 1130120,
+        "sha256": "5a4aefe3ba89e10b419cc55ca24547adcd089a2779405d893823e84d7199c8e6"
+      },
+      "fonts.bin": {
+        "bytes": 402392,
+        "sha256": "4d6f2aae8613c6a2e8db828ef36e9ff6a7b83441f6a44d5f19e99f9dc2ca65fc"
+      },
+      "audio.bin": {
+        "bytes": 841872,
+        "sha256": "88c32cc9c7237505f9e4b862f9af0818e70564d1459693462ddc6991c66ae344"
+      }
+    }
+  },
+  "source_art_and_fonts": [
+    {
+      "path": "cards/0.png",
+      "role": "card-front",
+      "sha256": "de9acda4bccd761fd4993f25dd09b7c29be68212e0b2bcfcf554e3512b99ef20",
+      "source_url": "https://media.vidpok.com/shared_images/cards/0.png?v=3",
+      "source_sha256": "a78613982102f6c56f9cedf134f409ea982b51adf06a188b5b7ac13bd9acca46",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/1.png",
+      "role": "card-front",
+      "sha256": "13618c490503e9c97fbcc6624cc2aa08d1825852820180b6d1831baea1593d1c",
+      "source_url": "https://media.vidpok.com/shared_images/cards/1.png?v=3",
+      "source_sha256": "44e0977cee5b581ddcb4f8b89c595c8e7821948dc1250ab8a2603e1c1c852131",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/10.png",
+      "role": "card-front",
+      "sha256": "f5968d5d745be939d6e396196c63d8ff7f8dbcaba74b829b32f9915f4624f2bf",
+      "source_url": "https://media.vidpok.com/shared_images/cards/10.png?v=3",
+      "source_sha256": "3aec5855f150f386eefb07dd4479207a999366d0ca21b6d86ccc3af2768533c9",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/11.png",
+      "role": "card-front",
+      "sha256": "eb492987103d12bae551a5771c6bbf85108dc6bb9ff5b19eeeb03b3032d0626c",
+      "source_url": "https://media.vidpok.com/shared_images/cards/11.png?v=3",
+      "source_sha256": "a4d44bd83a98780a9f8d505565b9dc00de5f7977df33fb936bf11ab185e65007",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/12.png",
+      "role": "card-front",
+      "sha256": "89bd5edecba1ac1db354a6ea729c67290cb75d89cc218dd5b980e014d1fee44c",
+      "source_url": "https://media.vidpok.com/shared_images/cards/12.png?v=3",
+      "source_sha256": "7018e7cf5a64d3d379e1171d79dd8bfd0662654af4eb2ffd1a22962dc5ef52b6",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/13.png",
+      "role": "card-front",
+      "sha256": "2bfce7f0a01ff0eb44451bb748dc49ec5ebc86f9854dae1ff4355c9b96ca1fd8",
+      "source_url": "https://media.vidpok.com/shared_images/cards/13.png?v=3",
+      "source_sha256": "d5e0e5e808b980d6b729ecb5989f5fdec1ad2f3010494aa8d9cb38002cc9ff66",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/14.png",
+      "role": "card-front",
+      "sha256": "6ec5e71fd8543ff5f7233f2894315cf6c9f90292faa5112f566ef4227a560080",
+      "source_url": "https://media.vidpok.com/shared_images/cards/14.png?v=3",
+      "source_sha256": "252c3420d07bf7223867e1b2984e330909582abff722a9393806d039d232fbbd",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/15.png",
+      "role": "card-front",
+      "sha256": "4024388333b83087a1313795036bf57ded3658ef85e70e5c2790a0c919132e50",
+      "source_url": "https://media.vidpok.com/shared_images/cards/15.png?v=3",
+      "source_sha256": "e73eaa32a4c283e2bb0c0678d21d8838fcf0103fd9442c64c2cf2ed502f4d5c7",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/16.png",
+      "role": "card-front",
+      "sha256": "4aab47a04614b0c5e272ac388e408dae2cafdae0f9b03183ed9ffed192c46a71",
+      "source_url": "https://media.vidpok.com/shared_images/cards/16.png?v=3",
+      "source_sha256": "e6d32a1bd888ce21f1edf6426753fb3b3302381585fa89e6f5f571027b915710",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/17.png",
+      "role": "card-front",
+      "sha256": "7a6091a0db32bd22f4f0e1ba5ee44d0ae318a5d7f1a9fa054340a296bc0a1a74",
+      "source_url": "https://media.vidpok.com/shared_images/cards/17.png?v=3",
+      "source_sha256": "852899787466550c1a362342dbc22d4efe773219a06a39915006a05b3ca22408",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/18.png",
+      "role": "card-front",
+      "sha256": "9d8c654509ae6ac1ef48440580bfd107a802990c5209ce1c3d478c35fbf77d9a",
+      "source_url": "https://media.vidpok.com/shared_images/cards/18.png?v=3",
+      "source_sha256": "e5195542aed697019bc48ed7d0c74b10dcee28a72df3dc341c840ea3813858b5",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/19.png",
+      "role": "card-front",
+      "sha256": "76e45d1a8c5bd9b09d9226b5e8a0b8cf149d93954d51dded85ed33676372fa7f",
+      "source_url": "https://media.vidpok.com/shared_images/cards/19.png?v=3",
+      "source_sha256": "83de5fa8600072a01abc521d72b5e30b19ab9d093eedee9994ad3b2cc59ccc5e",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/2.png",
+      "role": "card-front",
+      "sha256": "720419ec103d0a8f45ba72b6832522bf828d337989e047a7476882ab2cc760d1",
+      "source_url": "https://media.vidpok.com/shared_images/cards/2.png?v=3",
+      "source_sha256": "b211d210e8e698f10a92d99f6232fd93058b98dd69889a31d538e52bf2925a2d",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/20.png",
+      "role": "card-front",
+      "sha256": "0fe588c09ccc82ff3568ba289e11bd43fdef8537a9077575572f13da3659b9b3",
+      "source_url": "https://media.vidpok.com/shared_images/cards/20.png?v=3",
+      "source_sha256": "803ef97ef9b09547c4c26f9bbbb82064df5d43e3630c45e5ae7caf67f1bc1cc5",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/21.png",
+      "role": "card-front",
+      "sha256": "185df775cb94bb46043af57f7725baa1049dba7117144bc714546c922ab62a6e",
+      "source_url": "https://media.vidpok.com/shared_images/cards/21.png?v=3",
+      "source_sha256": "79cea11b48b95e035cb6b1a52cdbb5bc9d60ab897600a42772b237e34e49c1bb",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/22.png",
+      "role": "card-front",
+      "sha256": "f507714d2c47f260cd35413d88b898b07e3aa11b07a3758c23ef9f82c8181f00",
+      "source_url": "https://media.vidpok.com/shared_images/cards/22.png?v=3",
+      "source_sha256": "770ac836609574cd03861a5d175a1d0797d09e5ff6ae0259b99c7325e28c3d13",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/23.png",
+      "role": "card-front",
+      "sha256": "45808f5ac5e89a8551bf04a1a59b22326b9b7823ddc4324c9e337587baec46a4",
+      "source_url": "https://media.vidpok.com/shared_images/cards/23.png?v=3",
+      "source_sha256": "5b52194adeeda91cd163b524a187c5c591b3c769246332bd24b4259861de0a20",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/24.png",
+      "role": "card-front",
+      "sha256": "3c218f82d7d6f6845fc4d649d9f0629250ab5d003a0f2753e44f95f9327f3100",
+      "source_url": "https://media.vidpok.com/shared_images/cards/24.png?v=3",
+      "source_sha256": "1dcbddbc1d5806c9143795c8ad950823cc0ee0a84850f464aaccf8003bcfe353",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/25.png",
+      "role": "card-front",
+      "sha256": "5b520562f56bd66fc68f54512b902b395f545966103f3fc996b9db8767d2b42f",
+      "source_url": "https://media.vidpok.com/shared_images/cards/25.png?v=3",
+      "source_sha256": "50fb38bafe51ba0a05559e9e3c01023ed9943c61f4f0ef2b6e9ce383b94f4dcd",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/26.png",
+      "role": "card-front",
+      "sha256": "f32df76e4420a91a9bf88282727908efffc0695e394ebbd6ecdd7006dbdf19a0",
+      "source_url": "https://media.vidpok.com/shared_images/cards/26.png?v=3",
+      "source_sha256": "5064ba7a45541e5dc6e76dd21b4f87ddc811c67650c7282a2a18f41283a7704b",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/27.png",
+      "role": "card-front",
+      "sha256": "d2f9f717aece44557be6862e45c24fc573ecbc656c939af5420342d447a7288a",
+      "source_url": "https://media.vidpok.com/shared_images/cards/27.png?v=3",
+      "source_sha256": "84ac8e69ca19a678ae19b136b4e530eb50d26a1e633ce5c6e19833539b3391df",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/28.png",
+      "role": "card-front",
+      "sha256": "e754c4b41f5c56874705c30b829129e24544cb31ea23559d7e6745cd0e1e4ad4",
+      "source_url": "https://media.vidpok.com/shared_images/cards/28.png?v=3",
+      "source_sha256": "d2f547c4a8dd44b1aa78fc629f919fdf7325dc97473740dae0dc9b311f49fbf8",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/29.png",
+      "role": "card-front",
+      "sha256": "c1107dee930fd11d042ba9d2657efcf7cad264062ea541448c220570dfce70e7",
+      "source_url": "https://media.vidpok.com/shared_images/cards/29.png?v=3",
+      "source_sha256": "515d44a317553c625abf1d1de62f07e1f23826ba1960aa150b53401f5c773ce6",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/3.png",
+      "role": "card-front",
+      "sha256": "82a4445826c2d7a26c38a500ca86b085974c815ea4a10da47e3ce1107b137f40",
+      "source_url": "https://media.vidpok.com/shared_images/cards/3.png?v=3",
+      "source_sha256": "40a4f047d97c3780b3b590410419d86600045ae5ba89a6124e1358344bc93bfc",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/30.png",
+      "role": "card-front",
+      "sha256": "426265fb512faf8db4cfa3df97ee1fb65f299a426940679e7a27aa30acf2b7fb",
+      "source_url": "https://media.vidpok.com/shared_images/cards/30.png?v=3",
+      "source_sha256": "693f6aa374ad30976fe6a2b393403adf530e06a6ac32989d746dadad3a51a669",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/31.png",
+      "role": "card-front",
+      "sha256": "3f15bed1e7b2b941170fd567fbce53a20925067b2896ac8c6e3a7d5a18592d59",
+      "source_url": "https://media.vidpok.com/shared_images/cards/31.png?v=3",
+      "source_sha256": "a26bbae5d188dc059461c42ff485282d7d1236567a15fe760754a6348dd963c6",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/32.png",
+      "role": "card-front",
+      "sha256": "2adc84d7fcac91119ed8400e97af6cab67493e798cfa9ad786a51f8f2b25fe4d",
+      "source_url": "https://media.vidpok.com/shared_images/cards/32.png?v=3",
+      "source_sha256": "77d5b33db068b265b695ce1bf82ff23fcaef1981098587a56eef7634df7ee68c",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/33.png",
+      "role": "card-front",
+      "sha256": "21c097449d30d0dd158a0d1655615c0026d4f8bdd579ffbb7f9a0b2ec4ec6e67",
+      "source_url": "https://media.vidpok.com/shared_images/cards/33.png?v=3",
+      "source_sha256": "59ba699943fd74a8b029cfbbdea0928607884fc03a18bec91dc396aaaec3735d",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/34.png",
+      "role": "card-front",
+      "sha256": "34081122ffc867ce42c38a0bfa027f159291055069b3d7184289299e5437c06a",
+      "source_url": "https://media.vidpok.com/shared_images/cards/34.png?v=3",
+      "source_sha256": "345899260af5e12cc9f19611ce77a04660da8ce78f8d2841d29cfc6c249119eb",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/35.png",
+      "role": "card-front",
+      "sha256": "e81d2e8d27ceba85c42ba5d6aeb7db84a509bbbb5541e432e1954a9e6409d1e5",
+      "source_url": "https://media.vidpok.com/shared_images/cards/35.png?v=3",
+      "source_sha256": "495bf7a4d4f2e1544cac4610e834de0033816507a04ebc744136d287043bc855",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/36.png",
+      "role": "card-front",
+      "sha256": "05ba74edacc4273cd247b530a53714055818463f89afb6391d01ec1297d975be",
+      "source_url": "https://media.vidpok.com/shared_images/cards/36.png?v=3",
+      "source_sha256": "84a18d17fc6551ba6f628f261cf54e834adfec9e744d1f3ac2ef3b5698402730",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/37.png",
+      "role": "card-front",
+      "sha256": "3edc2d672b73fd09a5c2e24884023ec5f75f56066f3f1d13d0e25e770a4cb877",
+      "source_url": "https://media.vidpok.com/shared_images/cards/37.png?v=3",
+      "source_sha256": "9de197ad44a4b2823a594d7b43a19bdc93496e08f0ff49559ff5f1a0b4f33d2b",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/38.png",
+      "role": "card-front",
+      "sha256": "5bd34b2be47df895f4c1ed6e8e3e6629a604c9f98f3904a73eeb8f95b556df35",
+      "source_url": "https://media.vidpok.com/shared_images/cards/38.png?v=3",
+      "source_sha256": "f64647aee2db7416e550e6d2ea31e50992241666d61a50405bc6c3e323982835",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/39.png",
+      "role": "card-front",
+      "sha256": "e582a9302a4f1869b2a0e8f9fe234f693bcec1ec2e9e4f10bb97bfa4c9c56b50",
+      "source_url": "https://media.vidpok.com/shared_images/cards/39.png?v=3",
+      "source_sha256": "d2e522394d7ad5412d45c85f5e544134a03c483e742ee503eb6ab0c5e6e9a498",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/4.png",
+      "role": "card-front",
+      "sha256": "46f314da7911c563ac07afa8cd881c2aa1e9e6a481873836e81cd08a4eb36ce1",
+      "source_url": "https://media.vidpok.com/shared_images/cards/4.png?v=3",
+      "source_sha256": "6cdff13dfbff54d2c53d1f0f9f37e1c6ada5b0136f58e5228f378959f42fd658",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/40.png",
+      "role": "card-front",
+      "sha256": "ea245fafb633a838e5c5b38dbe50d303f1a64e06e0b4b28653bc6eea19cd46d3",
+      "source_url": "https://media.vidpok.com/shared_images/cards/40.png?v=3",
+      "source_sha256": "edb786a56756ce06471f5011e26e1c77e040f83e904e2d3985689d2b0be779f2",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/41.png",
+      "role": "card-front",
+      "sha256": "7d3fe8c929b49c587c6315a9b258da44b59eaf3b6ae101d252c45cc874bb72dc",
+      "source_url": "https://media.vidpok.com/shared_images/cards/41.png?v=3",
+      "source_sha256": "52a35f4dd6951ac6436788bde3b69c2c58e02d1731a6997c0d7140128c8d7add",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/42.png",
+      "role": "card-front",
+      "sha256": "028a95a1b60d57e22666b39e85fbccb3d9d6c5c8635089d0ec17e2855bd91139",
+      "source_url": "https://media.vidpok.com/shared_images/cards/42.png?v=3",
+      "source_sha256": "e129db8079f492a754def3cf98835ae0c9432c428ee5cf2c5307da4930d89b84",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/43.png",
+      "role": "card-front",
+      "sha256": "1ef7f84f581e98c9c705860fafdc5819c940f4ccce6c8a2564de12f57afbb574",
+      "source_url": "https://media.vidpok.com/shared_images/cards/43.png?v=3",
+      "source_sha256": "9d8b67e281c38a3f3f555e1977b53f675c8a4e5a6825f946d7c2877d08db2175",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/44.png",
+      "role": "card-front",
+      "sha256": "dba62fd47e1e80aaf6925599b8cf1d1ebe4301885ca70ddc4d9d26e2ad902359",
+      "source_url": "https://media.vidpok.com/shared_images/cards/44.png?v=3",
+      "source_sha256": "16d01cb1ef349c2969229d9e8da4991186f10f14b5f6ae103ff54e4e59e25bd4",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/45.png",
+      "role": "card-front",
+      "sha256": "0fba12f56364506baf346febb4607ec7e91fcb0a45b6173428bcd75596cba3d3",
+      "source_url": "https://media.vidpok.com/shared_images/cards/45.png?v=3",
+      "source_sha256": "6f243459125036d28f70061ac5e2dcb396e8a160a9bb58a87a5ab3089b1fe9cf",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/46.png",
+      "role": "card-front",
+      "sha256": "104dd8c99ea481eae3c53c129d7e2a15b1b37be2cfb157725ca64a2d2c9dcf35",
+      "source_url": "https://media.vidpok.com/shared_images/cards/46.png?v=3",
+      "source_sha256": "aa5e5cbd43c9769fa290dd22b90a3129321a305401267a7fc87835f6e54cdcc0",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/47.png",
+      "role": "card-front",
+      "sha256": "069d9fb18b471634e5149ee048f32136744383b1d42441b16871ca7907d674d7",
+      "source_url": "https://media.vidpok.com/shared_images/cards/47.png?v=3",
+      "source_sha256": "ca000ab90c7c1edd4c54f7c8feea6991540ec6f22af0b331d219222de5b822a5",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/48.png",
+      "role": "card-front",
+      "sha256": "3e29b2904926ae7f7cf761941ad1b4c46827d6160431cc45c7581302a100254a",
+      "source_url": "https://media.vidpok.com/shared_images/cards/48.png?v=3",
+      "source_sha256": "0411fecaabb7c5954e2d937504225cad4fdafd1bd076e92bf8f858809aa7ed82",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/49.png",
+      "role": "card-front",
+      "sha256": "526b3e10d21f5d2d2026ef0e487168ab7d59175ce4292424d5e9d5c59ce0fa87",
+      "source_url": "https://media.vidpok.com/shared_images/cards/49.png?v=3",
+      "source_sha256": "3da06b4aeaa42fad17649bb7501c682d80f2047367d31698e38161b28084fdd0",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/5.png",
+      "role": "card-front",
+      "sha256": "af583229d33253027bebccf939d8b904230def12f2c7ccb679b497a31a12b64c",
+      "source_url": "https://media.vidpok.com/shared_images/cards/5.png?v=3",
+      "source_sha256": "76c615b60c11f35a342306c2c54c91901b5446ff0f2b651245b2f19ecb9fea07",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/50.png",
+      "role": "card-front",
+      "sha256": "6a0b6c71348e29c656f1427f45d28ae68156127bbec5c3c5eb75dd8734c0e7c2",
+      "source_url": "https://media.vidpok.com/shared_images/cards/50.png?v=3",
+      "source_sha256": "943705a96feb3c8e048ea0912574add5ba34f493a27211b29361784193ddd539",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/51.png",
+      "role": "card-front",
+      "sha256": "2869b3bfc7a4f075339ad4ac49ff9784c9001a8fb7f0df1c60c72c30e4f89c37",
+      "source_url": "https://media.vidpok.com/shared_images/cards/51.png?v=3",
+      "source_sha256": "8473e9d6a059a036d0d0cdd796cf1ceafdbcf070d66ed520412d39fc8281eccb",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/6.png",
+      "role": "card-front",
+      "sha256": "aaa3208c3f9a1849bf063f66571ce867afa629031c92d7fab72b343ce4012d69",
+      "source_url": "https://media.vidpok.com/shared_images/cards/6.png?v=3",
+      "source_sha256": "13ffc89b58899e4e8a03eeb775ac58bb82823549335e2ca90c56350dd0eaf321",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/7.png",
+      "role": "card-front",
+      "sha256": "ced7132e44237447493519dc183695140a992a91bfcea494ef367413af4d5424",
+      "source_url": "https://media.vidpok.com/shared_images/cards/7.png?v=3",
+      "source_sha256": "9057ecee83e949351313b3aab3932466295f6dc367d0f3640a79aed04e4ca1e9",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/8.png",
+      "role": "card-front",
+      "sha256": "813b700c3e90ba7d9eff11a2c5029be3e3bddd9dd88f9f1d10363710ab1f9a73",
+      "source_url": "https://media.vidpok.com/shared_images/cards/8.png?v=3",
+      "source_sha256": "90df2709999697d0c62b730f80546910fcdde17ca738a49709c618389255b39c",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "cards/9.png",
+      "role": "card-front",
+      "sha256": "0233e432dad51973a20bd82d21618de64eea619763c7ae4fa3c63dbbbce36603",
+      "source_url": "https://media.vidpok.com/shared_images/cards/9.png?v=3",
+      "source_sha256": "289c1d4c2d10eef9437ff7b1d27e607671f318acd75371b950ef67083559bc73",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "fonts/arial-bold.png",
+      "role": "glyph-atlas-bold",
+      "sha256": "03a9878b7d6efc1e4668cc484e4168f0489390536ad342eb0c0b3286e99688f4",
+      "source_url": null,
+      "source_sha256": "d72db21f9242aedd6b917d8549ad5921766b24d5f8d0becfda2ff4c620b3c2e0",
+      "transform": "ASCII32..126 Arial glyph rasterization at declared sizes; no raw font included",
+      "rights": "Installed proprietary Arial font; derived bitmap for this private local build only.",
+      "source_description": "Installed macOS Arial font; machine-local font path omitted.",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "fonts/arial-regular.png",
+      "role": "glyph-atlas-regular",
+      "sha256": "60c9120466c58fa47ff45f3d8bf90c132c15e1bff8f5d9431da17e3b5da5f63e",
+      "source_url": null,
+      "source_sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+      "transform": "ASCII32..126 Arial glyph rasterization at declared sizes; no raw font included",
+      "rights": "Installed proprietary Arial font; derived bitmap for this private local build only.",
+      "source_description": "Installed macOS Arial font; machine-local font path omitted.",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "gui/Deal.png",
+      "role": "gui",
+      "sha256": "57a18a8f8743ebaa3795a5bab54d34b633bf6b1f90e8e13cfdc07032ec51803b",
+      "source_url": "https://media.vidpok.com/games/UltimateX/images/gui/Deal.png?v=3",
+      "source_sha256": "7d4abf92c784aca6bb00e7e557beebb56ea5cdc8ee4aad134f2c8ca01840ab7e",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    },
+    {
+      "path": "gui/DealDim.png",
+      "role": "gui",
+      "sha256": "8944082766261d5c1327ade9adec357f8d245178741586be269661b131bfd6f7",
+      "source_url": "https://media.vidpok.com/games/UltimateX/images/gui/DealDim.png?v=3",
+      "source_sha256": "9815d5614eb36769515c6242f77fc14332136c132b474219a260062aab4ee132",
+      "transform": "Lossless RGBA decode of source frame 0; PNG encoding; no pixel edits",
+      "redistribution_permission": "Not established by the inspected project records."
+    }
+  ],
+  "source_audio": {
+    "page": "https://www.videopoker.com/play/?game=69",
+    "assets": [
+      {
+        "name": "srtgme1r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/srtgme1r.ogg",
+        "bytes": 5195,
+        "sha256": "c695a3a917856c7563a3e4d2af918cf2a06f37da0b0ee342a3826486bd2bac3d",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "carddealt",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/carddealt.ogg",
+        "bytes": 4781,
+        "sha256": "ebf1e5110a55c0185037a9f41bb6e0cdafdd2192004c2fd35489ded0dd86be66",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "hold1r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/hold1r.ogg",
+        "bytes": 6038,
+        "sha256": "e861d8c9a57cda121d7cdbad16ede69a240b5f3f7f913f02db554f663758ab03",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "card5r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/card5r.ogg",
+        "bytes": 4745,
+        "sha256": "b20328492aab54a91039b6c26cf8011bb189db6290e36170fda1e72ff8b5a848",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "crdtlp2r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/crdtlp2r.ogg",
+        "bytes": 88992,
+        "sha256": "ac479d6c8ba8699641c9c2186be1c06180dd0a5364860d8adeee8e7bc2eb771c",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "button",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/button.ogg",
+        "bytes": 4514,
+        "sha256": "bb3bb990fe620875653c71f14cbafef014e2cd75531ae46a9410256024ef7994",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "lstone2r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/lstone2r.ogg",
+        "bytes": 16121,
+        "sha256": "22260a9fc0c8edcee2dc72f0265e6e8e60b0c18ad41f17d4f25d790cb8c2dd9f",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "whandr",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/whandr.ogg",
+        "bytes": 11506,
+        "sha256": "e69421db396991b369daa8f6f63496e3785365d50614352bfa575058314af0c0",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "tpawrd1r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/tpawrd1r.ogg",
+        "bytes": 50494,
+        "sha256": "953f9e47ccd9a0ca7aea4eba3d3d02603aad96745fd5b7f85ee1a2e67ea9052b",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "mxbet2r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/mxbet2r.ogg",
+        "bytes": 16638,
+        "sha256": "7adfec81dec30f1e18585b8b0c064537a663c472e2de9c73712093f123402953",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "loser1",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/loser1.ogg",
+        "bytes": 5052,
+        "sha256": "cf5860b41e9fcd455362cffdbe1f7116fecae24626f3a4a9cf768a66ce190827",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "bet1r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/bet1r.ogg",
+        "bytes": 4951,
+        "sha256": "7dd2332efc6c89592ff5c6da9d4424615e323fc477c9b2d6c8aab5430f8d0d01",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      },
+      {
+        "name": "cate1r",
+        "source_url": "https://media.vidpok.com/games/UltimateX/sounds/cate1r.ogg",
+        "bytes": 12588,
+        "sha256": "3a928d30f5c6f59a53a985de0fff48c8cae876a22ecc1d5dd56977111c62a225",
+        "acquisition": "Observed actual loaded Ultimate X page resource; public original downloaded with game Referer"
+      }
+    ],
+    "redistribution_permission": "Not established by inspected records."
+  },
+  "venetian_references": {
+    "sources": [
+      {
+        "cents": 100,
+        "file": "chipguide-1-dollar.png",
+        "crop": [
+          5,
+          47,
+          241,
+          282
+        ],
+        "source_url": "https://www.pokerchipforum.com/attachments/screenshot-2025-03-09-at-16-01-48-chipguide-the-online-information-source-for-casino-chip-co-png.1476148/",
+        "page_url": "https://www.pokerchipforum.com/threads/venetian-1-1st-issue-large-inlay-x-100.130007/",
+        "identification": "Actual ChipGuide CG007604/V3582 screenshot: 1999 $1 cash/table chip, white with2 red+2 mustard inserts; no UV view used",
+        "source_sha256": "8403ee95eb2ffa73f3f230d8f95fc290bb903fa1e5da3c483ff38d7da7c10dac"
+      },
+      {
+        "cents": 500,
+        "file": "standard-low-set.jpg",
+        "crop": [
+          389,
+          203,
+          542,
+          344
+        ],
+        "source_url": "https://www.pokerchipforum.com/attachments/img_6550-jpeg.1382298/",
+        "page_url": "https://www.pokerchipforum.com/threads/the-venetian-lv-samples.123467/",
+        "identification": "Standard red$5 house cash chip, second-row regular building-face chip; excludes adjacent Palazzo commemorative$5 and poker-room$2",
+        "source_sha256": "c9e3fbf99291aa894543da1591b07f1dcf802c3681d24812d6cf4ec804926e60"
+      },
+      {
+        "cents": 2500,
+        "file": "cash-25-2013.jpg",
+        "crop": [
+          117,
+          100,
+          955,
+          941
+        ],
+        "source_url": "https://spinettisgaming.com/cdn/shop/files/P_20260112_124710.jpg?v=1768253160&width=1066",
+        "page_url": "https://spinettisgaming.com/products/the-venetian-casino-las-vegas-25-chip-2013",
+        "identification": "2013 green$25 cash chip with pairedcoral/lavender inserts; matches observed later cashrack, not olderteal$25 and notNCV",
+        "source_sha256": "3a27c948ec642c5bdaf5061f03ff5a9ef6b49ed2552a14fb9bf7906aaae53333"
+      },
+      {
+        "cents": 10000,
+        "file": "cash-100-2013.jpg",
+        "crop": [
+          82,
+          94,
+          1044,
+          1013
+        ],
+        "source_url": "https://i.ebayimg.com/images/g/XgUAAOSw1AxlTyi1/s-l1200.jpg",
+        "page_url": "https://www.ebay.com/itm/314954993033",
+        "identification": "2013 black$100 cash chip with coral/red inserts and architectural inlay; matches actual Venetian cashrack",
+        "source_sha256": "dc8f84a7165afe89f25e9a5660ecf22900e866b2d911635927b12e425885c591"
+      }
+    ],
+    "transform": "Explicit facecrop, ellipse-to-round perspective normalization, transparentcircularmask, LANCZOS native resizing, RGB565 quantization; no substitute genericedgepatterns or colors",
+    "scope": "Verified cash-chip designs1/5/25/100 only; multipleissueyears explicitly recorded; not a claim of currentexclusive casinoinventory. Higheramounts representedwith$100stacks.50-cent is unbranded silverchange coin, not a Venetianchip claim.",
+    "redistribution_permission": "No permission grant recorded for photographs or chip designs."
+  },
+  "stardust_generated_back": {
+    "approved_master_sha256": "277e5f60098d29427db533e24dc25097556b8b5f63ea4e12a02c3573116e12e8",
+    "description": "Approved local generated gold back based on user-supplied vintage reference. Source reference/mark rights not established by this index."
+  },
+  "upstream_notices": {
+    "videopoker_license_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+    "videopoker_notice_sha256": "0cdb461d9eef916d61e6cbfcab6d720f5347504e3fe2cbc7eb10d45970723207",
+    "license_scope": "Upstream original program GPL-2.0-or-later; its NOTICE separately excludes vendor artwork, marks and font-derived bitmaps."
+  }
+}

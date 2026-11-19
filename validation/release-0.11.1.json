@@ -1,0 +1,74 @@
+{
+  "version": "0.11.1",
+  "status": "installed and default-preference update qualified",
+  "changes": [
+    "Default volume20%",
+    "Default Fast speed",
+    "Existing connected device preferences set to20% and Fast; verified after restart"
+  ],
+  "firmware": {
+    "linked_stack_audit": {
+      "functions_audited": 616,
+      "maximum_frame_bytes": 41312,
+      "app_decode_frame_bytes": 432,
+      "ordinary_function_cap": 32768,
+      "decoder_cap": 8192,
+      "explicit_existing_path_cap": 65536,
+      "unknown_sp_mutations": 0
+    },
+    "version": "0.11.1",
+    "language": "Rust",
+    "target": "xtensa-esp32s3-none-elf",
+    "stack_bytes": 305084,
+    "main_frame_bytes": 20720,
+    "iram_dram_overlap_bytes": 0,
+    "app_offset": "0x10000",
+    "partition_table_offset": "0x8000",
+    "preserve": [
+      "bootloader",
+      "nvs",
+      "otadata",
+      "reserved predecessor filesystem except declared rustsave and rustresume partitions"
+    ],
+    "private_resume": {
+      "partition_offset": "0x770000",
+      "partition_bytes": 524288,
+      "slot_bytes": 262144,
+      "max_payload_bytes": 262000,
+      "default_enabled": false,
+      "erase_policy": "fixed footer sector first, then actual payload sectors only"
+    },
+    "artifacts": {
+      "stardust-sticks3.elf": {
+        "bytes": 9050408,
+        "sha256": "e907efd5d82df8eb5f86773c62f7ea3c352d43686ccbe4d926e098bf62eb582c"
+      },
+      "stardust-sticks3.bin": {
+        "bytes": 3394544,
+        "sha256": "be0fafc8b4895d4e4612fa61366fc17ca1cb256b7b39a72d34d749200d5eb260"
+      },
+      "partitions.bin": {
+        "bytes": 3072,
+        "sha256": "65b87532f84d5ddec377c550f8bef2fcc846a3aea884cf8c0f25f1b12d3f421a"
+      }
+    }
+  },
+  "checks": {
+    "native_tests": 205,
+    "native_execution": "All current integration binaries from release compilation plus recompiled library and Normal-timing app_wager fixtures; runtime default changes tested.",
+    "normal_timing_fixture_update": "Four existing dwell tests now explicitly choose Normal; Fast-specific visibility tests remain intact.",
+    "actual_WASM_settings_defaults_migration": "PASS",
+    "browser_normal_rounds": 7200,
+    "browser_deep_seated_rounds": 60,
+    "browser_resume_fault_cases": 56,
+    "browser_seated_continuation_steps": 165,
+    "actual_device_settings": "PASS:20% andFast",
+    "actual_device_restart_persistence": "PASS",
+    "latest_saved_scores_preserved": true,
+    "save_errors": 0,
+    "audio_underruns": 0,
+    "automatic_inputs": "stopped; Cut/Off"
+  },
+  "base_qualification": "0.11.0 sound/settings update, including user-confirmed audible cues; no audio gain/hardware/rule/UI changes in0.11.1",
+  "save_behavior": "Same V10 format. V1\u2013V9 lacking these preferences adopt20%/Fast; V10 explicit choices remain preserved. Connected device changed via normal settings controls."
+}

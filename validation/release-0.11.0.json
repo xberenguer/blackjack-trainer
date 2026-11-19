@@ -1,0 +1,85 @@
+{
+  "version": "0.11.0",
+  "status": "installed and qualified for sound/settings/speed update",
+  "changes": [
+    "Configure amplifier GPIO3 as GPIO/push-pull/output before enabling",
+    "Percentage volume with fine quiet steps, master mute, three sound categories and named auditions",
+    "Display percentage editor and parent-menu navigation",
+    "Normal default / Fast automatic pacing, with preserved face visibility and untimed quiz/review controls",
+    "Public V10 preferences with exact V9 private-checkpoint migration compatibility"
+  ],
+  "firmware": {
+    "linked_stack_audit": {
+      "functions_audited": 616,
+      "maximum_frame_bytes": 41312,
+      "app_decode_frame_bytes": 432,
+      "ordinary_function_cap": 32768,
+      "decoder_cap": 8192,
+      "explicit_existing_path_cap": 65536,
+      "unknown_sp_mutations": 0
+    },
+    "version": "0.11.0",
+    "language": "Rust",
+    "target": "xtensa-esp32s3-none-elf",
+    "stack_bytes": 305084,
+    "main_frame_bytes": 20720,
+    "iram_dram_overlap_bytes": 0,
+    "app_offset": "0x10000",
+    "partition_table_offset": "0x8000",
+    "preserve": [
+      "bootloader",
+      "nvs",
+      "otadata",
+      "reserved predecessor filesystem except declared rustsave and rustresume partitions"
+    ],
+    "private_resume": {
+      "partition_offset": "0x770000",
+      "partition_bytes": 524288,
+      "slot_bytes": 262144,
+      "max_payload_bytes": 262000,
+      "default_enabled": false,
+      "erase_policy": "fixed footer sector first, then actual payload sectors only"
+    },
+    "artifacts": {
+      "stardust-sticks3.elf": {
+        "bytes": 9050400,
+        "sha256": "cba515c74f985cc5fd4614deaeebba3b88ecdde1a3fac1a3bd0d1dcbb88b4f87"
+      },
+      "stardust-sticks3.bin": {
+        "bytes": 3394528,
+        "sha256": "db10551190780dcd981bb1e6468a317a3bdd43d838069c0900bdabbaf9bc0035"
+      },
+      "partitions.bin": {
+        "bytes": 3072,
+        "sha256": "65b87532f84d5ddec377c550f8bef2fcc846a3aea884cf8c0f25f1b12d3f421a"
+      }
+    }
+  },
+  "checks": {
+    "native_tests": 205,
+    "native_failed": 0,
+    "strict_clippy": "PASS: all targets/features",
+    "browser_normal_rounds": 7200,
+    "browser_deep_seven_seat_rounds": 60,
+    "browser_resume_fault_cases": 56,
+    "browser_seated_continuation_steps": 165,
+    "original_PCM_clips": 14,
+    "original_PCM_samples": 422516,
+    "granular_settings_actual_WASM": "PASS: mute/volume/fine steps/clamps/categories/audition/display/Normal-Fast/V10/V9",
+    "actual_Chrome": "PASS: real app.js, public ACK frame/status/audio gating, retry/read failure/resume/dynamic version",
+    "power_register_tests": 2,
+    "resume_coordinator_tests": 12,
+    "actual_NOR_migration_tests": 5,
+    "old_private_V9_compatibility": "PASS: preserve exact raw binding while at chooser, canonical V10 ACK before output/private capture after explicit resume",
+    "actual_device": "PASS: amp GPIO readback, named deal/win cues, volume45/50, mute and amp off/on, categories, Normal/Fast, brightness and parent navigation",
+    "actual_device_save_writes": 12,
+    "actual_device_save_errors": 0,
+    "actual_device_DMA_underruns": 0,
+    "physical_audio": "User confirmed both deal and win cues audible at50%",
+    "latest_saved_scores_preserved": true,
+    "automatic_inputs": "Stopped; Cut/Off,50% volume, all sound categories,Normal speed,100% brightness"
+  },
+  "base_trainer_qualification": "0.10.0; rules/math unchanged,205-test current native suite and current WASM regression checks pass",
+  "device_update": "Application only at0x10000; current save backed up first, partition table/NVS/private journals preserved",
+  "human_scope": "Audibility confirmed by user. Register/DMA checks establish electrical/digital behavior; no microphone measurement, new physical button-feel or optical LED claim."
+}

@@ -1,0 +1,106 @@
+{
+  "goal_complete": true,
+  "scope": "Final Rust trainer audit. Native, browser, linked firmware, actual device and human physical acceptance are distinct.",
+  "items": [
+    {
+      "requirement": "minimal_table",
+      "acceptance": "Approved blue, large own cards/balance/bet, no chip stacks or automatic totals",
+      "evidence_or_remaining": "0.8 actual device frames; unchanged normal-path pixel replay through final candidate.",
+      "status": "passed"
+    },
+    {
+      "requirement": "quick_controls",
+      "acceptance": "Blue cut/deal, Grey hit/Blue stand, holdGrey unified menu, holdBlue mode",
+      "evidence_or_remaining": "0.8 actual USB play paths; native/WASM tap/hold/chord/cancel/wrap and neutral-resume tests.",
+      "status": "passed"
+    },
+    {
+      "requirement": "version",
+      "acceptance": "Version visible directly in menu and Settings",
+      "evidence_or_remaining": "Actual final0.10 menu/Settings/USB and browser banner; native device frames retained locally.",
+      "status": "passed"
+    },
+    {
+      "requirement": "table_conditions",
+      "acceptance": "Explicit complete generic profile, exact wagers and payouts; no unverified named casino",
+      "evidence_or_remaining": "docs/TABLE_RULES.md and rules-audit.md",
+      "status": "passed"
+    },
+    {
+      "requirement": "table_simulation",
+      "acceptance": "Finite physical shoe, cut/burn/marker, legal plays and settlement",
+      "evidence_or_remaining": "0.5 independent6000round engine trace; .6 seven-seat conservation and scripted oracles",
+      "status": "passed"
+    },
+    {
+      "requirement": "extra_seat_visibility",
+      "acceptance": "Every initially exposed and final NPC face must be shown before being counted",
+      "evidence_or_remaining": "10,080 seated continuation pairs including 6,222 pending-visibility checkpoints, complete initial/final face queues; no held face recycling.",
+      "status": "passed"
+    },
+    {
+      "requirement": "guidance",
+      "acceptance": "Basic or namedHiLo policy; Guide counts default, other-mode preferences independent",
+      "evidence_or_remaining": "Native/WASM and deviceGuide; exhaustive basic/legal-context checks",
+      "status": "passed"
+    },
+    {
+      "requirement": "grading",
+      "acceptance": "Guide/Coach/Test, immutable first attempts, assisted metrics separate",
+      "evidence_or_remaining": "App controller and training model tests",
+      "status": "passed"
+    },
+    {
+      "requirement": "ev",
+      "acceptance": "Explicit replacement model, partial/unavailable split values, original wager units",
+      "evidence_or_remaining": "Exact-rational action/split oracles; no hidden-shoe inputs",
+      "status": "passed"
+    },
+    {
+      "requirement": "counts",
+      "acceptance": "Exposed-onlyRC, physicalTC, deck estimation, gated quizzes and immutable progress",
+      "evidence_or_remaining": "Count model/controller tests, .6 epoch and held-identity recovery tests",
+      "status": "passed"
+    },
+    {
+      "requirement": "wager_practice",
+      "acceptance": "Opt-in example ramp, legal caps, frozen wager, manual bypass, own first choice applied",
+      "evidence_or_remaining": "0.7 native independent667392cases and actualWASM wager flow",
+      "status": "passed"
+    },
+    {
+      "requirement": "deviation_drills",
+      "acceptance": "Targeted public scenarios, all legal actions, explanations, missed replay and distinct progress",
+      "evidence_or_remaining": "31 targets, 53,802 independent policy contexts and 5,000 generated cases; immutable first/replay scores; native and actual browser qualified.",
+      "status": "passed"
+    },
+    {
+      "requirement": "session_analysis",
+      "acceptance": "Realized ledger/history/drawdown/dispersion; model EV differences with assumptions",
+      "evidence_or_remaining": "Integer money/variance and 1,000 independent pairwise variance oracles; original Basic-only EV evidence, assisted separation and actual 30-round browser reports.",
+      "status": "passed"
+    },
+    {
+      "requirement": "full_resume",
+      "acceptance": "Opt-in private full snapshot, exact assistance/questions, safe corruption recovery",
+      "evidence_or_remaining": "14,080 continuations, full rings,16,864 sparse power cuts, taint/ACK gates and actual device private commit/reboot/chooser/exact pending-question frame restore passed.",
+      "status": "passed"
+    },
+    {
+      "requirement": "storage",
+      "acceptance": "Legacy exactuint64 migration, authoritativeRustjournal, readIO does not mean empty",
+      "evidence_or_remaining": "V1\u2013V9 exact uint64 migration; public/private binding, retry/fresh RAM no-write tests; actual private commit/restore and preserved lifetime totals passed. V10 preference defaults and actual old V9 private/public migration harness pass.",
+      "status": "passed"
+    },
+    {
+      "requirement": "device_reliability",
+      "acceptance": "No aliasoverlap, bounded main frame, guards, audio/storage/input performance",
+      "evidence_or_remaining": "Actual boot/play/storage/peripherals,18 training EV fixtures max5596us/zero DMA underruns;600-function dynamic stack audit,Appdecode432B,zero alias. Human physical feel/acoustics/battery runtime are not inferred. 0.11 amp register/audio/settings checks pass with zero DMA underruns; user confirmed deal/win audibility.",
+      "status": "passed"
+    }
+  ],
+  "release": "0.11.2",
+  "final_record": "../validation/release-0.10.0.json",
+  "human_physical_acceptance": "User confirmed deal/win audio audible at50% on0.11.0. Other physical scopes remain qualified separately.",
+  "patch_record": "../validation/release-0.11.2.json"
+}

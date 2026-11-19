@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0B006B"><title>Stardust Blackjack · Rust</title><link rel="stylesheet" href="style.css"></head>
+<body><main><header><h1>STARDUST</h1><p id="build-version">BLACKJACK · RUST PREVIEW</p></header>
+<section class="stage" aria-label="Playable two-button StickS3 preview"><div class="device">
+<button id="grey" class="grey" aria-label="Grey: hit or next item; hold 850 milliseconds for the menu">GREY</button>
+<div class="front"><canvas id="screen" width="240" height="135" aria-label="Blackjack table, rendered by Rust"></canvas><button id="blue" class="blue" aria-label="Blue: stand, deal or select; hold 850 milliseconds to change training mode">BLUE</button></div></div></section>
+<p id="status" role="status" aria-live="polite">Loading Rust game…</p>
+<p class="controls"><strong>Grey</strong> hit / next · <strong>Blue</strong> stand / deal / select<br>Hold Grey: menu · Hold Blue: training mode · Both buttons: submit a count answer</p>
+<p class="controls">Keyboard: ← Grey · → Blue. Hold either arrow for 850 ms.<br>Tab to either button and press Enter or Space to activate it.</p>
+<details><summary>About this preview</summary><p>Virtual chips only. This standalone browser uses the fresh Rust game, renderer, training and two-button recognizer compiled directly to WebAssembly. The display is 240 × 135 pixels. Audio starts after a button gesture.</p><p>Settings and exact training totals are saved locally when browser storage is available. Old V1–V8 totals migrate automatically. Resume session is off by default; enable it in Settings to save active hands, pending practice and session analysis privately on this browser. Each load starts in mode Off; only choosing Resume saved session restores its saved live mode. A new session starts fresh in mode Off.</p><p>Optional action EV uses an infinite replacement model and bounded funded split analysis, not the hidden shoe. This browser preview is software evidence; the physical display, buttons and speaker still require device validation.</p></details>
+</main><script src="app.js"></script></body></html>

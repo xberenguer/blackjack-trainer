@@ -1,0 +1,381 @@
+{
+  "schema": 1,
+  "source_headers": {
+    "generated_art.h": "cc597dcbbe619a0600c955322bc3ed0f8ea903a12a4d1df82f00b47b8c0c7c06",
+    "generated_venetian.h": "0525a8b52ea452c51b4c5561d85e620d426b133baccecdf93cf83eb9e056abac",
+    "generated_audio.h": "304aee28c541b895e1780c7aaa360734a4747f78820dd58333c6819cdeaac858"
+  },
+  "sprites": [
+    "card_big_0",
+    "card_big_1",
+    "card_big_2",
+    "card_big_3",
+    "card_big_4",
+    "card_big_5",
+    "card_big_6",
+    "card_big_7",
+    "card_big_8",
+    "card_big_9",
+    "card_big_10",
+    "card_big_11",
+    "card_big_12",
+    "card_big_13",
+    "card_big_14",
+    "card_big_15",
+    "card_big_16",
+    "card_big_17",
+    "card_big_18",
+    "card_big_19",
+    "card_big_20",
+    "card_big_21",
+    "card_big_22",
+    "card_big_23",
+    "card_big_24",
+    "card_big_25",
+    "card_big_26",
+    "card_big_27",
+    "card_big_28",
+    "card_big_29",
+    "card_big_30",
+    "card_big_31",
+    "card_big_32",
+    "card_big_33",
+    "card_big_34",
+    "card_big_35",
+    "card_big_36",
+    "card_big_37",
+    "card_big_38",
+    "card_big_39",
+    "card_big_40",
+    "card_big_41",
+    "card_big_42",
+    "card_big_43",
+    "card_big_44",
+    "card_big_45",
+    "card_big_46",
+    "card_big_47",
+    "card_big_48",
+    "card_big_49",
+    "card_big_50",
+    "card_big_51",
+    "card_small_0",
+    "card_small_1",
+    "card_small_2",
+    "card_small_3",
+    "card_small_4",
+    "card_small_5",
+    "card_small_6",
+    "card_small_7",
+    "card_small_8",
+    "card_small_9",
+    "card_small_10",
+    "card_small_11",
+    "card_small_12",
+    "card_small_13",
+    "card_small_14",
+    "card_small_15",
+    "card_small_16",
+    "card_small_17",
+    "card_small_18",
+    "card_small_19",
+    "card_small_20",
+    "card_small_21",
+    "card_small_22",
+    "card_small_23",
+    "card_small_24",
+    "card_small_25",
+    "card_small_26",
+    "card_small_27",
+    "card_small_28",
+    "card_small_29",
+    "card_small_30",
+    "card_small_31",
+    "card_small_32",
+    "card_small_33",
+    "card_small_34",
+    "card_small_35",
+    "card_small_36",
+    "card_small_37",
+    "card_small_38",
+    "card_small_39",
+    "card_small_40",
+    "card_small_41",
+    "card_small_42",
+    "card_small_43",
+    "card_small_44",
+    "card_small_45",
+    "card_small_46",
+    "card_small_47",
+    "card_small_48",
+    "card_small_49",
+    "card_small_50",
+    "card_small_51",
+    "back_big",
+    "back_small",
+    "button_gold",
+    "button_dim",
+    "stardust_logo",
+    "chip_100_20",
+    "chip_100_24",
+    "chip_100_26",
+    "chip_100_28",
+    "chip_100_32",
+    "chip_100_40",
+    "chip_100_48",
+    "chip_100_64",
+    "chip_500_20",
+    "chip_500_24",
+    "chip_500_26",
+    "chip_500_28",
+    "chip_500_32",
+    "chip_500_40",
+    "chip_500_48",
+    "chip_500_64",
+    "chip_2500_20",
+    "chip_2500_24",
+    "chip_2500_26",
+    "chip_2500_28",
+    "chip_2500_32",
+    "chip_2500_40",
+    "chip_2500_48",
+    "chip_2500_64",
+    "chip_10000_20",
+    "chip_10000_24",
+    "chip_10000_26",
+    "chip_10000_28",
+    "chip_10000_32",
+    "chip_10000_40",
+    "chip_10000_48",
+    "chip_10000_64"
+  ],
+  "chip_entries": [
+    {
+      "cents": 100,
+      "diameter": 20,
+      "sprite": 109
+    },
+    {
+      "cents": 100,
+      "diameter": 24,
+      "sprite": 110
+    },
+    {
+      "cents": 100,
+      "diameter": 26,
+      "sprite": 111
+    },
+    {
+      "cents": 100,
+      "diameter": 28,
+      "sprite": 112
+    },
+    {
+      "cents": 100,
+      "diameter": 32,
+      "sprite": 113
+    },
+    {
+      "cents": 100,
+      "diameter": 40,
+      "sprite": 114
+    },
+    {
+      "cents": 100,
+      "diameter": 48,
+      "sprite": 115
+    },
+    {
+      "cents": 100,
+      "diameter": 64,
+      "sprite": 116
+    },
+    {
+      "cents": 500,
+      "diameter": 20,
+      "sprite": 117
+    },
+    {
+      "cents": 500,
+      "diameter": 24,
+      "sprite": 118
+    },
+    {
+      "cents": 500,
+      "diameter": 26,
+      "sprite": 119
+    },
+    {
+      "cents": 500,
+      "diameter": 28,
+      "sprite": 120
+    },
+    {
+      "cents": 500,
+      "diameter": 32,
+      "sprite": 121
+    },
+    {
+      "cents": 500,
+      "diameter": 40,
+      "sprite": 122
+    },
+    {
+      "cents": 500,
+      "diameter": 48,
+      "sprite": 123
+    },
+    {
+      "cents": 500,
+      "diameter": 64,
+      "sprite": 124
+    },
+    {
+      "cents": 2500,
+      "diameter": 20,
+      "sprite": 125
+    },
+    {
+      "cents": 2500,
+      "diameter": 24,
+      "sprite": 126
+    },
+    {
+      "cents": 2500,
+      "diameter": 26,
+      "sprite": 127
+    },
+    {
+      "cents": 2500,
+      "diameter": 28,
+      "sprite": 128
+    },
+    {
+      "cents": 2500,
+      "diameter": 32,
+      "sprite": 129
+    },
+    {
+      "cents": 2500,
+      "diameter": 40,
+      "sprite": 130
+    },
+    {
+      "cents": 2500,
+      "diameter": 48,
+      "sprite": 131
+    },
+    {
+      "cents": 2500,
+      "diameter": 64,
+      "sprite": 132
+    },
+    {
+      "cents": 10000,
+      "diameter": 20,
+      "sprite": 133
+    },
+    {
+      "cents": 10000,
+      "diameter": 24,
+      "sprite": 134
+    },
+    {
+      "cents": 10000,
+      "diameter": 26,
+      "sprite": 135
+    },
+    {
+      "cents": 10000,
+      "diameter": 28,
+      "sprite": 136
+    },
+    {
+      "cents": 10000,
+      "diameter": 32,
+      "sprite": 137
+    },
+    {
+      "cents": 10000,
+      "diameter": 40,
+      "sprite": 138
+    },
+    {
+      "cents": 10000,
+      "diameter": 48,
+      "sprite": 139
+    },
+    {
+      "cents": 10000,
+      "diameter": 64,
+      "sprite": 140
+    }
+  ],
+  "fonts": [
+    "font_regular_7",
+    "font_regular_8",
+    "font_regular_9",
+    "font_regular_10",
+    "font_regular_11",
+    "font_regular_12",
+    "font_regular_13",
+    "font_regular_14",
+    "font_regular_15",
+    "font_regular_16",
+    "font_regular_17",
+    "font_regular_18",
+    "font_regular_19",
+    "font_regular_20",
+    "font_regular_21",
+    "font_regular_22",
+    "font_regular_23",
+    "font_regular_24",
+    "font_bold_7",
+    "font_bold_8",
+    "font_bold_9",
+    "font_bold_10",
+    "font_bold_11",
+    "font_bold_12",
+    "font_bold_13",
+    "font_bold_14",
+    "font_bold_15",
+    "font_bold_16",
+    "font_bold_17",
+    "font_bold_18",
+    "font_bold_19",
+    "font_bold_20",
+    "font_bold_21",
+    "font_bold_22",
+    "font_bold_23",
+    "font_bold_24"
+  ],
+  "audio_cues": [
+    "button",
+    "hold1r",
+    "carddealt",
+    "card5r",
+    "bet1r",
+    "whandr",
+    "tpawrd1r",
+    "button",
+    "loser1",
+    "srtgme1r",
+    "crdtlp2r",
+    "mxbet2r",
+    "cate1r",
+    "lstone2r"
+  ],
+  "banks": {
+    "sprites.bin": {
+      "bytes": 1130120,
+      "sha256": "5a4aefe3ba89e10b419cc55ca24547adcd089a2779405d893823e84d7199c8e6"
+    },
+    "fonts.bin": {
+      "bytes": 402392,
+      "sha256": "4d6f2aae8613c6a2e8db828ef36e9ff6a7b83441f6a44d5f19e99f9dc2ca65fc"
+    },
+    "audio.bin": {
+      "bytes": 841872,
+      "sha256": "88c32cc9c7237505f9e4b862f9af0818e70564d1459693462ddc6991c66ae344"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "version": "0.11.2",
+  "status": "installed and Hi-Lo-default update qualified",
+  "changes": [
+    "New App and Save default to Hi-Lo",
+    "Historical V1\u2013V4 saves preserve Basic; explicit V5\u2013V10 selections preserved",
+    "20% volume/Fast defaults retained"
+  ],
+  "firmware": {
+    "linked_stack_audit": {
+      "functions_audited": 616,
+      "maximum_frame_bytes": 41312,
+      "app_decode_frame_bytes": 432,
+      "ordinary_function_cap": 32768,
+      "decoder_cap": 8192,
+      "explicit_existing_path_cap": 65536,
+      "unknown_sp_mutations": 0
+    },
+    "version": "0.11.2",
+    "language": "Rust",
+    "target": "xtensa-esp32s3-none-elf",
+    "stack_bytes": 305084,
+    "main_frame_bytes": 20720,
+    "iram_dram_overlap_bytes": 0,
+    "app_offset": "0x10000",
+    "partition_table_offset": "0x8000",
+    "preserve": [
+      "bootloader",
+      "nvs",
+      "otadata",
+      "reserved predecessor filesystem except declared rustsave and rustresume partitions"
+    ],
+    "private_resume": {
+      "partition_offset": "0x770000",
+      "partition_bytes": 524288,
+      "slot_bytes": 262144,
+      "max_payload_bytes": 262000,
+      "default_enabled": false,
+      "erase_policy": "fixed footer sector first, then actual payload sectors only"
+    },
+    "artifacts": {
+      "stardust-sticks3.elf": {
+        "bytes": 9048168,
+        "sha256": "25847ab9f87e0e3424d32d4f2f3539fe30c9c594514dff715d74bbda61de968e"
+      },
+      "stardust-sticks3.bin": {
+        "bytes": 3394608,
+        "sha256": "eae6a49d7cb5fc080d3a2070aff8e1c7615bd03c2a3d3f43b1208dface708747"
+      },
+      "partitions.bin": {
+        "bytes": 3072,
+        "sha256": "65b87532f84d5ddec377c550f8bef2fcc846a3aea884cf8c0f25f1b12d3f421a"
+      }
+    }
+  },
+  "checks": {
+    "targeted_native_tests": 44,
+    "targeted_suites": [
+      "app_controller",
+      "app_session",
+      "deviations",
+      "persistence",
+      "persistence_v10",
+      "training"
+    ],
+    "WASM_new_HiLo_default_and_saved_Basic": true,
+    "browser_normal_rounds": 7200,
+    "browser_deep_seated_rounds": 60,
+    "browser_resume_fault_cases": 56,
+    "browser_seated_continuation_steps": 165,
+    "actual_device_HiLo_after_restart": "identical Training menu frame",
+    "saved_scores_preserved": true,
+    "volume": 20,
+    "speed": "Fast",
+    "automatic_inputs": "stopped; Cut/Off"
+  },
+  "base_qualification": "0.11.1 full205 native suite plus0.11.0 physical audio confirmation. Targeted regression scopes are separate.",
+  "privacy": "Actual device recovery/score/frame evidence remains local and excluded from distribution."
+}

@@ -1,0 +1,614 @@
+{
+  "version": "0.11.2",
+  "enum_views": 65,
+  "coverage_complete": true,
+  "views": [
+    {
+      "variant": "AnalysisMenu",
+      "public_name": "AnalysisMenu",
+      "frames": [
+        "analysis-menu"
+      ]
+    },
+    {
+      "variant": "AnalysisSummary",
+      "public_name": "AnalysisSummary",
+      "frames": [
+        "analysis-summary-00",
+        "analysis-summary-01",
+        "analysis-summary-02",
+        "analysis-summary-03"
+      ]
+    },
+    {
+      "variant": "AnalysisGraph",
+      "public_name": "AnalysisGraph",
+      "frames": [
+        "analysis-graph-00"
+      ]
+    },
+    {
+      "variant": "AnalysisRounds",
+      "public_name": "AnalysisRounds",
+      "frames": [
+        "analysis-rounds-00",
+        "analysis-rounds-01"
+      ]
+    },
+    {
+      "variant": "AnalysisAccuracy",
+      "public_name": "AnalysisAccuracy",
+      "frames": [
+        "analysis-accuracy-00",
+        "analysis-accuracy-01",
+        "analysis-accuracy-02",
+        "analysis-accuracy-03",
+        "analysis-accuracy-04",
+        "analysis-accuracy-05",
+        "analysis-accuracy-06",
+        "analysis-accuracy-07",
+        "analysis-accuracy-08",
+        "analysis-accuracy-09",
+        "analysis-accuracy-10",
+        "analysis-accuracy-11"
+      ]
+    },
+    {
+      "variant": "AnalysisCosts",
+      "public_name": "AnalysisCosts",
+      "frames": [
+        "analysis-costs-00",
+        "analysis-costs-01",
+        "analysis-costs-02",
+        "analysis-costs-hilo-unavailable"
+      ]
+    },
+    {
+      "variant": "AnalysisDecisions",
+      "public_name": "AnalysisDecisions",
+      "frames": [
+        "analysis-decisions-00",
+        "analysis-decisions-01"
+      ]
+    },
+    {
+      "variant": "AnalysisAssumptions",
+      "public_name": "AnalysisAssumptions",
+      "frames": [
+        "analysis-assumptions-00",
+        "analysis-assumptions-01",
+        "analysis-assumptions-02"
+      ]
+    },
+    {
+      "variant": "DeviationPractice",
+      "public_name": "DeviationPractice",
+      "frames": [
+        "deviation-practice"
+      ]
+    },
+    {
+      "variant": "DeviationTarget",
+      "public_name": "DeviationTarget",
+      "frames": [
+        "deviation-target"
+      ]
+    },
+    {
+      "variant": "DeviationQuestion",
+      "public_name": "DeviationQuestion",
+      "frames": [
+        "deviation-question",
+        "deviation-insurance",
+        "deviation-three-cards",
+        "deviation-replay"
+      ]
+    },
+    {
+      "variant": "DeviationContext",
+      "public_name": "DeviationContext",
+      "frames": [
+        "deviation-context-00",
+        "deviation-context-01",
+        "deviation-context-02"
+      ]
+    },
+    {
+      "variant": "DeviationReference",
+      "public_name": "DeviationReference",
+      "frames": [
+        "deviation-reference-00",
+        "deviation-reference-01"
+      ]
+    },
+    {
+      "variant": "DeviationResult",
+      "public_name": "DeviationResult",
+      "frames": [
+        "deviation-result",
+        "deviation-replay-result"
+      ]
+    },
+    {
+      "variant": "DeviationStats",
+      "public_name": "DeviationStats",
+      "frames": [
+        "deviation-stats-00",
+        "deviation-stats-01",
+        "deviation-stats-02",
+        "deviation-stats-03",
+        "deviation-stats-04",
+        "deviation-stats-05",
+        "deviation-stats-06",
+        "deviation-stats-07",
+        "deviation-stats-08",
+        "deviation-stats-09",
+        "deviation-stats-10",
+        "deviation-stats-11",
+        "deviation-stats-12",
+        "deviation-stats-13",
+        "deviation-stats-14",
+        "deviation-stats-15",
+        "deviation-stats-16",
+        "deviation-stats-17",
+        "deviation-stats-18",
+        "deviation-stats-19",
+        "deviation-stats-20",
+        "deviation-stats-21",
+        "deviation-stats-22",
+        "deviation-stats-23",
+        "deviation-stats-24",
+        "deviation-stats-25",
+        "deviation-stats-26",
+        "deviation-stats-27",
+        "deviation-stats-28",
+        "deviation-stats-29",
+        "deviation-stats-30",
+        "deviation-stats-31",
+        "deviation-stats-32",
+        "deviation-replay-stats"
+      ]
+    },
+    {
+      "variant": "DeviationHistory",
+      "public_name": "DeviationHistory",
+      "frames": [
+        "deviation-history-00",
+        "deviation-history-01",
+        "deviation-history-02",
+        "deviation-history-03",
+        "deviation-history-04",
+        "deviation-history-05"
+      ]
+    },
+    {
+      "variant": "DeviationPolicy",
+      "public_name": "DeviationPolicy",
+      "frames": [
+        "deviation-policy-00",
+        "deviation-policy-01",
+        "deviation-policy-02",
+        "deviation-policy-03"
+      ]
+    },
+    {
+      "variant": "TableSeats",
+      "public_name": "TableSeats",
+      "frames": [
+        "table-seats"
+      ]
+    },
+    {
+      "variant": "SeatCards",
+      "public_name": "SeatCards",
+      "frames": [
+        "seat-cards"
+      ]
+    },
+    {
+      "variant": "WagerPractice",
+      "public_name": "WagerPractice",
+      "frames": [
+        "wager-practice"
+      ]
+    },
+    {
+      "variant": "WagerAnswer",
+      "public_name": "WagerAnswer",
+      "frames": [
+        "wager-answer"
+      ]
+    },
+    {
+      "variant": "WagerHelp",
+      "public_name": "WagerHelp",
+      "frames": [
+        "wager-help"
+      ]
+    },
+    {
+      "variant": "WagerResult",
+      "public_name": "WagerResult",
+      "frames": [
+        "wager-result",
+        "wager-result-options",
+        "wager-result-mistake"
+      ]
+    },
+    {
+      "variant": "WagerStats",
+      "public_name": "WagerStats",
+      "frames": [
+        "wager-stats-00",
+        "wager-stats-01",
+        "wager-stats-02",
+        "wager-stats-03",
+        "wager-stats-04",
+        "wager-stats-05",
+        "wager-stats-06"
+      ]
+    },
+    {
+      "variant": "WagerHistory",
+      "public_name": "WagerHistory",
+      "frames": [
+        "wager-history"
+      ]
+    },
+    {
+      "variant": "WagerPolicy",
+      "public_name": "WagerPolicy",
+      "frames": [
+        "wager-policy"
+      ]
+    },
+    {
+      "variant": "Cut",
+      "public_name": "Cut",
+      "frames": [
+        "cut",
+        "cut-moved"
+      ]
+    },
+    {
+      "variant": "Burn",
+      "public_name": "Burn",
+      "frames": [
+        "burn"
+      ]
+    },
+    {
+      "variant": "Table",
+      "public_name": "Table",
+      "frames": [
+        "anim-deal-00",
+        "anim-deal-01",
+        "anim-deal-02",
+        "anim-deal-03",
+        "anim-deal-04",
+        "anim-deal-05",
+        "anim-deal-06",
+        "anim-deal-07",
+        "table-player",
+        "table-result",
+        "table-insurance",
+        "table-insurance-yes",
+        "table-split",
+        "table-double",
+        "table-surrender",
+        "table-guide",
+        "table-coach-continued",
+        "table-blackjack",
+        "table-push",
+        "table-win",
+        "table-loss",
+        "table-bust",
+        "tablemates-player",
+        "anim-tablemates-00",
+        "anim-tablemates-01",
+        "anim-tablemates-02",
+        "anim-tablemates-03",
+        "anim-tablemates-04",
+        "anim-tablemates-05",
+        "anim-tablemates-06",
+        "anim-tablemates-07",
+        "anim-tablemates-08",
+        "anim-tablemates-09",
+        "wager-played-choice"
+      ]
+    },
+    {
+      "variant": "Menu",
+      "public_name": "Menu",
+      "frames": [
+        "menu"
+      ]
+    },
+    {
+      "variant": "Wager",
+      "public_name": "Wager",
+      "frames": [
+        "wager"
+      ]
+    },
+    {
+      "variant": "Amount",
+      "public_name": "Amount",
+      "frames": [
+        "amount",
+        "amount-edited"
+      ]
+    },
+    {
+      "variant": "Training",
+      "public_name": "Training",
+      "frames": [
+        "training"
+      ]
+    },
+    {
+      "variant": "TrainingStats",
+      "public_name": "TrainingStats",
+      "frames": [
+        "training-stats-00",
+        "training-stats-01",
+        "training-stats-02",
+        "training-stats-03",
+        "training-stats-04"
+      ]
+    },
+    {
+      "variant": "TrainingReview",
+      "public_name": "TrainingReview",
+      "frames": [
+        "training-review"
+      ]
+    },
+    {
+      "variant": "RoundReview",
+      "public_name": "RoundReview",
+      "frames": [
+        "round-review",
+        "round-review-decision"
+      ]
+    },
+    {
+      "variant": "Hint",
+      "public_name": "TrainingHint",
+      "frames": [
+        "hint"
+      ]
+    },
+    {
+      "variant": "CoachCheck",
+      "public_name": "CoachCheck",
+      "frames": [
+        "coach-check"
+      ]
+    },
+    {
+      "variant": "ActionEv",
+      "public_name": "ActionEV",
+      "frames": [
+        "action-ev-00",
+        "action-ev-01",
+        "action-ev-02"
+      ]
+    },
+    {
+      "variant": "EvReview",
+      "public_name": "EVReview",
+      "frames": [
+        "ev-review"
+      ]
+    },
+    {
+      "variant": "CountPractice",
+      "public_name": "CountPractice",
+      "frames": [
+        "count-practice"
+      ]
+    },
+    {
+      "variant": "CountAnswer",
+      "public_name": "CountAnswer",
+      "frames": [
+        "count-answer-running",
+        "count-answer-decks",
+        "count-answer-true-count"
+      ]
+    },
+    {
+      "variant": "CountResult",
+      "public_name": "CountResult",
+      "frames": [
+        "count-result-running",
+        "count-result-decks",
+        "count-result-true-count"
+      ]
+    },
+    {
+      "variant": "CountStats",
+      "public_name": "CountStats",
+      "frames": [
+        "count-stats-00",
+        "count-stats-01",
+        "count-stats-02",
+        "count-stats-03"
+      ]
+    },
+    {
+      "variant": "CountHistory",
+      "public_name": "CountHistory",
+      "frames": [
+        "count-history"
+      ]
+    },
+    {
+      "variant": "CountInfo",
+      "public_name": "CountInfo",
+      "frames": [
+        "count-info"
+      ]
+    },
+    {
+      "variant": "Settings",
+      "public_name": "Settings",
+      "frames": [
+        "settings",
+        "settings-resume",
+        "settings-normal-speed"
+      ]
+    },
+    {
+      "variant": "Profile",
+      "public_name": "TableProfile",
+      "frames": [
+        "profile"
+      ]
+    },
+    {
+      "variant": "ProfilePreset",
+      "public_name": "ProfilePreset",
+      "frames": [
+        "profile-preset"
+      ]
+    },
+    {
+      "variant": "ProfileAmount",
+      "public_name": "ProfileAmount",
+      "frames": [
+        "profile-minimum",
+        "profile-maximum"
+      ]
+    },
+    {
+      "variant": "ProfileDepth",
+      "public_name": "ProfileDepth",
+      "frames": [
+        "profile-depth"
+      ]
+    },
+    {
+      "variant": "ShoeInfo",
+      "public_name": "ShoeInfo",
+      "frames": [
+        "shoe-info"
+      ]
+    },
+    {
+      "variant": "Rules",
+      "public_name": "Rules",
+      "frames": [
+        "rules-00",
+        "rules-01",
+        "rules-02",
+        "rules-03",
+        "rules-04",
+        "rules-05",
+        "rules-06"
+      ]
+    },
+    {
+      "variant": "Session",
+      "public_name": "Session",
+      "frames": [
+        "session"
+      ]
+    },
+    {
+      "variant": "Bankroll",
+      "public_name": "Bankroll",
+      "frames": [
+        "bankroll-00",
+        "bankroll-01"
+      ]
+    },
+    {
+      "variant": "Cards",
+      "public_name": "Cards",
+      "frames": [
+        "cards"
+      ]
+    },
+    {
+      "variant": "Controls",
+      "public_name": "Controls",
+      "frames": [
+        "controls-00",
+        "controls-01",
+        "controls-02",
+        "controls-03"
+      ]
+    },
+    {
+      "variant": "Leave",
+      "public_name": "Leave",
+      "frames": [
+        "leave"
+      ]
+    },
+    {
+      "variant": "Summary",
+      "public_name": "Summary",
+      "frames": [
+        "summary"
+      ]
+    },
+    {
+      "variant": "Refill",
+      "public_name": "Refill",
+      "frames": [
+        "refill"
+      ]
+    },
+    {
+      "variant": "Notice",
+      "public_name": "Notice",
+      "frames": [
+        "notice"
+      ]
+    },
+    {
+      "variant": "Sound",
+      "public_name": "Sound",
+      "frames": [
+        "sound",
+        "sound-auditions"
+      ]
+    },
+    {
+      "variant": "AudioVolume",
+      "public_name": "AudioVolume",
+      "frames": [
+        "audio-volume",
+        "anim-volume-00",
+        "anim-volume-01",
+        "anim-volume-02",
+        "anim-volume-03",
+        "anim-volume-04"
+      ]
+    },
+    {
+      "variant": "Display",
+      "public_name": "Display",
+      "frames": [
+        "display"
+      ]
+    },
+    {
+      "variant": "Brightness",
+      "public_name": "Brightness",
+      "frames": [
+        "brightness",
+        "brightness-edited"
+      ]
+    }
+  ],
+  "additional_layouts": [
+    "RecoveryChooser",
+    "RecoveryReadRetry",
+    "RecoverySaveRetry",
+    "RecoveryUnsaved"
+  ]
+}

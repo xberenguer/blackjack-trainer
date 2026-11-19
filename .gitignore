@@ -1,0 +1,50 @@
+# Private hardware backups and historical release archives: never stage these.
+/recovery/
+/releases/
+/validation/*
+!/validation/release-0.10.0.json
+!/validation/release-0.10.2.json
+!/validation/release-0.11.0.json
+!/validation/release-0.11.1.json
+!/validation/release-0.11.2.json
+!/validation/rust-core-validation.json
+/browser/validation/
+/device-*/
+**/device-*/
+
+# Generated outputs; make reviewed release attachments separately.
+/firmware/build/
+/firmware/.vendor/
+/firmware/.cargo/config.toml
+/firmware/missing-crates.json
+.build/
+.tools/
+target/
+target-*/
+cargo-home/
+work/
+*.zip
+*.elf
+*.rgb565
+*.ppm
+*.log
+
+# Current game assets and matching browser WASM accompany this publication.
+# Their separate provenance and rights notices are retained in docs/THIRD_PARTY.md.
+
+# Local dependency installs, caches and credentials.
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Do NOT add a blanket *.bin or *.gz rule: native golden fixtures must remain.
+# See docs/THIRD_PARTY.md for asset provenance and separate rights notices.

@@ -1,0 +1,98 @@
+{
+  "version": "0.10.0",
+  "status": "qualified and installed",
+  "language": "Rust",
+  "goal_complete": true,
+  "core_source_sha256": "035cc381fdb2dc4737a6e2fab968c42a3aeb929e4a53a64cbcff5fadd10d431d",
+  "firmware": {
+    "linked_stack_audit": {
+      "functions_audited": 600,
+      "maximum_frame_bytes": 41312,
+      "app_decode_frame_bytes": 432,
+      "ordinary_function_cap": 32768,
+      "decoder_cap": 8192,
+      "explicit_existing_path_cap": 65536,
+      "unknown_sp_mutations": 0
+    },
+    "version": "0.10.0",
+    "language": "Rust",
+    "target": "xtensa-esp32s3-none-elf",
+    "stack_bytes": 305176,
+    "main_frame_bytes": 20576,
+    "iram_dram_overlap_bytes": 0,
+    "app_offset": "0x10000",
+    "partition_table_offset": "0x8000",
+    "preserve": [
+      "bootloader",
+      "nvs",
+      "otadata",
+      "reserved predecessor filesystem except declared rustsave and rustresume partitions"
+    ],
+    "private_resume": {
+      "partition_offset": "0x770000",
+      "partition_bytes": 524288,
+      "slot_bytes": 262144,
+      "max_payload_bytes": 262000,
+      "default_enabled": false,
+      "erase_policy": "fixed footer sector first, then actual payload sectors only"
+    },
+    "artifacts": {
+      "stardust-sticks3.elf": {
+        "bytes": 9007996,
+        "sha256": "4e6ae4a9a0515167b622cd23f79413393bf0172fc4b4b2a99eb2088fc17ec67c"
+      },
+      "stardust-sticks3.bin": {
+        "bytes": 3377488,
+        "sha256": "0d6b1f29f2ce17c8c3aa5be71984bf480e97e4a7ac257509473c55bb540d8f28"
+      },
+      "partitions.bin": {
+        "bytes": 3072,
+        "sha256": "65b87532f84d5ddec377c550f8bef2fcc846a3aea884cf8c0f25f1b12d3f421a"
+      }
+    }
+  },
+  "browser_wasm": {
+    "bytes": 5812710,
+    "sha256": "2e12eb2830f98e4d69949b9a9071b857cf63ccce51976489f724bf676cb70b28"
+  },
+  "software_validation": {
+    "native_tests": 195,
+    "strict_clippy": "PASS",
+    "independent_action_and_split_EV_oracles": "PASS; original math unchanged",
+    "legacy_pixel_and_engine_replays": "PASS",
+    "ordinary_and_seated_resume_continuations": 14080,
+    "pending_visibility_cases": 6222,
+    "sparse_power_cut_cases": 16864,
+    "browser_normal_rounds": 7200,
+    "browser_deep_seated_rounds": 60,
+    "browser_resume_fault_cases": 56,
+    "browser_independent_seated_steps": 165,
+    "raw_and_scaled_PCM_samples": 422516,
+    "actual_chrome": "PASS including ACK gates, explicit resume, corruption and no-write RAM recovery",
+    "linked_stack_functions_audited": 600,
+    "adversarial_stack_audit_tests": 5
+  },
+  "actual_device_validation": {
+    "boot_version_and_native_frame": "PASS",
+    "pmic_codec_storage": "PASS",
+    "ordinary_hand_dealer_settlement_menu_Guide_Off": "PASS",
+    "fixed_training_EV_fixtures": 18,
+    "max_training_event_us": 5596,
+    "benchmark_DMA_underruns": 0,
+    "ordinary_play_DMA_underruns": 0,
+    "private_idle_commit_reboot_chooser_restore": "PASS",
+    "pending_question_frame_exact": "PASS",
+    "saved_training_totals_preserved": true,
+    "final_state": "Cut / Off / $1000 / minimum wager / resume OFF",
+    "automated_inputs": "stopped"
+  },
+  "resolved_target_fault": "Replaced large returned decode temporaries with recursive in-place reads; App decoder231056B ->432B; resolved decode chain353616B ->3216B. Actual save/reboot/restore now passes.",
+  "limits": [
+    "Generic supported rule profiles, not verified live named-casino offerings",
+    "Published Basic/Hi-Lo policies and explicitly scoped replacement-model EV",
+    "Idle checkpoint availability, not guaranteed per-tap resume",
+    "Logical frame/DMA and USB checks do not establish subjective speaker quality/button feel/panel color perception",
+    "No measured battery runtime claim"
+  ],
+  "recovery": "Full pre-update backup and private test data retained locally; excluded from archives"
+}

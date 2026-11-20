@@ -42,7 +42,13 @@ const output = path.resolve(process.argv[3] || path.join(__dirname, '../validati
       document.dispatchEvent(new KeyboardEvent(type, { key: grey ? 'ArrowLeft' : 'ArrowRight', bubbles: true }));
     }, {type, grey});
     const tap = async (grey = false) => {
-      await key('keydown', grey); await key('keyup', grey);
+      // Dispatch both edges in one task: the accelerated clock must not turn a
+      // normal tap into a hold when the OS pauses between automation calls.
+      await page.evaluate(grey => {
+        const key = grey ? 'ArrowLeft' : 'ArrowRight';
+        document.dispatchEvent(new KeyboardEvent('keydown', {key, bubbles:true}));
+        document.dispatchEvent(new KeyboardEvent('keyup', {key, bubbles:true}));
+      }, grey);
       // .10 queues input while public storage acknowledgment is pending.
       // Do not enqueue another navigation tap until the prior frame is presented.
       await frames();
@@ -80,14 +86,15 @@ const output = path.resolve(process.argv[3] || path.join(__dirname, '../validati
     await page.waitForFunction(() => window.stardust.info().view === 'Menu');
     await key('keyup', true);
     await waitView('Menu');
-    for (let tries = 0; (await info()).menu_item !== 'Session totals'; tries++) {
+    for (let tries = 0; (await info()).menu_item !== 'Session'; tries++) {
       assert(tries < 20);
       const before = (await info()).focus;
       await tap(true);
       await page.waitForFunction(previous => window.stardust.info().focus !== previous, before);
     }
-    await tap(); await waitView('Session');
-    await focus(3); await tap(); await waitView('AnalysisMenu');
+    await tap(); await waitView('SessionMenu');
+    for(let tries=0;(await info()).menu_item!=='Reports';tries++){assert(tries<8);await tap(true);}
+    await tap(); await waitView('AnalysisMenu');
     fs.mkdirSync(output, { recursive: true });
     const shot = name => page.screenshot({ path: path.join(output, `${name}.png`), fullPage: true });
     await shot('00-analysis-menu');

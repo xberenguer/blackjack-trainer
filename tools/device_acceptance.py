@@ -125,7 +125,9 @@ try:
     frame('final-table')
     final = status()
     assert [final[k] for k in ('graded', 'correct', 'errors', 'assisted')] == initial_scores
-    assert int(final['save_writes']) >= 1
+    # A no-op update can legitimately preserve an identical public packet
+    # without another flash write. Preference-write durability is checked separately.
+    assert final['unsaved'] == 'false'
     assert final['audio_underruns'] == '0', final
     (a.out / 'serial-play-check.json').write_text(json.dumps({
         'result': 'pass',

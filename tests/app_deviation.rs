@@ -1,3 +1,5 @@
+#[path = "support/navigation.rs"]
+mod nav;
 use stardust_blackjack::{
     app::App,
     controls::{Event, Key},
@@ -15,23 +17,17 @@ fn select(a: &mut App, n: usize) {
     a.event(B)
 }
 fn focus(a: &mut App, n: usize) {
-    let mut guard = 0;
-    while a.focus() != n {
-        guard += 1;
-        assert!(guard < 40);
-        a.event(G)
+    for _ in 0..40 {
+        if a.focus() == n {
+            return;
+        }
+        a.event(G);
     }
+    panic!("missing choice {n} in {}", a.view_name());
 }
 fn drills(a: &mut App) {
-    a.event(Event::Hold(Key::Grey));
-    assert_eq!(a.view_name(), "Menu");
-    while a.menu_item() != "Training" {
-        a.event(G)
-    }
-    a.event(B);
-    assert_eq!(a.view_name(), "Training");
-    select(a, 9);
-    assert_eq!(a.view_name(), "DeviationPractice")
+    nav::path(a, &["Training", "Practice", "Deviations"]);
+    assert_eq!(a.view_name(), "DeviationPractice");
 }
 fn configured() -> App {
     let mut a = App::new(7);
@@ -142,7 +138,7 @@ fn cancellation_consumes_question_without_scoring_and_modes_do_not_change_its_po
     a.event(Event::Hold(Key::Blue));
     assert_eq!(a.deviation_practice.question(), Some(q));
     a.event(Event::Hold(Key::Grey));
-    assert_eq!(a.view_name(), "Menu");
+    assert_eq!(a.view_name(), "DeviationPractice");
     assert!(a.deviation_practice.question().is_none());
     assert_eq!(a.deviation_practice.stats().first.all.decisions, 0);
     assert!(!a.deviation_practice.begin(q));
@@ -183,8 +179,20 @@ fn all_drill_views_render_and_history_keeps_original_snapshots() {
     let first = *a.deviation_practice.newest(0).unwrap();
     a.event(B);
     for option in [4, 6, 7] {
-        focus(&mut a, option);
-        a.event(B);
+        if option == 7 {
+            drills(&mut a);
+            nav::choose(&mut a, "Policy");
+        } else {
+            nav::path(
+                &mut a,
+                &[
+                    "Training",
+                    "Progress",
+                    "Deviations",
+                    if option == 4 { "Accuracy" } else { "History" },
+                ],
+            );
+        }
         for _ in 0..if option == 4 {
             33
         } else if option == 6 {
@@ -197,7 +205,14 @@ fn all_drill_views_render_and_history_keeps_original_snapshots() {
             a.event(G)
         }
         a.event(B);
-        assert_eq!(a.view_name(), "DeviationPractice");
+        assert_eq!(
+            a.view_name(),
+            if option == 7 {
+                "DeviationPractice"
+            } else {
+                "DeviationProgress"
+            }
+        );
     }
     assert_eq!(a.deviation_practice.newest(0), Some(&first));
 }

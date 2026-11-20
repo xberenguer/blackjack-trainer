@@ -1,7 +1,9 @@
+#[path = "support/navigation.rs"]
+mod nav;
 use stardust_blackjack::{
     app::App,
     controls::{Event, Key},
-    engine::{Action, Phase},
+    engine::Phase,
     persistence::{SIZE, Save, VERSION, crc32},
     training::{Counters, Mode},
     wager_practice::{self, Choice},
@@ -10,25 +12,13 @@ const B: Event = Event::Tap(Key::Blue);
 const G: Event = Event::Tap(Key::Grey);
 fn select(a: &mut App, n: usize) {
     for _ in 0..n {
-        a.event(G)
+        a.event(G);
     }
-    a.event(B)
+    a.event(B);
 }
 fn wager_menu(a: &mut App) {
-    a.event(Event::Hold(Key::Grey));
-    assert_eq!(a.view_name(), "Menu");
-    let extras = if a.is_busy() {
-        0
-    } else {
-        [Action::Double, Action::Split, Action::Surrender]
-            .iter()
-            .filter(|&&x| a.game.legal(x))
-            .count()
-    };
-    select(a, extras + 2);
-    assert_eq!(a.view_name(), "Training");
-    select(a, 8);
-    assert_eq!(a.view_name(), "WagerPractice")
+    nav::path(a, &["Training", "Practice", "Bet sizing"]);
+    assert_eq!(a.view_name(), "WagerPractice");
 }
 fn start_auto(a: &mut App) {
     a.wager_enabled = true;
@@ -167,7 +157,7 @@ fn refill_is_not_zero_wager_and_deposit_is_separate() {
     a.game.deposits = 100;
     a.wager_enabled = true;
     wager_menu(&mut a);
-    select(&mut a, 1);
+    nav::choose(&mut a, "Practice now");
     assert_eq!(a.view_name(), "WagerAnswer");
     select(&mut a, 5);
     assert_eq!(a.view_name(), "WagerResult");
@@ -247,18 +237,18 @@ fn every_wager_screen_renders_without_mutating_first_attempt() {
     a.render();
     select(&mut a, 3);
     assert_eq!(a.view_name(), "WagerPractice");
-    select(&mut a, 2);
+    nav::path(&mut a, &["Training", "Progress", "Bet sizing", "Accuracy"]);
     assert_eq!(a.view_name(), "WagerStats");
     for _ in 0..7 {
         a.render();
         a.event(G)
     }
     a.event(B);
-    select(&mut a, 3);
+    nav::choose(&mut a, "History");
     assert_eq!(a.view_name(), "WagerHistory");
     a.render();
     a.event(B);
-    select(&mut a, 4);
+    nav::path(&mut a, &["Training", "Practice", "Bet sizing", "Bet ramp"]);
     assert_eq!(a.view_name(), "WagerPolicy");
     for _ in 0..6 {
         a.render();
@@ -309,7 +299,7 @@ fn export_screens_when_requested() {
     let mut a = App::new(7);
     wager_menu(&mut a);
     dump(&mut a, &dir, "practice");
-    select(&mut a, 1);
+    nav::choose(&mut a, "Practice now");
     dump(&mut a, &dir, "answer");
     select(&mut a, 6);
     dump(&mut a, &dir, "help");
@@ -319,17 +309,16 @@ fn export_screens_when_requested() {
     a.event(G);
     dump(&mut a, &dir, "result-options");
     select(&mut a, 3);
-    select(&mut a, 2);
+    nav::path(&mut a, &["Training", "Progress", "Bet sizing", "Accuracy"]);
     dump(&mut a, &dir, "stats");
     a.event(B);
-    select(&mut a, 3);
+    nav::choose(&mut a, "History");
     dump(&mut a, &dir, "history");
     a.event(B);
-    select(&mut a, 4);
+    nav::path(&mut a, &["Training", "Practice", "Bet sizing", "Bet ramp"]);
     dump(&mut a, &dir, "policy");
     let mut setup = App::new(7);
-    setup.event(Event::Hold(Key::Grey));
-    select(&mut setup, 4);
+    nav::path(&mut setup, &["Table", "Table setup"]);
     dump(&mut setup, &dir, "profile");
     select(&mut setup, 4);
     dump(&mut setup, &dir, "seating");
@@ -372,8 +361,7 @@ fn export_screens_when_requested() {
         }
         if table.game.phase == Phase::OtherPlayers {
             dump(&mut table, &dir, "npc-turn");
-            table.event(Event::Hold(Key::Grey));
-            select(&mut table, 8);
+            nav::path(&mut table, &["Table", "Review cards"]);
             dump(&mut table, &dir, "seat-cards");
             break;
         }
@@ -393,11 +381,8 @@ fn saved_seats_are_applied_and_preserved_by_new_session() {
     assert_eq!((a.game.extra_seats, a.game.player_seat), (6, 4));
     assert_eq!(a.game.rules.penetration, 90);
     assert_eq!(a.save(), s);
-    a.event(Event::Hold(Key::Grey));
-    select(&mut a, 10);
-    select(&mut a, 1);
-    assert_eq!(a.view_name(), "Summary");
-    a.event(B);
+    nav::path(&mut a, &["Session", "New session"]);
+    nav::choose(&mut a, "Start new session");
     assert_eq!((a.game.extra_seats, a.game.player_seat), (6, 4));
     assert_eq!(a.game.rules.penetration, 90);
     assert_eq!(a.game.bankroll, 100000);
@@ -433,7 +418,7 @@ fn npc_turns_tick_without_consuming_user_actions_and_wager_counts_include_all_vi
         let mut tracker = stardust_blackjack::counting::Tracker::default();
         a.game.observe_exposed(&mut tracker);
         wager_menu(&mut a);
-        select(&mut a, 1);
+        nav::choose(&mut a, "Practice now");
         select(&mut a, 6);
         let q = a.wager_practice.question().unwrap();
         let reference = a.wager_practice.reference(q.token).unwrap();
@@ -467,8 +452,7 @@ fn viewed_count_hud_assists_wager_without_unlocking_example_answer() {
 #[test]
 fn seating_and_deeper_cut_are_configurable_through_the_profile_menu() {
     let mut a = App::new(7);
-    a.event(Event::Hold(Key::Grey));
-    select(&mut a, 4);
+    nav::path(&mut a, &["Table", "Table setup"]);
     select(&mut a, 4);
     assert_eq!(a.view_name(), "TableSeats");
     for _ in 0..6 {
@@ -482,8 +466,7 @@ fn seating_and_deeper_cut_are_configurable_through_the_profile_menu() {
     a.event(B);
     assert_eq!((a.game.extra_seats, a.game.player_seat), (6, 4));
     assert_eq!(a.view_name(), "Cut");
-    a.event(Event::Hold(Key::Grey));
-    select(&mut a, 4);
+    nav::path(&mut a, &["Table", "Table setup"]);
     select(&mut a, 3);
     assert_eq!(a.view_name(), "ProfileDepth");
     select(&mut a, 3);

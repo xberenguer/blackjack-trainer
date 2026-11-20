@@ -174,7 +174,7 @@ fn background_row_exists_only_on_round_and_uses_shared_button_controls() {
     round.event(GREY);
     assert_eq!(round.menu_item(), "Card back");
     round.event(GREY);
-    assert_eq!(round.menu_item(), "Return");
+    assert_eq!(round.menu_item(), "Back");
     round.event(BLUE);
     assert_eq!(round.view_name(), "Settings");
     let mut stick = Box::new(App::new(7));
@@ -182,7 +182,7 @@ fn background_row_exists_only_on_round_and_uses_shared_button_controls() {
     display(&mut stick);
     stick.event(GREY);
     stick.event(GREY);
-    assert_eq!(stick.menu_item(), "Return");
+    assert_eq!(stick.menu_item(), "Back");
     stick.event(GREY);
     assert_eq!(stick.menu_item(), "Brightness");
     assert_eq!(stick.background, 0);
@@ -222,7 +222,7 @@ fn background_private_copy_restore_and_round_return_cursor_remain_valid() {
             "runtime capability is not imported from a private packet"
         );
         candidate.round_display = true;
-        assert_eq!(candidate.menu_item(), "Return");
+        assert_eq!(candidate.menu_item(), "Back");
         assert_eq!(candidate.save(), app.save());
     }
 }

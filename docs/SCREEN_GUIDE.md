@@ -1,6 +1,6 @@
 # Screen guide — Stardust Blackjack 0.11.2
 
-These are the original Stick-format examples. See the [native round-screen guide](WAVESHARE.md) for Waveshare 1.75C.
+These are the historical 0.11.2 Stick-format feature examples. Menu navigation changed in 0.12.1: use the [current illustrated menu guide](MENUS.md) for every current route and submenu. The old cash-out menus below are archival and absent from normal navigation. See the [native round-screen guide](WAVESHARE.md) for Waveshare 1.75C.
 
 > These images reproduce the actual renderer using synthetic demonstration sessions. Third-party materials retain their separate rights and notices; see [attribution](THIRD_PARTY.md). Publication does not grant a blanket asset license.
 

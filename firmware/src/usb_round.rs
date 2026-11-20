@@ -111,10 +111,14 @@ impl Debug {
     }
     pub fn status(&mut self, a: &App, now: u32) {
         let mut s = String::<1800>::new();
+        let mut menu_key = String::<96>::new();
+        for c in a.menu_item().chars() {
+            let _ = menu_key.push(if c.is_ascii_alphanumeric() { c } else { '_' });
+        }
         let stats = a.training.stats().all;
         let _ = writeln!(
             s,
-            "STARDUST {}-rust phase={:?} chips={} rounds={} shoe={} frame={} view={} focus={} brightness={} sound={} flipped={} ms={} pmic={} codec={} storage={} imported={} save_writes={} save_errors={} render_us={} push_us={} max_poll_ms={} audio_samples={} audio_underruns={} app_bytes={} device=waveshare175c display=466x466 orientation=270 touch=disabled language=Rust entropy=SAR-ADC-TRNG radios=off mode={:?} graded={} correct={} errors={} assisted={} seats={} player_seat={} wager_enabled={} wager_graded={} save_size={} unsaved={} resume_enabled={} resume_writes={} resume_errors={} resume_blocked={} resume_saved={} led_off={} volume={} audio_mask={} fast_mode={} amp_on={} amp_output={} amp_mode={} amp_drive={} amp_function={} amp_level={} background={} card_back={}",
+            "STARDUST {}-rust phase={:?} chips={} rounds={} shoe={} frame={} view={} focus={} brightness={} sound={} flipped={} ms={} pmic={} codec={} storage={} imported={} save_writes={} save_errors={} render_us={} push_us={} max_poll_ms={} audio_samples={} audio_underruns={} app_bytes={} device=waveshare175c display=466x466 orientation=270 touch=disabled language=Rust entropy=SAR-ADC-TRNG radios=off mode={:?} graded={} correct={} errors={} assisted={} seats={} player_seat={} wager_enabled={} wager_graded={} save_size={} unsaved={} resume_enabled={} resume_writes={} resume_errors={} resume_blocked={} resume_saved={} led_off={} volume={} audio_mask={} fast_mode={} amp_on={} amp_output={} amp_mode={} amp_drive={} amp_function={} amp_level={} background={} card_back={} menu_key={}",
             env!("STARDUST_CORE_VERSION"),
             a.game.phase,
             a.game.bankroll,
@@ -166,7 +170,8 @@ impl Debug {
             self.amp_function,
             self.amp_level,
             a.background,
-            a.card_back
+            a.card_back,
+            menu_key
         );
         self.ack_status = s.clone();
         self.queue(&s);

@@ -900,4 +900,10 @@ pub const STRINGS: &[&str] = &[
     "{}D {} {} {} / BJ{}:{}",
     "{}D {} {} {}",
     "é",
+    "Bankroll limit reached",
+    "Finish dealing before shoe info",
+    "Finish the round before adding money",
+    "Finish the round before resetting training",
+    "Finish the round first",
+    "Training reset unavailable",
 ];

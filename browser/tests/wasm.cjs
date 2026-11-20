@@ -15,11 +15,19 @@ const moduleBytes = fs.readFileSync(path.join(root, 'stardust-rust.wasm'));
   const SIZE=w.sb_save_size();
   let clock = 0;
   const view = () => new TextDecoder().decode(new Uint8Array(w.memory.buffer, w.sb_view(), w.sb_view_len()));
+  const item = () => new TextDecoder().decode(new Uint8Array(w.memory.buffer, w.sb_menu_item(), w.sb_menu_item_len()));
   const tick = (ms = 50) => { clock += ms; w.sb_tick(clock); };
   const buttons = (mask, advance = 1) => { clock += advance; w.sb_buttons(mask, clock); };
   const tap = (mask = 1) => { buttons(mask); buttons(0); };
   const hold = mask => { buttons(mask); buttons(mask, 850); buttons(0); };
   const focus = n => { let tries = 0; while (w.sb_focus() !== n) { assert(++tries < 50); tap(2); } };
+  const select = label => {
+    for (let attempts = 0; !item().toLowerCase().includes(label.toLowerCase()); attempts++) {
+      assert(attempts < 50, `missing ${label}: ${view()} / ${item()}`);
+      tap(2);
+    }
+    tap();
+  };
   const boot = (seed = 2) => { clock = 0; w.sb_boot(seed, 0); };
   const save = () => { const size=w.sb_save_size(); assert.equal(size,SIZE); assert.equal(w.sb_save_export(),size); return Buffer.from(new Uint8Array(w.memory.buffer,w.sb_save_buffer(),size)); };
   const load = bytes => { new Uint8Array(w.memory.buffer).set(bytes, w.sb_save_buffer()); return w.sb_save_import(bytes.length); };
@@ -49,8 +57,7 @@ const moduleBytes = fs.readFileSync(path.join(root, 'stardust-rust.wasm'));
   }
   boot();
   // Count question: all game/menu and chord decisions are inside Rust.
-  hold(2); focus(2); tap(); assert.equal(view(), 'Training');
-  focus(2); tap(); assert.equal(view(), 'CountPractice');
+  hold(2); select('Training'); select('Practice'); select('Count'); assert.equal(view(), 'CountPractice');
   tap(); assert.equal(view(), 'CountAnswer');
   buttons(3); assert.equal(view(), 'CountResult');
   buttons(1, 1000); buttons(0); assert.equal(view(), 'CountResult');
@@ -85,7 +92,7 @@ const moduleBytes = fs.readFileSync(path.join(root, 'stardust-rust.wasm'));
   for (const length of [0, 1, 195, 197, 207, 209, 335, 337, 583, 585, SIZE-1,SIZE+1,0xffffffff]) assert.equal(w.sb_save_import(length), 0);
   // An actual Rust wager prompt records the legal wrong first bet unchanged.
   boot(); tap(); assert.equal(view(),'Burn');
-  hold(2); focus(2); tap(); focus(8); tap(); assert.equal(view(),'WagerPractice');
+  hold(2); select('Training'); select('Practice'); select('Bet'); assert.equal(view(),'WagerPractice');
   focus(1); tap(); assert.equal(view(),'WagerAnswer');
   tap(); focus(4); tap(); assert.equal(view(),'WagerResult');
   assert.equal(w.sb_wager(),500n);
@@ -94,6 +101,55 @@ const moduleBytes = fs.readFileSync(path.join(root, 'stardust-rust.wasm'));
   tap(); assert.equal(w.sb_wager(),1000n,'play keeps the chosen wrong legal wager');
   // Multi-seat preferences exercise the actual WASM controller and reveal/tick path.
   const crc32 = bytes => { let c=0xffffffff; for(const b of bytes) {c^=b;for(let i=0;i<8;i++)c=(c>>>1)^((c&1)?0xedb88320:0);} return(c^0xffffffff)>>>0; };
+  // The new hierarchy is discoverable by labels, not by incidental row IDs.
+  const home = () => {
+    for (let attempts=0;view()!=='Menu';attempts++) {
+      assert(attempts<12, `cannot reach root from ${view()}`);hold(2);
+    }
+  };
+  const rows = () => {
+    const first=w.sb_focus(),items=[];
+    do {assert(items.length<24, `menu does not cycle in ${view()}`);items.push(item());tap(2);}while(w.sb_focus()!==first);
+    return items;
+  };
+  const rootRows=['Back to game','Bet','Training','Table','Session','Settings','Help'];
+  boot();home();assert.deepEqual(rows(),rootRows);
+  select('Training');assert.deepEqual(rows(),['Mode','Strategy','Live counts','Practice','Progress','Advice & EV','Back']);
+  select('Live counts');assert.deepEqual(rows(),['Normal play','Guide mode','Count info','Back']);select('Count info');assert.equal(view(),'CountInfo');tap();assert.equal(view(),'LiveCounts');select('Back');
+  select('Practice');assert.deepEqual(rows(),['Counting','Bet sizing','Deviations','Back']);select('Back');
+  select('Progress');assert.deepEqual(rows(),['Hand play','Counting','Bet sizing','Deviations','Reset training stats','Back']);select('Hand play');assert.deepEqual(rows(),['Accuracy','History','Back']);
+  home();select('Settings');assert.deepEqual(rows(),['Display','Sound','Speed','Save/resume','Back']);
+  select('Sound');assert.deepEqual(rows(),['Master sound','Volume','Categories','Test sounds','Back']);select('Categories');assert.deepEqual(rows(),['Menus','Cards','Results','Back']);select('Back');select('Test sounds');assert.deepEqual(rows(),['Deal','Win','Menu','Back']);
+  home();select('Table');assert.deepEqual(rows(),['Table setup','Current rules','Shoe info','Review cards','Back']);select('Current rules');assert.equal(view(),'Rules');tap();assert.equal(view(),'TableMenu');
+  home();select('Session');assert.equal(view(),'SessionMenu');assert.deepEqual(rows(),['Overview','Reports','Bankroll','New session','Back']);
+  home();select('Help');select('Training modes');assert.equal(view(),'TrainingModes');
+  for(let page=0;page<4;page++)tap(2);tap();assert.equal(view(),'HelpMenu');
+  home();select('Back to game');assert.equal(view(),'Cut');
+  // Real confirmation actions have distinct bankroll/score scopes. Supply only
+  // valid synthetic lifetime counters, keeping the fresh table/preferences.
+  const ranges=[[24,200],[204,332],[356,580],[584,2632]];
+  const counterBytes=b=>ranges.map(([start,end])=>Buffer.from(b.subarray(start,end)));
+  boot();const populated=save(),history=fs.readFileSync(path.join(core,'tests/data/save-v8.bin'));
+  for(const [start,end]of ranges)history.copy(populated,start,start,end);
+  populated[202]=37;populated[10]=(populated[10]&7)|(3<<3)|(2<<5);populated.writeUInt32LE(crc32(populated.subarray(0,-4)),populated.length-4);
+  assert.equal(load(populated),1);assert(save().readBigUInt64LE(24)>0n);
+  tap();tap();for(let i=0;i<30;i++)tick(50);
+  const live={phase:w.sb_phase(),rounds:w.sb_rounds(),chips:w.sb_bankroll(),wager:w.sb_wager()};
+  home();assert.deepEqual(rows().slice(-7),rootRows,'legal hand actions precede the same seven groups');select('Session');
+  const activeSave=save();select('New session');assert.equal(view(),'Notice','cannot abandon a paid hand via new session');tap();assert.equal(view(),'SessionMenu');assert.deepEqual(save(),activeSave);
+  assert.deepEqual({phase:w.sb_phase(),rounds:w.sb_rounds(),chips:w.sb_bankroll(),wager:w.sb_wager()},live);
+  home();select('Training');select('Progress');select('Reset training stats');assert.equal(view(),'Notice','cannot erase training midway through a paid hand');tap();assert.equal(view(),'ProgressMenu');assert.deepEqual(save(),activeSave);
+  home();select('Back to game');
+  for(let guard=0;w.sb_phase()!==5;guard++){assert(guard<100,'round must settle before destructive actions');if(view()==='Table'&&[2,3].includes(w.sb_phase()))tap();tick(750);}
+  tick(750);home();select('Session');
+  const beforeCancel=save();select('New session');assert.equal(view(),'NewSessionConfirm');assert.equal(item(),'Cancel');tap();assert.equal(view(),'SessionMenu');assert.deepEqual(save(),beforeCancel);
+  home();select('Training');select('Progress');select('Reset training stats');assert.equal(view(),'ResetStatsConfirm');assert.equal(item(),'Cancel');tap();assert.equal(view(),'ProgressMenu');assert.deepEqual(save(),beforeCancel);
+  home();select('Session');select('New session');tap(2);assert.equal(item(),'Start new session');tap();assert.equal(view(),'Cut');assert.equal(w.sb_bankroll(),100000n);assert.equal(w.sb_wager(),BigInt(beforeCancel.readUInt32LE(16)));assert.deepEqual(counterBytes(save()),counterBytes(beforeCancel));assert.deepEqual(save().subarray(9,24),beforeCancel.subarray(9,24),'new session retains table and display preferences');assert.equal(save()[202],37,'new session retains sound preference');
+  const beforeReset={phase:w.sb_phase(),rounds:w.sb_rounds(),chips:w.sb_bankroll(),wager:w.sb_wager()},prefs=Buffer.from(save().subarray(9,24));
+  home();select('Training');select('Progress');select('Reset training stats');tap(2);assert.equal(item(),'Clear training stats');tap();
+  assert.deepEqual({phase:w.sb_phase(),rounds:w.sb_rounds(),chips:w.sb_bankroll(),wager:w.sb_wager()},beforeReset,'reset scores leaves the current table intact');
+  assert(counterBytes(save()).every(b=>b.every(v=>v===0)));assert.deepEqual(save().subarray(9,24),prefs);assert.equal(save()[202],37);
+  const cleared=save();boot();assert.equal(load(cleared),1);assert(counterBytes(save()).every(b=>b.every(v=>v===0)),'cleared scores survive public reload');
   let seatedRounds=0;
   for(const [profile,seat] of [[0,0],[1,3],[2,6]]) {
     boot(21+seat);
@@ -141,5 +197,5 @@ const moduleBytes = fs.readFileSync(path.join(root, 'stardust-rust.wasm'));
     w.sb_render();
     assert.notDeepEqual(Buffer.from(new Uint8Array(w.memory.buffer, w.sb_frame(), 64800)), initialFrame);
   }
-  console.log(`PASS: standalone Rust WASM, RGB565 frame, holds/chords/cancellation, count submission, wager first-answer/application, ${seatedRounds} seven-seat deep rounds, 14 PCM clips, V1–V8 exact migrations, bounded imports, ${totalRounds} normal rounds / 48 seeds.`);
+  console.log(`PASS: standalone Rust WASM, grouped menu discovery and safe session/score confirmations, RGB565 frame, holds/chords/cancellation, count submission, wager first-answer/application, ${seatedRounds} seven-seat deep rounds, 14 PCM clips, V1–V8 exact migrations, bounded imports, ${totalRounds} normal rounds / 48 seeds.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

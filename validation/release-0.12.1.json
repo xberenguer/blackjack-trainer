@@ -1,0 +1,122 @@
+{
+  "version": "0.12.1",
+  "language": "Rust",
+  "checks": {
+    "native_tests": 248,
+    "strict_all_targets_all_features_clippy": true,
+    "storage_harness_tests": {
+      "legacy_nvs": 15,
+      "public_storage": 5,
+      "private_resume": 12,
+      "round_map_and_extent": 8
+    },
+    "round_layout_tests": 20,
+    "browser": {
+      "passed": true,
+      "core_guard_sha256": "64965982386cf416592645ab2c02f2c8bf3cb3c8fb75d11c9e54597d2b47ea47",
+      "wasm": {
+        "file": "stardust-rust.wasm",
+        "bytes": 5839397,
+        "sha256": "929c9baf43389579afcb2075a46d657e665c107cf54d4835e74af34901f37be4",
+        "memory_bytes": 16777216,
+        "stack_bytes": 2097152,
+        "runtime_imports": 0
+      },
+      "checks": {
+        "build": true,
+        "wasm": true,
+        "platform": true,
+        "settings": true,
+        "audio": true,
+        "chrome": true,
+        "journal": true,
+        "journal-clippy": true,
+        "bridge-clippy": true
+      }
+    },
+    "chrome_session_reports": {
+      "settled_rounds": 30,
+      "report_views": 8,
+      "detail_pages": 54
+    },
+    "menu_screens": {
+      "stick": 34,
+      "round": 34
+    }
+  },
+  "firmware": {
+    "sticks3": {
+      "version": "0.12.1",
+      "target": "xtensa-esp32s3-none-elf",
+      "app_offset": "0x10000",
+      "touch_enabled": false,
+      "display_orientation_degrees": 0,
+      "flash_partition_table": true,
+      "iram_dram_overlap_bytes": 0,
+      "stack_bytes": 304244,
+      "main_frame_bytes": 20720,
+      "linked_stack_audit": {
+        "functions_audited": 636,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "application": {
+        "bytes": 3382368,
+        "sha256": "d81884f1a9e642cd57e5e3ef4349913b60f3fc023bd68b5f56e1d014907d7f9a"
+      }
+    },
+    "waveshare175c": {
+      "version": "0.12.1",
+      "target": "xtensa-esp32s3-none-elf",
+      "app_offset": "0x200000",
+      "touch_enabled": false,
+      "display_orientation_degrees": 270,
+      "flash_partition_table": false,
+      "iram_dram_overlap_bytes": 0,
+      "stack_bytes": 284892,
+      "main_frame_bytes": 24160,
+      "linked_stack_audit": {
+        "functions_audited": 647,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "application": {
+        "bytes": 3429584,
+        "sha256": "29161f3e1b5f4d5160665f1487e43848035a80b3d3a673716374a33486bc94b3"
+      }
+    }
+  },
+  "waveshare_actual_device": {
+    "app_only_install": "backup, byte verification and reset passed",
+    "serial_menu_checks": {
+      "menu_order": [
+        "Back to game",
+        "Bet",
+        "Training",
+        "Table",
+        "Session",
+        "Settings",
+        "Help"
+      ],
+      "parents_restored": true,
+      "both_confirmations_cancelled": true,
+      "scores_preserved": true,
+      "preferences_preserved": true,
+      "speed_write_restore_verified": true,
+      "audio_underruns": 0
+    }
+  },
+  "scope_limits": [
+    "Actual-device checks used direct serial installation and serial menu input. Physical browser-flasher installation has separate qualification.",
+    "StickS3 firmware was built and audited. This update was installed on the connected Waveshare."
+  ],
+  "privacy": "No device identifier, player score values, recovery dump or session checkpoint is included."
+}

@@ -1,0 +1,740 @@
+{
+  "version": "0.12.1",
+  "kind": "actual-rust-renderer-synthetic-menu-inputs",
+  "generator": "examples/menu_screens.rs",
+  "source_inputs": {
+    "src/app.rs": "7c2deac2cb09e52feb764b18a3027c0b75c72c8884f9d8f55ae0a840291b10b0",
+    "src/app_resume.rs": "0f6fae098add6a25c770e7c9dc5d9f99f87645f84684c5b086f5c51bc91bcfba",
+    "src/assets.rs": "b3284ecb6c2edf9b6ecc4faee9e960be65e0489035d2672accee1dfbf795c3fd",
+    "src/audio.rs": "41b4f8fc428352d640815556247711cd1bc77e8f618903ef38a651fec918e227",
+    "src/audio_gain.rs": "ae72111a51b7bff91edcf71ab2d55ab08742a3f2ca5161182180d5b233102475",
+    "src/canvas.rs": "be0d118188b1c45a6b2c6823c00ab88ddaf48090e839387899a1264bdb6c1efb",
+    "src/cards.rs": "f1208d46f9eba2b095a1b6a0442f6c7efab37bc0ebeaed7c9543b1d80190c955",
+    "src/controls.rs": "22c7ad8d7aceaf848352c194ab07c6265c9d8670cb0ca9ce7ea47e6a9bdd89aa",
+    "src/count_practice.rs": "75e2782ef571903d7f7a19aced1bfc48ecadbaabdb1dbef59892f7a4a24ea25d",
+    "src/counting.rs": "a3251aec0ae4b1b13d3d5ffbfc2c897f6edef172b10bc80b462ac4a4a73b5495",
+    "src/deviation_drills/catalogue.rs": "473857853396ee44f9d9432ba9bf3f6616a51c6ee7afc6c610d98626d220a870",
+    "src/deviation_drills/mod.rs": "215d49a12fe97e1097a575468e6d902c8e35d785d571573bf7ced77f8ddb5594",
+    "src/deviation_ui.rs": "27ce349d318112eda546a96cf72fb60318531f5234ef4824a85f25b828627ba2",
+    "src/deviations.rs": "e272b5dbc8e5fc14417ab9319d7704aea1de2723078ebf4efaac7633d124b01e",
+    "src/engine.rs": "fb39983132114bb049b9a3714e2ac9902494a61bf53546388785beb1aaafabd6",
+    "src/ev.rs": "5ec4e1291be6484c7b2653638a5450337c35560c3c68f56936989c496f4d82f4",
+    "src/guide.rs": "71fedbc7399e74a2c85f54c73b5f9251cd23349845a56011110cc09c73ee3dcb",
+    "src/lib.rs": "c0a1fedeeb1267977625ecc5d583c1588924230bc32abf52cee8d8bc0fc9d4e0",
+    "src/menu_ui.rs": "1f2418bdadb41f71e58a96472be1b8f63fbf4e108484686e8ce4f8ba526ac974",
+    "src/persistence.rs": "bb02155c1c8d9d82d7a8c23b602388029dc5b3dae6d816b30e9ab8cbcc8bd0fd",
+    "src/render.rs": "c1f74857f8a5d86d2c1e107c4615d94b249391c90d5aefad80983cc96be63af7",
+    "src/resume_binding.rs": "02367a187d576d86faba02515c1d2d186878912ab148e6a839d51b827ddf0ae3",
+    "src/resume_private.rs": "cd9ab8c920b5e769fb21a006fed7d9e5cebaad76d32e024ebc6cf338d51793b7",
+    "src/resume_strings.rs": "05d73a3ac4f6c800fdd602b321fe0f7e6c26a155cb6ed03efccb0b88052c0040",
+    "src/resume_ui.rs": "5f4320cad5c9a11b758a1d3ed695342abbee0a93a2bcb11554870ecf5a870474",
+    "src/round.rs": "3454821e9a580ae428d973e54c0ef24a4fd722bc1ce469e92b9acb22128ae465",
+    "src/rules.rs": "51f1ccf23d240e9b12102bd447714aabe35b6e6e0b69da101dcc4891bfcce07d",
+    "src/screens.rs": "f3283ade24453c580772d3f368bbbaa719e4c0e964fe655af45412645b480a13",
+    "src/seats.rs": "881d1fdcd14420933dd3070b1f92646f2e6ad954d7c3a9182f3dda4855328f16",
+    "src/session_analysis.rs": "6875e53ebefcdb6f1dbd1a272202c038094d46ec400fc6c55997cadbec043f3c",
+    "src/session_metrics.rs": "c6f2771a79061a2afe17905303266690f6cf06ae35ce97f3df3f8f70e4580b3d",
+    "src/session_ui.rs": "377709b1ddc75d3699f8309a0bc5d93752588a4508372e595b4b60ff119924ca",
+    "src/settings_ui.rs": "4c3e3bb61c16eb0cbe59e655c7c99a1a4cb7ca74d9f0c7f5cb4767c5621e68de",
+    "src/split_ev.rs": "64ffab76faae150a4e474b0f15793053196500208c8c77988eab4a51877985f7",
+    "src/strategy.rs": "404ed99a6dce3e481c77a70266dcf4a9c8f7c2fa5b04290a209d12428f543e2b",
+    "src/table.rs": "630c882e24d3fdaf3d0248339651e205533886bc70dae742621c786939f5a83d",
+    "src/table_setup.rs": "aa83ec563cc15e47ae66ae0e83d61c031db972f5c4fb326fe32aeb1583161dbe",
+    "src/text.rs": "345d2d7e0b1ab3ce4f1cef82b0ccd25685e325f181a80ca45d82cab94ed64552",
+    "src/training.rs": "bf69c068fc68d6cd52ecf797b0e022d56ac250f9b8a0efba86c68f5a3f869008",
+    "src/wager_practice.rs": "f86d8a273dabdf52aae233a0daf5635e8a44c7d6869047c4800e1482e9526efe",
+    "src/wager_ui.rs": "15240648110772e6f7d08fde654cf7a96093ce43d6b243512ec5e2c665d8ed94",
+    "src/widgets.rs": "e0e17aec08d828b25248234d8db0ba46069c9c8f5583b767ae5333876d9736a5",
+    "examples/menu_screens.rs": "d62df2a250e05bbd1c0e4120f5462fc9406d1a7f0e36d858fc9c1adadcc96ce0",
+    "Cargo.toml": "ad9de256c5482e39c751e1841756b9488a940e778168ea314305c975b9ba8994",
+    "Cargo.lock": "e1836fb5dfe617d3a92c217ff4084e94c02c2862ca2026e9018c1f4b3b71accc"
+  },
+  "scope": "No device, player save or checkpoint used. Stick previews are exact3x nearest-neighbor; PNGs retain RGB565 colors. Walk GIF has a shared256-color palette.",
+  "images": [
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/advice.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "5af7434fb784239805b51f288e984023cba38a962b3140544f8f6e91cb975c04",
+      "source_rgb_sha256": "dae72c4290cdc9604df21e24e2e2db523a30460fac9960546ae5d0c9d89e30af"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/bankroll.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "6515c5a2cb700de765f07fb72b4f7868a463e776c9b1af99abcd42031bc04add",
+      "source_rgb_sha256": "31bb69a92d1a7274bebb796b7b2a4deb566553559db597299b6786e188a2a8d2"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/bet-practice.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "ab40e06b0ffcce73f1f6f5e5aa714ee06be160e78b68e23c38851f6fc7d10b1c",
+      "source_rgb_sha256": "2dcb806b8fc3f2730867f272cae9c458d98ec5044c3b64fb1792e9efde631ee8"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/categories.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "4e4802bbbb1e2728cf834806def62eaf9176badf2116d860933b6d08f1431376",
+      "source_rgb_sha256": "f03e202e9f25b1d979675de3be2357d33483f9fbb51a5443ea727f7d8d9c80ba"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/count-practice.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "b4ddda75131a1c790be33ae1d1ed228114d6997f2fc7c18b77300f887763412b",
+      "source_rgb_sha256": "1d173ff0f02e7b52d2e4f617b8330094eea5a83b5521731075b0caf86abccb58"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/counts.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "d5ef853c27da7503e03962b5cd5fec27b08c8ad07f13a9ba38c4f4d4720fcc7d",
+      "source_rgb_sha256": "9e166df6226607f536bf7e23c1901568f864adc937110295151537845e597ec7"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/deviation-practice.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "732ea2f4f043df23d501fd193f278aea11a74c083a5027a852d7d5e6df964950",
+      "source_rgb_sha256": "bd8c01ca1dcd1bf825baa2cca0b0bcf20f4e34e6842c07d51f13c5df53e0ac43"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/display.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "90765f543210d5e2ec0a9d06b1cb660ecd44811c6a59233e969a1fa4db92e066",
+      "source_rgb_sha256": "a7904f9a9e490f600518bf444bf4bdc3ac8e2c0d505c1778abd51a5e69021ca3"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/hand-progress.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "6ade37fcabda18b988acbe19572021f6b715e4569e3a05d97ff6386cc57ab940",
+      "source_rgb_sha256": "b9ddb8f18f0419c81efb9029f20dac163b9a3855733d01e1c84d1c7ae54e696d"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/help.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "26004299edd9dd3193a468a6afc8c2dad55d9aec66e0f531bf5de6bbd7b0fc0b",
+      "source_rgb_sha256": "8a494988351841754cbd9d57f0f655c17a02f31d712522affe018f80526b6c09"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/menu-main.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "40886c11eb3b56bb5a530a5193330ee5cc3635dfb08bbdd178b1f584cf2d21a0",
+      "source_rgb_sha256": "08eea834839bcdb5c127789f747ac2884314635e6181160d1bf4035e01967643"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/modes-1.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "7fabe6db7a0725801882f54ff80ba63c68b16b5133eda954246853ea1415f811",
+      "source_rgb_sha256": "c7a8c21f6e69f35f6a0c77cff9a35b81a1e092de16f378764b30e1a2323e99d7"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/modes-2.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "f9d66bb3286d53f1448f82feb77c68b7a0f6364b1a0a43e650f774c37591e40d",
+      "source_rgb_sha256": "3b3ed2fa21c95dd01bf0918be782745db7b340f6c8faea5b50e46e0f33cb3002"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/modes-3.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "f9739743115a3079e662e6908dddfbf5f19d7b666f8c6a92c715d07558ecd409",
+      "source_rgb_sha256": "d8a00bf2a303173407c76c28f28d11719d04ad8b7ca9c047fc2e72cc219405c0"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/modes.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "009ee62432ed47d2db6a5c695bd6a4e1a48efaf34b4d106a3687c051ffaf4833",
+      "source_rgb_sha256": "64975d8a56a0283a6349ab7a06d486f6d5a838dee60865943677887466cd0a88"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/new-session-confirm.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "892386f087e3a00220016a593a601abff8a7978779187c4220cfc838e51b0acc",
+      "source_rgb_sha256": "5457b3422bc542b83db7f0cbd27e252593b5b86be1d5e4e480dc857be878a066"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/practice.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "1c5c40e751407fe809eb642fac40062bfd397854a8b26e41a2dd0745d10114b7",
+      "source_rgb_sha256": "8b46e53e86e0f20bc1af20f5e9997caccab846b6b09380074a87ef75ed131d95"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/progress.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "14cdaeb89684aad459731f2b9414e1b921055f318a3422ff331f1f875112370e",
+      "source_rgb_sha256": "03f2aeaa3da7d5c8d7ee3820e1ae048277a67931b44f05036cb15f2e45cf769c"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/reset-training-confirm.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "9f8b89200e006aa07a25b977df828b24f2e1a056b0af7a692c4e7f019c5201b9",
+      "source_rgb_sha256": "aacac1477768e67654c16ea717d3ad6a592ad73478b52dcc4db7ace16f147cde"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/session-overview-1.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "20ed82ca6c5a3f96838e2a4517cca46daa1cf7e934fa9a2ea07c45cdb35252ca",
+      "source_rgb_sha256": "f61c3b8b99c7fa80387c707d7e6bacfdadd875a06262f069f56a13a2eb5fa6f5"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/session-overview.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "3043eb2534c7ddaba35cdc0fc816f116abec80635faaad10178f32c9f1731a85",
+      "source_rgb_sha256": "6833442306560bdbf2fdb0d2322969f4130915cb6e62beaf25df6f1d35836edb"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/session.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "b0e89cf2a064a4f4f77f5c0b54536f5874c42d6ff9f10b90975af9440d0d7da6",
+      "source_rgb_sha256": "bfebb5a7dd1e2e14b030322f9a614b701564ca1786721d02a35821f73c2ba519"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/settings.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "1c2dedbcecc9b51b0f02cbc14c29bbaf44345fbf57dfb765163f529b77df3944",
+      "source_rgb_sha256": "cd6ae6a85ef3bdbaa51fe5a7796edfebf0a71b7e5eba7d6eb3a37c794dcb2012"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/sound.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "6b6273accb0bee8383c03d219ca72ba8d123bdbd77b7fc065352a516816ce2c4",
+      "source_rgb_sha256": "2a69ea243ed99944dcbb82fb252554c611cab7d92c88591dcab1aeeb4eff2988"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/table.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "99f1cb63d23a4175fb8ebeadb7321151fd34b1f9d6e251c6f1fcdba43a26f858",
+      "source_rgb_sha256": "1d480946a14ca28549f8b011a741f049443b8b18e0ea8328c879068cc03bdd71"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/test-sounds.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "0d9a0ac016738a97f980a197544d4b9065611cb85c80cf93c2f2161a2a99066c",
+      "source_rgb_sha256": "ab13f71c0eaec0df4500f024305b6f334f0da2199d96a9c25c2e1e4fcb857b3b"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/training.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "a2fc4a5bf5ce735060ad018e688fe7ffc6b64b80ace43a5e3981ac7a1e8a33a9",
+      "source_rgb_sha256": "f860cb1b9b7f7013a36b1871212409022f932c9a94334f428140dac516c1ed22"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-0-main.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "40886c11eb3b56bb5a530a5193330ee5cc3635dfb08bbdd178b1f584cf2d21a0",
+      "source_rgb_sha256": "08eea834839bcdb5c127789f747ac2884314635e6181160d1bf4035e01967643"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-1.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "1c2dedbcecc9b51b0f02cbc14c29bbaf44345fbf57dfb765163f529b77df3944",
+      "source_rgb_sha256": "cd6ae6a85ef3bdbaa51fe5a7796edfebf0a71b7e5eba7d6eb3a37c794dcb2012"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-2.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "6b6273accb0bee8383c03d219ca72ba8d123bdbd77b7fc065352a516816ce2c4",
+      "source_rgb_sha256": "2a69ea243ed99944dcbb82fb252554c611cab7d92c88591dcab1aeeb4eff2988"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-3.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "4e4802bbbb1e2728cf834806def62eaf9176badf2116d860933b6d08f1431376",
+      "source_rgb_sha256": "f03e202e9f25b1d979675de3be2357d33483f9fbb51a5443ea727f7d8d9c80ba"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-4.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "039f1f73e4a5571dad3632d4f61a4678dbc59783270318b0ec1bcb5d0324d622",
+      "source_rgb_sha256": "e87991182c41c8dea8bc100561c8dde437501c67db3166fc318c4ec24bf917a0"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-5.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "829b30cc262180403f81573d51904296e39ff95bfb6f49cb48ad6367d0ee624e",
+      "source_rgb_sha256": "d9f53b0b2eb170a97bc8d52230360892048ac34ba365f5320f309b9b95880bfc"
+    },
+    {
+      "device": "stick",
+      "file": "docs/media/menus/stick/walk-6.png",
+      "native_dimensions": [
+        240,
+        135
+      ],
+      "sha256": "36902b5b3cc08110792e4a1d5f64764cb550288623e5d5d97ce1a63df4af20d0",
+      "source_rgb_sha256": "f4931d8ffeb8938f4212c4be7bf26a0446ccc059d495f5b0dbafef6b53ec9ee1"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/advice.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "105df162cbcac35078961f8d163fe6498a52830b76364190f606c3d3fe612f45",
+      "source_rgb_sha256": "29c428640167d09ebf28833b064dad2fcc5f3b6a341759cb3b75ffa16f8e637a"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/bankroll.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "aef9a204f784d7c8a2cc0f81cfe783e2f9ea51551a436b38d446cd7f64850aba",
+      "source_rgb_sha256": "083d460f66a56d61a9e8a86107b78b7ded11d4566fd16ce719d97bac95b564d5"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/bet-practice.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "f4415f2bbf3d09e61523898d418f2872894cc8fb357f0906ba519fc499b703a7",
+      "source_rgb_sha256": "4793b319094546e383678290af3ae798b7c44ed7cfade4ac9a1d3b9f8755c71a"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/categories.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d85c1ff4ce632e328a59b7bc00a7d4a111f760407edf58edd27a419b46e69560",
+      "source_rgb_sha256": "03370d74f87a384af214c239b968413b9d876bb343961b0f8ee9049206f3d798"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/count-practice.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d15e9087f23d41f564a60084a717db7b5d7287b21c6ac37dae74a4a7473bd5c9",
+      "source_rgb_sha256": "89a062289f2ce852f5143a9d5f46bcb47f6e3c0339c3629a7873c5dd99044c52"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/counts.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "cbc68b570020aacd00149132ed1f9c82eced2c44c82b6b79d7eb8c4d1a0d0dfa",
+      "source_rgb_sha256": "3054247a0983f8c30b7c6661f9e952a67064fc800519401658e3e84959d10275"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/deviation-practice.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "35ebe50eddaea1f7ff47e3e3e6e773bfbb86e1a1d1b6377d20164e7325bf6bfb",
+      "source_rgb_sha256": "3b73a7c325041c4df09867d4c33a0f2f0ea7529b868ff0e2da61625b64901459"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/display.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "2c02c96cee25919e65671dc86f55af0742a65369b0c071502febeca9e754e973",
+      "source_rgb_sha256": "c722215dc4971a2c802551721424cd036541685499764f25b47cbe92c3920e44"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/hand-progress.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "7ff028a35a2fc924aff6f9aafcdbf8cefc43c59bca25deca269d906f14133e40",
+      "source_rgb_sha256": "657f37b39220e8077ae8e4ffd9216cf49f563544a747c3d96d1af233f0778140"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/help.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "3d9a10d305a498c08a48716048483c516eb84f7a90be87715c874d57eb0cd205",
+      "source_rgb_sha256": "f5ac4345d9bb5a39c182f6acc25da7a3bc79e6a018c08ecc977413a7e9496318"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/menu-main.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "b0483d0030ee78ff701d9694e6ff5b73bdaa03fbfca3bf3609694278ff476242",
+      "source_rgb_sha256": "d3215b4a8a3eb877eccbd6bd0dbc0eb4218a900cff04fb6801f72d048ee46e69"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/modes-1.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "5ec5cbe57948c995207172d73df939611342b42c9f8a39ba2e0f5ddad684ca61",
+      "source_rgb_sha256": "660e50910ba550cc966a7f0b767cb68c2bdd14d4b11b59ff8d76f8daaeb27537"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/modes-2.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "3edc2f9be10d32257c2ca45a5cb0f879b7591b643199bda6bf8530ade5a0cd74",
+      "source_rgb_sha256": "78f40e45a386b7b7b296113a02a7e4b626d5d50cc8ad2510b0a3811b5527c876"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/modes-3.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "3e33b69e683b68a02a4ddcafaa76f93cbecf1f628774b34aac54d2defb873efd",
+      "source_rgb_sha256": "3a208395efeef4e60394b808b931a4cd69f58e0e6e99251995b90d0dbe63c2cf"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/modes.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "7928ec7b1a3a353cdb44bd819682d046be4e9fc3c9aad7756fccdd4c6b9694b5",
+      "source_rgb_sha256": "f848974aad5edb0ef2e50e5da98fdb3ec3c86bf2a9b2b507a505c41968860de6"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/new-session-confirm.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "47d5200f7ac53b5ab31245e3c4759cd8ed89f3b09e9b74563ad3ce45c06c42e4",
+      "source_rgb_sha256": "da9fd3cc0ce72673f6f5270a8867adc9333e4fb6a9079e328047e250126dba64"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/practice.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "ded0e4003e631fb658e1a5403b8aa767cae3257d09514e5a71e23227b2b882a0",
+      "source_rgb_sha256": "dff8116c33078676448b9afa0ac4b818e7248b912eef78d64eb3062db7624eba"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/progress.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d999868bc623b312be1b1630f37f764706fe0ca26372186ebf231def4dfbe611",
+      "source_rgb_sha256": "55843852212088ec0f59dd202d1dae4b5f2df15beb1e8268b4700a836e1c9936"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/reset-training-confirm.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "89c603fa269d78d12bd67aa81b651287d0ae939f1a72ebb686e8108f1f8ef570",
+      "source_rgb_sha256": "6108124e00c472d59b95d8c7a553131433d4061fead98f72cbd7d256058ad1de"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/session-overview-1.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "cb0250bb37355a21f350926861be059ddd8313aa30a92d2c21d63a30c5655266",
+      "source_rgb_sha256": "4ced537ada500054f5e7145d61028f15136f513d785142790b095688ab3e3d26"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/session-overview.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "b7c28200b30b7da34f387fac936278152293f0d6080c4391377011dff0afda30",
+      "source_rgb_sha256": "cda6fa7d71798e390a7619c9027b8df25ffcd970225ef7b9a542ef4d7b847b24"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/session.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "8445f2778301bd3ba87d89c6a5ab875b104ad34bfe20baf246e185b13dcd2b06",
+      "source_rgb_sha256": "025fbe006fb29fb43de37af8a021f9347916b8e983f154be650a69b3be5c0f23"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/settings.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "56cdf483dafd2636685fb32529fd1a8b730464a8d82cefc578c9728b931ee0cb",
+      "source_rgb_sha256": "c65c460b4f288da4778b53b51933382ca437ee1e8415335a30fa5f84ad3196a4"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/sound.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d401346659e79d07e5f7382beb51a7129a1371b64ca12cce92b5ebcb081e75d4",
+      "source_rgb_sha256": "5e09dd8109d386d4e7fd460cc8faf68d87c70ff61ba0b942d3d21839d56fcadd"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/table.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "235a34f97c7e2f3e92f07d675af2b95a06eb261ffdb70c397394ed4479e4fd3b",
+      "source_rgb_sha256": "271094147f7339f266c2290483f14e9b7f703848d5736e93d5551ceb88b0e746"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/test-sounds.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "e98112f355e939497b9f3d477c2616c0d102c9e675b7781be74b81e441a9a864",
+      "source_rgb_sha256": "7c5b0f074b3495074000174ec36528172d2a4974f2ff92f4e9066f91eb16a41f"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/training.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "2cb3a7a77e7fe751b6d9638b61c72ff5af7c92ad32073f41ca84ba152334f98c",
+      "source_rgb_sha256": "9ed8230f12d4cdc1cd1d1fa1d1b543002f83d7dbe77ef3e9ccd92eaeb985ca64"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-0-main.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "b0483d0030ee78ff701d9694e6ff5b73bdaa03fbfca3bf3609694278ff476242",
+      "source_rgb_sha256": "d3215b4a8a3eb877eccbd6bd0dbc0eb4218a900cff04fb6801f72d048ee46e69"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-1.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "56cdf483dafd2636685fb32529fd1a8b730464a8d82cefc578c9728b931ee0cb",
+      "source_rgb_sha256": "c65c460b4f288da4778b53b51933382ca437ee1e8415335a30fa5f84ad3196a4"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-2.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d401346659e79d07e5f7382beb51a7129a1371b64ca12cce92b5ebcb081e75d4",
+      "source_rgb_sha256": "5e09dd8109d386d4e7fd460cc8faf68d87c70ff61ba0b942d3d21839d56fcadd"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-3.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "d85c1ff4ce632e328a59b7bc00a7d4a111f760407edf58edd27a419b46e69560",
+      "source_rgb_sha256": "03370d74f87a384af214c239b968413b9d876bb343961b0f8ee9049206f3d798"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-4.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "e458e5a2f84de53ae1910bc1f6416ab6c9c208b6ccf82564b55499341841f5cf",
+      "source_rgb_sha256": "c33cea9937d3aa5d640e0d34396549fa40bfe3c27839b28f07cc9ab830d774e3"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-5.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "c4b497f3d0251244bb5f53af0f4a57278ba2c5ecde3d38284d55b4763a4f1ccc",
+      "source_rgb_sha256": "a5224a785b3d19249cee4e128d90e1fb60e287f918bb939f3aa7a7e832b5f6a4"
+    },
+    {
+      "device": "round",
+      "file": "docs/media/menus/round/walk-6.png",
+      "native_dimensions": [
+        466,
+        466
+      ],
+      "sha256": "287d936a918c7709d3efd8f183e6d014c090b639cf57e9d7a80e198b3fb99c72",
+      "source_rgb_sha256": "0d88f887245ee1f86d63704bbfd90c0cf5e02264ca0141416b82918e7b7b00ad"
+    }
+  ],
+  "animation": {
+    "file": "docs/media/menus/menu-walk-round.gif",
+    "sha256": "1f00c2f880cca8b1ab1b9a642fa0a8cb50b483c499c5cb3197829cbf72485200",
+    "frames": 7
+  }
+}

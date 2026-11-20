@@ -1,15 +1,18 @@
 # Sound, display and game speed
 
 Open the Grey menu and choose Settings. Grey moves focus and Blue selects.
-The seven rows are Display, Sound, Speed, Add $1000 chips, count display,
-Resume session and Return. Adding chips still requires a completed round.
+The five rows are **Display, Sound, Speed, Save/resume and Back**.
+Submenu rows show `>`; toggles display their value. Hold Grey returns one level,
+restoring the parent selection. Funding is under **Session → Bankroll**;
+independent count preferences are under **Training → Live counts**.
+[Current illustrated menu guide](MENUS.md).
 
 ## Sound
 
-Sound contains independent master sound, volume, Menus, Cards and Results
-controls, followed by Test deal, Test win, Test menu and Return. Master mute
-preserves the volume and category choices. It silences tests too; tests never
-turn sound on automatically.
+Sound contains **Master sound, Volume, Categories, Test sounds and Back**.
+Categories has Menus/Cards/Results switches. Test sounds has Deal/Win/Menu.
+Master mute preserves volume and category choices and silences auditions too;
+tests never turn sound on automatically.
 
 Volume starts at 20%. In its editor, Grey lowers and Blue raises the level.
 There are one-point steps from 0% through 10%, then five-point steps up to 100%.
@@ -25,7 +28,8 @@ Changing sound controls or listening to tests does not supply grading assistance
 
 ## Display
 
-Display contains Brightness, Flip screen and Return. The brightness editor uses
+Display contains Brightness, Screen and Back. Waveshare also includes saved
+Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust backs. The brightness editor uses
 Grey to lower and Blue to raise brightness in five percentage-point steps,
 clamping at its readable minimum (about 8%) and 100%. Hold Grey returns to Display.
 Flip screen rotates the display 180 degrees. Hold Grey in Sound or Display returns

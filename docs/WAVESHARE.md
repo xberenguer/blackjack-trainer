@@ -4,6 +4,8 @@ The **ESP32-S3-Touch-AMOLED-1.75C** runs the same Rust Blackjack game and traine
 
 **The touchscreen is disabled.** Its reset pin stays low. No game, menu, calibration or startup step uses touch.
 
+Both devices share the same [GitHub releases](https://github.com/xberenguer/blackjack-trainer/releases). The round layout has its own firmware download, `blackjack-waveshare175c-app.bin`. See the [illustrated menu guide](MENUS.md) for navigation.
+
 ## Two buttons
 
 | Physical button, with buttons at the top | During a hand | In menus |
@@ -66,15 +68,15 @@ The screen examples below use the actual Rust round renderer with synthetic demo
 
 | Five cards: fixed-size overlapping fan | Main menu |
 |---|---|
-| [![Five cards: fixed-size overlapping fan](media/round/player-5-cards.png)](media/round/player-5-cards.png) | [![Main menu](media/round/menu.png)](media/round/menu.png) |
+| [![Five cards: fixed-size overlapping fan](media/round/player-5-cards.png)](media/round/player-5-cards.png) | [![Main menu](media/menus/round/menu-main.png)](media/menus/round/menu-main.png) |
 
-| End of the menu and next-row preview | Settings |
+| Training and next-row preview | Settings |
 |---|---|
-| [![End of the menu and next-row preview](media/round/menu-bottom.png)](media/round/menu-bottom.png) | [![Settings](media/round/settings.png)](media/round/settings.png) |
+| [![Training and next-row preview](media/menus/round/training.png)](media/menus/round/training.png) | [![Settings](media/menus/round/settings.png)](media/menus/round/settings.png) |
 
-| Sound categories and auditions | Volume |
+| Sound categories | Volume |
 |---|---|
-| [![Sound categories and auditions](media/round/sound.png)](media/round/sound.png) | [![Volume](media/round/volume.png)](media/round/volume.png) |
+| [![Sound categories](media/menus/round/categories.png)](media/menus/round/categories.png) | [![Volume](media/round/volume.png)](media/round/volume.png) |
 
 
 

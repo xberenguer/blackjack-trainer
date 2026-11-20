@@ -1,7 +1,9 @@
+#[path = "support/navigation.rs"]
+mod nav;
 use stardust_blackjack::{
     app::App,
     controls::{Event, Key},
-    engine::{Action, Phase},
+    engine::Phase,
     session_metrics::Skip,
     training::{Mode, Policy},
 };
@@ -45,19 +47,8 @@ fn settle(a: &mut App, now: &mut u32) {
     panic!("round did not settle: {} {:?}", a.view_name(), a.game.phase)
 }
 fn analysis_menu(a: &mut App) {
-    a.event(Event::Hold(Key::Grey));
-    let extras = if a.is_busy() {
-        0
-    } else {
-        [Action::Double, Action::Split, Action::Surrender]
-            .iter()
-            .filter(|&&x| a.game.legal(x))
-            .count()
-    };
-    select(a, extras + 7);
-    assert_eq!(a.view_name(), "Session");
-    select(a, 3);
-    assert_eq!(a.view_name(), "AnalysisMenu")
+    nav::path(a, &["Session", "Reports"]);
+    assert_eq!(a.view_name(), "AnalysisMenu");
 }
 #[test]
 fn captures_each_settled_round_once_and_funding_does_not_become_profit() {
@@ -181,12 +172,9 @@ fn completed_rounds_and_metrics_reset_only_on_new_session() {
     assert_eq!(a.session_analysis.summary().rounds, 1);
     let old_grade = a.training.stats();
     assert!(old_grade.all.decisions > 0);
-    a.event(Event::Hold(Key::Grey));
-    select(&mut a, 10);
-    select(&mut a, 1);
-    assert_eq!(a.view_name(), "Summary");
     assert_eq!(a.session_analysis.summary().net, a.game.net() as i128);
-    a.event(B);
+    nav::path(&mut a, &["Session", "New session"]);
+    nav::choose(&mut a, "Start new session");
     assert_eq!(a.view_name(), "Cut");
     assert_eq!(a.session_analysis.summary().rounds, 0);
     assert_eq!(a.session_metrics.card_stats().all.decisions, 0);
@@ -208,7 +196,10 @@ fn menu_analysis_never_advances_live_rng_or_changes_frozen_ledger() {
     let position = a.game.position;
     analysis_menu(&mut a);
     for page in 0..7 {
-        select(&mut a, page);
+        while a.focus() != page {
+            a.event(G);
+        }
+        a.event(B);
         for _ in 0..20 {
             a.render();
             a.event(G);
@@ -329,7 +320,10 @@ fn export_analysis_screens_when_requested() {
         (5, "first-answer"),
         (6, "assumptions"),
     ] {
-        select(&mut a, index);
+        while a.focus() != index {
+            a.event(G);
+        }
+        a.event(B);
         dump(&mut a, &dir, name);
         if index == 0 {
             for name in ["outcomes", "dispersion", "reference"] {

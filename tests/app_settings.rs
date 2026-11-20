@@ -1,3 +1,5 @@
+#[path = "support/navigation.rs"]
+mod nav;
 use stardust_blackjack::{
     app::App,
     audio::Cue,
@@ -16,24 +18,11 @@ fn focus(a: &mut App, row: usize) {
     panic!("missing row{row} in{}", a.view_name())
 }
 fn settings(a: &mut App) {
-    if a.view_name() != "Menu" {
-        a.event(Event::Hold(Key::Grey));
-    }
-    for _ in 0..30 {
-        if a.menu_item() == "Settings" {
-            a.event(BLUE);
-            assert_eq!(a.view_name(), "Settings");
-            return;
-        }
-        a.event(GREY)
-    }
-    panic!("settings unavailable")
+    nav::path(a, &["Settings"]);
 }
 fn sound(a: &mut App) {
-    settings(a);
-    focus(a, 1);
-    a.event(BLUE);
-    assert_eq!(a.view_name(), "Sound")
+    nav::path(a, &["Settings", "Sound"]);
+    assert_eq!(a.view_name(), "Sound");
 }
 fn drain(a: &mut App) {
     while a.pop_sound().is_some() {}
@@ -94,8 +83,8 @@ fn phoenix_volume_fine_range_clamps_and_audition_keeps_mode_mute_and_mask() {
     a.event(Event::Hold(Key::Grey));
     assert_eq!(a.view_name(), "Sound");
     assert_eq!(a.focus(), 1);
-    focus(&mut a, 6);
-    a.event(BLUE);
+    nav::choose(&mut a, "Test sounds");
+    nav::choose(&mut a, "Win");
     assert_eq!(a.pop_sound(), None);
     assert!(!a.sound_enabled);
     a.sound_enabled = true;
@@ -165,14 +154,63 @@ fn settings_parent_order_display_steps_speed_toggle_and_add_chips_are_retained()
     assert!(!a.fast_mode);
     a.event(BLUE);
     assert!(a.fast_mode);
-    focus(&mut a, 3);
-    a.event(BLUE);
+    nav::path(&mut a, &["Session", "Bankroll"]);
+    nav::choose(&mut a, "Add $1000");
     assert_eq!(a.game.bankroll, 200000);
     assert_eq!(a.training.stats().all.decisions, 0);
+    settings(&mut a);
     focus(&mut a, 5);
-    assert_eq!(a.menu_item(), "Resume session");
+    assert_eq!(a.menu_item(), "Save/resume");
     a.event(BLUE);
     assert!(a.resume_enabled);
     focus(&mut a, 6);
-    assert_eq!(a.menu_item(), "Return");
+    assert_eq!(a.menu_item(), "Back");
+}
+
+#[test]
+fn grouped_menu_feedback_obeys_master_volume_categories_without_doubling_auditions() {
+    let mut a = App::new(7);
+    nav::path(&mut a, &["Training"]);
+    drain(&mut a);
+    a.event(GREY);
+    assert_eq!(a.pop_sound(), Some(Cue::MenuMove));
+    assert_eq!(a.pop_sound(), None);
+    nav::focus(&mut a, "Practice");
+    drain(&mut a);
+    a.event(BLUE);
+    assert_eq!(a.view_name(), "PracticeMenu");
+    assert_eq!(a.pop_sound(), Some(Cue::MenuMove));
+    assert_eq!(a.pop_sound(), None);
+    a.event(Event::Hold(Key::Grey));
+    assert_eq!(a.view_name(), "Training");
+    assert_eq!(a.pop_sound(), Some(Cue::MenuSelect));
+    assert_eq!(a.pop_sound(), None);
+    for (master, volume, mask) in [(false, 20, 7), (true, 0, 7), (true, 20, 6)] {
+        a.sound_enabled = master;
+        a.audio_volume = volume;
+        a.audio_mask = mask;
+        a.event(GREY);
+        a.event(BLUE);
+        a.event(Event::Hold(Key::Grey));
+        assert_eq!(a.pop_sound(), None);
+    }
+    a.sound_enabled = true;
+    a.audio_volume = 20;
+    a.audio_mask = 7;
+    nav::path(&mut a, &["Settings", "Sound", "Test sounds"]);
+    for (label, cue) in [
+        ("Deal", Cue::CardDeal),
+        ("Win", Cue::Win),
+        ("Menu", Cue::MenuSelect),
+    ] {
+        nav::focus(&mut a, label);
+        drain(&mut a);
+        a.event(BLUE);
+        assert_eq!(a.pop_sound(), Some(cue));
+        assert_eq!(
+            a.pop_sound(),
+            None,
+            "audition must not add a second navigation cue"
+        );
+    }
 }

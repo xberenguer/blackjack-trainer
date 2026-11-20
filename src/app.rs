@@ -83,6 +83,24 @@ pub(crate) enum View {
     AudioVolume,
     Display,
     Brightness,
+    TableMenu,
+    SessionMenu,
+    SessionOverview,
+    BankrollMenu,
+    NewSessionConfirm,
+    ResetStatsConfirm,
+    HelpMenu,
+    TrainingModes,
+    LiveCounts,
+    PracticeMenu,
+    ProgressMenu,
+    AdviceMenu,
+    SoundCategories,
+    SoundTests,
+    HandProgress,
+    CountProgress,
+    WagerProgress,
+    DeviationProgress,
 }
 impl View {
     pub fn name(self) -> &'static str {
@@ -152,10 +170,28 @@ impl View {
             Self::AudioVolume => "AudioVolume",
             Self::Display => "Display",
             Self::Brightness => "Brightness",
+            Self::TableMenu => "TableMenu",
+            Self::SessionMenu => "SessionMenu",
+            Self::SessionOverview => "SessionOverview",
+            Self::BankrollMenu => "BankrollMenu",
+            Self::NewSessionConfirm => "NewSessionConfirm",
+            Self::ResetStatsConfirm => "ResetStatsConfirm",
+            Self::HelpMenu => "HelpMenu",
+            Self::TrainingModes => "TrainingModes",
+            Self::LiveCounts => "LiveCounts",
+            Self::PracticeMenu => "PracticeMenu",
+            Self::ProgressMenu => "ProgressMenu",
+            Self::AdviceMenu => "AdviceMenu",
+            Self::SoundCategories => "SoundCategories",
+            Self::SoundTests => "SoundTests",
+            Self::HandProgress => "HandProgress",
+            Self::CountProgress => "CountProgress",
+            Self::WagerProgress => "WagerProgress",
+            Self::DeviationProgress => "DeviationProgress",
         }
     }
 }
-pub const MENU: [&str; 11] = [
+pub const MENU: [&str; 14] = [
     "Return to game",
     "Select wager",
     "Training",
@@ -166,7 +202,10 @@ pub const MENU: [&str; 11] = [
     "Session totals",
     "Review cards",
     "Controls",
-    "Color up & leave",
+    "End session",
+    "Table",
+    "Session",
+    "Help",
 ];
 pub const PROFILES: [&str; 6] = [
     "6 decks H17 / DAS / LS",
@@ -407,6 +446,9 @@ impl App {
         self.selected
     }
     pub fn menu_item(&self) -> &str {
+        if let Some(label) = menu_ui::focused_label(self) {
+            return label;
+        }
         let (actions, n) = self.extras();
         if self.view == View::Menu {
             if self.selected < n {
@@ -1047,6 +1089,8 @@ impl App {
         self.aid_mask = 0;
         self.aid_key = (0, 0, 0);
         self.cut_index = self.game.bounded(17).unwrap() as u8;
+        self.tracker = Tracker::default();
+        self.count_assisted = false;
         self.observe();
         self.set(View::Cut)
     }
@@ -1186,6 +1230,20 @@ impl App {
     pub fn event(&mut self, event: Event) {
         self.checkpoint_changed();
         self.load_allowed = false;
+        let menu_audition = self.view == View::SoundTests
+            && self.selected < 3
+            && event == Event::Tap(Key::Blue);
+        if menu_ui::handle(self, event) {
+            if !menu_audition {
+                self.emit(if event == Event::Hold(Key::Grey) {
+                    Cue::MenuSelect
+                } else {
+                    Cue::MenuMove
+                });
+            }
+            self.dirty = true;
+            return;
+        }
         if self.handle_settings_event(event) {
             self.dirty = true;
             return;
@@ -1609,7 +1667,25 @@ impl App {
             | View::Sound
             | View::AudioVolume
             | View::Display
-            | View::Brightness => {}
+            | View::Brightness
+            | View::TableMenu
+            | View::SessionMenu
+            | View::SessionOverview
+            | View::BankrollMenu
+            | View::NewSessionConfirm
+            | View::ResetStatsConfirm
+            | View::HelpMenu
+            | View::TrainingModes
+            | View::LiveCounts
+            | View::PracticeMenu
+            | View::ProgressMenu
+            | View::AdviceMenu
+            | View::SoundCategories
+            | View::SoundTests
+            | View::HandProgress
+            | View::CountProgress
+            | View::WagerProgress
+            | View::DeviationProgress => {}
         }
     }
     fn select_menu(&mut self) {
@@ -1663,6 +1739,9 @@ impl App {
                 }
             }
             9 => self.set(View::Controls),
+            11 => self.set(View::TableMenu),
+            12 => self.set(View::SessionMenu),
+            13 => self.set(View::HelpMenu),
             _ => {
                 if self.game.between_rounds() && !self.is_busy() {
                     self.set(View::Leave)
@@ -1962,3 +2041,6 @@ pub(crate) mod session_ui;
 
 #[path = "app_resume.rs"]
 mod resume_bridge;
+
+#[path = "menu_ui.rs"]
+pub(crate) mod menu_ui;

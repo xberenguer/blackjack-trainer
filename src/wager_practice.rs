@@ -551,7 +551,7 @@ impl Model {
             return false;
         }
         self.stats = Stats::default();
-        self.history = [None; HISTORY_CAPACITY];
+        self.history.fill(None);
         self.start = 0;
         self.len = 0;
         true

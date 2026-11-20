@@ -33,9 +33,9 @@ async function machine(storage=new Storage(),seed=2){
  async function hold(mask){await buttons(mask);await buttons(0,850);}
  async function tick(ms=50){clock=(clock+ms)>>>0;w.sb_tick(clock);await flush();}
  async function focus(n){for(let i=0;w.sb_focus()!==n;i++){assert(i<70,`focus ${n} in ${view()} / ${item()}`);await tap(2);}}
- async function select(label){for(let i=0;!item().includes(label);i++){assert(i<50,`missing ${label}: ${view()}/${item()}`);await tap(2);}await tap();}
- async function menu(){if(view()!=='Menu')await hold(2);assert.equal(view(),'Menu');}
- async function enable(){await menu();await select('Settings');assert.equal(view(),'Settings');await focus(5);await tap();assert.equal(save()[583],1);await focus(6);await tap();await focus(0);await tap();}
+ async function select(label){for(let i=0;!item().toLowerCase().includes(label.toLowerCase());i++){assert(i<50,`missing ${label}: ${view()}/${item()}`);await tap(2);}await tap();}
+ async function menu(){for(let i=0;view()!=='Menu';i++){assert(i<12,`cannot return to main menu from ${view()}`);await hold(2);}assert.equal(view(),'Menu');}
+ async function enable(){await menu();await select('Settings');assert.equal(view(),'Settings');await select('Save/resume');assert.equal(save()[583],1);await menu();await select('Back to game');}
  async function neutral(){await buttons(0);await buttons(0);}
  await host.boot();w.sb_render();
  return {w,host,storage,view,item,save,info,hash,flush,pump,buttons,tap,hold,tick,focus,select,menu,enable,neutral,setClock:n=>{clock=n>>>0;},getClock:()=>clock};
@@ -63,21 +63,21 @@ async function roundTrip(a,label){
  const a=await machine();await a.enable();await a.tap();assert.equal(a.view(),'Burn');await a.tick(1200);assert.equal(a.view(),'Table');await a.tap();await a.tick(200);const b=await roundTrip(a,'paused initial reveal');const before=b.hash();await b.tick(100);assert.equal(b.hash(),before,'restored reveal gets full dwell, no flash');await b.tick(900);assert.notEqual(b.hash(),before);cases++;
 }
 {
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();assert.equal(a.view(),'CountPractice');await a.tap();assert.equal(a.view(),'CountAnswer');await a.tap(2);
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');assert.equal(a.view(),'CountPractice');await a.tap();assert.equal(a.view(),'CountAnswer');await a.tap(2);
  const b=await roundTrip(a,'pending count answer');await b.buttons(3);await b.buttons(0);assert.equal(b.view(),'CountResult');const raw=b.save();assert.equal(raw.readBigUInt64LE(204),1n);const c=await roundTrip(b,'immutable count result');await c.buttons(3);await c.buttons(0);assert.equal(c.save().readBigUInt64LE(204),1n);cases++;
 }
 {
- const a=await machine();await a.enable();await a.tap();await a.menu();await a.select('Training');await a.focus(8);await a.tap();assert.equal(a.view(),'WagerPractice');await a.focus(1);await a.tap();assert.equal(a.view(),'WagerAnswer');
+ const a=await machine();await a.enable();await a.tap();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Bet');assert.equal(a.view(),'WagerPractice');await a.focus(1);await a.tap();assert.equal(a.view(),'WagerAnswer');
  const b=await roundTrip(a,'pending wager answer');await b.tap();await b.focus(4);await b.tap();assert.equal(b.view(),'WagerResult');assert.equal(b.save().readBigUInt64LE(356),1n);const c=await roundTrip(b,'wrong wager first grade');assert.equal(c.save().readBigUInt64LE(356),1n);cases++;
 }
 
 {
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(9);await a.tap();assert.equal(a.view(),'DeviationPractice');await a.tap();assert.equal(a.view(),'DeviationQuestion');
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Deviation');assert.equal(a.view(),'DeviationPractice');await a.tap();assert.equal(a.view(),'DeviationQuestion');
  const b=await roundTrip(a,'pending deviation question');await b.focus(5);await b.tap();assert.equal(b.view(),'DeviationReference');const c=await roundTrip(b,'sticky helped deviation reference');await c.tap();assert.equal(c.view(),'DeviationQuestion');await c.focus(0);await c.tap();assert.equal(c.view(),'DeviationResult');assert.equal(c.save().readBigUInt64LE(584),1n);assert.equal(c.save().readBigUInt64LE(608),1n);const d=await roundTrip(c,'immutable helped deviation grade');assert.equal(d.save().readBigUInt64LE(584),1n);cases++;
 }
 // Public-first interruption: newest scores survive while an older private checkpoint is refused.
 {
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.pump();
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.pump();
  const before=a.storage.copy();assert.equal(a.view(),'CountAnswer');
  await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'CountResult');assert.equal(a.save().readBigUInt64LE(204),1n);
  // Cut power after public commit, before any private write. Old unanswered checkpoint cannot return.
@@ -101,7 +101,7 @@ async function roundTrip(a,label){
 
 // Recovery verifies uncertain writes without rolling back the RAM answer or revealing it early.
 for(const uncertain of [false,true]){
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.pump();
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.pump();
  const acknowledged=a.save();const facts=a.info();if(uncertain)a.storage.failReadAfterWrite=true;else a.storage.failWrite=a.storage.writes+1;
  await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'StorageRetry');assert.equal(a.w.sb_sound(),0);assert.deepEqual(a.save(),acknowledged);assert.equal(a.w.sb_mode(),facts.mode);assert.equal(a.w.sb_bankroll(),facts.chips);assert.equal(a.w.sb_rounds(),facts.rounds);assert.equal(a.item(),'Retry saving session');assert.equal(a.w.sb_focus(),0);
  a.storage.failWrite=0;a.storage.failReadAfterWrite=false;await a.host.retryCheckpoint();a.w.sb_render();assert.equal(a.view(),'CountResult');assert.equal(a.save().readBigUInt64LE(204),1n);await a.pump();assert.equal(a.host.status().state,'saved');const b=await machine(a.storage.copy());assert.equal(b.view(),'ResumeChooser');await b.neutral();await b.tap();assert.equal(b.view(),'CountResult');assert.equal(b.save().readBigUInt64LE(204),1n);cases++;
@@ -120,7 +120,7 @@ for(const uncertain of [false,true]){
 // Boot taint: surviving marker/header cannot authorize an old unanswered question
 // when the newer graded public payload/footer is damaged.
 for(const damage of ['payload','unfinished']){
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.pump();
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.pump();
  await a.buttons(3);await a.buttons(0);assert.equal(a.save().readBigUInt64LE(204),1n);
  const corrupt=a.storage.copy();const records=[...corrupt.data].filter(([k])=>k.includes('.public.')).map(([key,value])=>({key,bytes:Buffer.from(value.slice(5),'base64')}));records.sort((a,b)=>Number(b.bytes.readBigUInt64LE(8)-a.bytes.readBigUInt64LE(8)));const latest=records[0];if(damage==='payload')latest.bytes[64+204]^=1;else latest.bytes=latest.bytes.subarray(0,latest.bytes.length-1);corrupt.data.set(latest.key,'sbj1:'+latest.bytes.toString('base64'));
  const b=await machine(corrupt);assert.equal(b.view(),'ResumeReadFailure');assert.equal(b.w.sb_mode(),0);assert.equal(b.host.status().checkpointAvailable,false);assert.equal(corrupt.writes,0);
@@ -128,7 +128,7 @@ for(const damage of ['payload','unfinished']){
 }
 // Waiting at a chooser cannot roll back public progress committed by another tab.
 {
- const shared=new Storage();const a=await machine(shared);await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.pump();const b=await machine(shared);assert.equal(b.view(),'ResumeChooser');await a.buttons(3);await a.buttons(0);await b.neutral();await b.tap();assert.equal(b.view(),'ResumeReadFailure');assert.equal(b.save().readBigUInt64LE(204),1n,'adopts newest verified public progress before refusing stale private');assert.equal(b.w.sb_mode(),0);cases++;
+ const shared=new Storage();const a=await machine(shared);await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.pump();const b=await machine(shared);assert.equal(b.view(),'ResumeChooser');await a.buttons(3);await a.buttons(0);await b.neutral();await b.tap();assert.equal(b.view(),'ResumeReadFailure');assert.equal(b.save().readBigUInt64LE(204),1n,'adopts newest verified public progress before refusing stale private');assert.equal(b.w.sb_mode(),0);cases++;
 }
 
 // Public ABI is gated even before an asynchronous storage lock is acquired.
@@ -154,19 +154,31 @@ for(const seat of [0,3,6]){
 {
  const a=await machine();await a.enable();await a.hold(1);assert.equal(a.w.sb_mode(),1);
  for(let guard=0;a.view()!=='RoundReview';guard++){assert(guard<120,'test round must reach review');await a.tick(750);if(['Cut','Burn','Refill','Notice'].includes(a.view())||a.view()==='Table'&&[1,2,3,5].includes(a.w.sb_phase()))await a.tap();}
- const b=await roundTrip(a,'Test round immutable review');assert.equal(b.w.sb_mode(),1);await b.menu();await b.select('Session');await b.focus(3);await b.tap();assert.equal(b.view(),'AnalysisMenu');await b.tap();assert.equal(b.view(),'AnalysisSummary');await roundTrip(b,'current session metrics summary');cases++;
+ const b=await roundTrip(a,'Test round immutable review');assert.equal(b.w.sb_mode(),1);await b.menu();await b.select('Session');await b.select('Reports');assert.equal(b.view(),'AnalysisMenu');await b.tap();assert.equal(b.view(),'AnalysisSummary');await roundTrip(b,'current session metrics summary');cases++;
 }
 
 // Permanent protected write failure has an explicit fresh RAM-only exit; it
 // discards the unseen grade and never reopens the old pending question.
 {
- const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.pump();a.storage.failWrite=a.storage.writes+1;
- await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'StorageRetry');await a.neutral();await a.tap(2);assert.equal(a.item(),'Start fresh without saving');const durable=new Map(a.storage.data);await a.tap();assert.equal(a.view(),'Cut');assert.equal(a.w.sb_mode(),0);assert.equal(a.w.sb_bankroll(),100000n);assert.equal(a.w.sb_wager(),500n);assert.equal(a.save()[583],0);assert.equal(a.save().readBigUInt64LE(204),0n);assert.equal(a.host.status().state,'playing-unsaved');assert.deepEqual(a.storage.data,durable,'fresh RAM fallback preserves both journals byte-for-byte');
- const writes=a.storage.writes;await a.neutral();await a.menu();await a.select('Settings');await a.focus(5);await a.tap();assert.equal(a.save()[583],0,'RAM boot cannot reenable resume');await a.focus(6);await a.tap();await a.focus(0);await a.tap();await a.tap();assert.equal(a.view(),'Burn');await a.tick(3000);assert.equal(a.storage.writes,writes);const b=await machine(a.storage.copy());assert.equal(b.view(),'ResumeChooser','reboot may offer the last valid durable checkpoint');assert.equal(b.w.sb_mode(),0);cases++;
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.pump();a.storage.failWrite=a.storage.writes+1;
+ await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'StorageRetry');await a.neutral();await a.tap(2);assert.equal(a.item(),'Start fresh without saving');for(let retry=0;retry<3;retry++){a.storage.failWrite=a.storage.writes+1;await a.host.retryCheckpoint();a.w.sb_render();assert.equal(a.view(),'StorageRetry');assert.equal(a.item(),'Start fresh without saving','failed automatic retry preserves the choice');}const durable=new Map(a.storage.data);await a.tap();assert.equal(a.view(),'Cut');assert.equal(a.w.sb_mode(),0);assert.equal(a.w.sb_bankroll(),100000n);assert.equal(a.w.sb_wager(),500n);assert.equal(a.save()[583],0);assert.equal(a.save().readBigUInt64LE(204),0n);assert.equal(a.host.status().state,'playing-unsaved');assert.deepEqual(a.storage.data,durable,'fresh RAM fallback preserves both journals byte-for-byte');
+ const writes=a.storage.writes;await a.neutral();await a.menu();await a.select('Settings');await a.select('Save/resume');assert.equal(a.save()[583],0,'RAM boot cannot reenable resume');await a.menu();await a.select('Back to game');await a.tap();assert.equal(a.view(),'Burn');await a.tick(3000);assert.equal(a.storage.writes,writes);const b=await machine(a.storage.copy());assert.equal(b.view(),'ResumeChooser','reboot may offer the last valid durable checkpoint');assert.equal(b.w.sb_mode(),0);cases++;
 }
 
 {
- const a=await machine();await a.enable();await a.hold(1);await a.hold(1);await a.hold(1);await a.menu();await a.select('Training');await a.focus(2);await a.tap();await a.tap();await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'CountResult');const b=await roundTrip(a,'Guide count immutable result');assert.equal(b.w.sb_mode(),3);cases++;
+ const a=await machine();await a.enable();await a.hold(1);await a.hold(1);await a.hold(1);await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'CountResult');const b=await roundTrip(a,'Guide count immutable result');assert.equal(b.w.sb_mode(),3);cases++;
+}
+// New confirmation screens use the same acknowledged journal protocol. A
+// canceled reset is inert; a confirmed reset cannot resurrect an older grade.
+{
+ const a=await machine();await a.enable();await a.menu();await a.select('Training');await a.select('Practice');await a.select('Count');await a.tap();await a.buttons(3);await a.buttons(0);assert.equal(a.view(),'CountResult');assert.equal(a.save().readBigUInt64LE(204),1n);
+ const b=await roundTrip(a,'graded count before explicit reset');await b.menu();await b.select('Training');await b.select('Progress');await b.select('Reset training stats');assert.equal(b.view(),'ResetStatsConfirm');assert.equal(b.item(),'Cancel');const original=b.save(),facts=b.info();
+ await b.tap();assert.equal(b.view(),'ProgressMenu');assert.deepEqual(b.save(),original,'default cancel preserves acknowledged training');
+ await b.select('Reset training stats');await b.tap(2);assert.equal(b.item(),'Clear training stats');await b.tap();assert.equal(b.save().readBigUInt64LE(204),0n);assert.equal(b.w.sb_bankroll(),facts.chips);assert.equal(b.w.sb_phase(),facts.phase);
+ const c=await roundTrip(b,'confirmed score reset with no stale-grade resurrection');assert.equal(c.save().readBigUInt64LE(204),0n);
+ await c.menu();await c.select('Session');await c.select('New session');assert.equal(c.view(),'NewSessionConfirm');assert.equal(c.item(),'Cancel');const beforeNew=c.save();await c.tap();assert.equal(c.view(),'SessionMenu');assert.deepEqual(c.save(),beforeNew);
+ await c.select('New session');await c.tap(2);assert.equal(c.item(),'Start new session');await c.tap();assert.equal(c.view(),'Cut');assert.equal(c.w.sb_bankroll(),100000n);assert.equal(c.w.sb_mode(),0);assert.equal(c.save()[583],1,'new session preserves the resume preference');
+ const d=await roundTrip(c,'confirmed new session resumes its fresh shoe');assert.equal(d.view(),'Cut');assert.equal(d.save().readBigUInt64LE(204),0n);cases++;
 }
 // Exact 64-bit public totals across all legacy schemas and current V9, with default-off resume migration.
 for(let v=1;v<=8;v++){

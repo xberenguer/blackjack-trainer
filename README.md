@@ -1,16 +1,16 @@
 # Blackjack Trainer
 
-**[Install on StickS3](docs/INSTALL.md#sticks3) · [Waveshare round](docs/WAVESHARE.md) · [Play web version](https://xberenguer.github.io/blackjack-trainer/) · [Screens](docs/SCREEN_GUIDE.md)**
+**[Open the flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack) · [Install on StickS3](docs/INSTALL.md#sticks3) · [Install on Waveshare 1.75C](docs/WAVESHARE.md#install-or-update) · [Play in your browser](https://xberenguer.github.io/blackjack-trainer/)**
 
-Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature.
+Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature. Both hardware targets share this repository and release version. Choose your device in the flasher to download the matching firmware.
 
-**Current version: 0.12.0.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
+**Current version: 0.12.1.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
 
 The pictures below are actual game screens from **synthetic demonstration sessions**, not player saves or device recordings. Click a screenshot to enlarge it. Both animations use successive native game frames. The separate [screen walkthrough](docs/SCREEN_GUIDE.md) remains the complete screen-by-screen catalogue.
 
 ## Find a topic
 
-- [Install on StickS3](docs/INSTALL.md#sticks3) · [Play web version](https://xberenguer.github.io/blackjack-trainer/)
+- [Waveshare round guide](docs/WAVESHARE.md), [current menu gallery](docs/MENUS.md) and [Stick screen gallery](docs/SCREEN_GUIDE.md)
 - [Controls and the menu](#two-buttons-different-contexts)
 - [Modes, strategy, count display and scoring](#choose-teaching-policy-and-aids-separately)
 - [Count practice](#count-practice-three-separate-skills), [wager practice](#wager-practice-example-ramp-arithmetic) and [deviation drills](#deviation-drills-focused-synthetic-decisions)
@@ -97,27 +97,23 @@ The result stays visible before Test's automatic review. The table's displayed h
 
 ### The main menu
 
-Hold Grey. Legal **DOUBLE**, **SPLIT** and **SURRENDER** actions appear first, so row positions can change from hand to hand. The regular entries then follow this order:
+Hold Grey. Legal **DOUBLE**, **SPLIT** and **SURRENDER** actions still appear first during a hand. The ordinary menu has seven entries:
 
 | Entry | What it opens |
 |---|---|
-| Return to game | The previous table/cut/review context. |
-| Select wager | Fixed or custom manual wager, between rounds. |
-| Training | Modes, policy, exercises, accuracy, hints and EV. |
-| Settings | Display, Sound, Speed, chips, count display and resume preference. |
-| Table profile | Presets, limits, dealer cut and seating, between rounds. |
-| Shoe information | Physical shoe/dealt information and shuffle state; this is a count aid. |
-| Table rules | Seven short pages covering the selected rules, funding, tablemates and rare exhaustion. |
-| Session totals | Money totals, bankroll details, funding, analysis and leaving. |
-| Review cards | Exposed player/dealer cards; also provides the visible table-card review when tablemates are enabled. |
-| Controls | The four button-reference pages. |
-| Color up & leave | Confirmation to cash out and finish the session, between rounds. |
+| Back to game | Return to the previous table/cut/review context. |
+| Bet | Fixed or custom wager, between rounds. |
+| Training | Mode, strategy, live counts, practice, progress and advice/EV. |
+| Table | Table setup, current rules, shoe information and card review. |
+| Session | Current results, reports, bankroll and starting a new session. |
+| Settings | Display, Sound, Speed and opt-in Save/resume. |
+| Help | Controls and explanations of Off, Test, Coach and Guide. |
 
-Menus show four complete rows with a faded next-row peek when more choices continue. Grey scrolls and wraps. A greyed wager is outside the table's limits. A **TABLE NOTICE** explains an unavailable operation; Blue returns. Many setup/funding operations require a finished round rather than changing a live hand.
+A **>** opens another screen; toggles show their current value. Grey advances and wraps, Blue selects, and **hold Grey goes back one level** to the parent selection. Hold Grey from the main menu returns to play. Stick shows four full rows plus a faded next row; Waveshare shows six plus a preview. Neither uses “more below” text or a side scrollbar. Unavailable actions explain the restriction without changing the game.
 
-[![The unified Grey menu, with a partial next row showing that more entries follow](docs/media/screens/menu.png)](docs/media/screens/menu.png)
+[![Current grouped main menu](docs/media/menus/stick/menu-main.png)](docs/media/menus/stick/native/menu-main.png)
 
-*The unified Grey menu, with a partial next row showing that more entries follow.*
+[See every current menu on both devices](docs/MENUS.md). Older detailed feature screenshots below retain their historical version; use the current menu map for navigation.
 
 ## Choose teaching, policy and aids separately
 
@@ -127,8 +123,8 @@ These are independent settings:
 |---|---|---|
 | Mode | When should teaching or grading appear? | Training → Mode, or hold Blue. |
 | Strategy | Which policy grades/recommends the action? | Training → Strategy, between rounds. |
-| Count display | Should the table show RC or RC+TC? | Settings, using separate Guide and normal preferences. |
-| Action EV | What does the fixed mathematical model estimate? | Training → Action EV or EV review. |
+| Count display | Should the table show RC or RC+TC? | Training → Live counts, with separate Normal play and Guide mode rows. |
+| Action EV | What does the fixed mathematical model estimate? | Training → Advice & EV → Action EV or EV review. |
 
 Choosing Hi-Lo does not automatically put a count on the ordinary table. Showing a count while Basic is selected does not turn Basic into Hi-Lo. EV is a separate model, not a count-driven prediction of the next card.
 
@@ -194,7 +190,7 @@ Hi-Lo card tags are:
 
 ### Count display and assistance
 
-Settings cycles **OFF → RC → RC + TC** for the active mode group. When currently in Guide, it edits **Guide count**; otherwise it edits **Normal count**, shared by Off/Test/Coach. Guide starts RC+TC and normal starts OFF.
+**Training → Live counts** has separate **Normal play** and **Guide mode** rows. Each cycles **OFF → RC → RC + TC**. Normal play is shared by Off/Test/Coach; Guide starts RC+TC and normal starts OFF. You can change either preference without switching modes.
 
 Assistance is sticky for the relevant decision/checkpoint. Visible Guide advice/counts, a hint, live EV, relevant count information and answer references can mark an attempt assisted. Opening strategy/EV history during an unresolved live decision also marks that decision assisted. Shoe information reveals count-related depth information. Viewing a result/reference at the same count checkpoint affects later attempts at that checkpoint; cancelling/reopening does not remove that exposure.
 
@@ -332,9 +328,9 @@ EV does not inspect future order, the hidden dealer hole or an exact remaining-s
 
 **Select wager** offers $5/$10/$25/$100, Custom wager and Return. Presets outside table limits are disabled. Custom wager has Add/Subtract $5/$25 and Accept amount. The engine still enforces legal limits and available chips. Between hands Grey opens wager selection; Blue deals with the selected amount.
 
-**Settings → Add $1000 chips** or **Session totals → Add $1000 chips** adds a virtual deposit after the round. If there are too few chips for play, the refill screen offers the same funding. Funding is recorded separately from gambling net: a $1,000 deposit is not a $1,000 win.
+**Session → Bankroll → Add $1000** adds a virtual deposit after the round. If there are too few chips for play, the refill screen offers the same funding. Funding is recorded separately from gambling net: a $1,000 deposit is not a $1,000 win.
 
-**Color up & leave** asks whether to stay or cash out. Cashing out ends the session and opens **SESSION COMPLETE**, showing net and round count. **New $1000 session** starts another game with the current table/seating, clears session analysis and pending session state, and retains lifetime training scores. It is separate from a fresh boot; use the mode control to choose teaching for continued play.
+**Session → New session** asks before starting at $1,000 with a fresh shoe and clearing session reports. It keeps the current table/seating, preferences and lifetime training scores. **Training → Progress → Reset training stats** separately clears hand/count/bet/deviation scores and learning histories, keeping the current bankroll, table, preferences and financial session reports. Both default to **Cancel**, work between rounds, and are different from one another. There is no cash-out/“Color up & leave” step in the normal menu.
 
 | Choose a manual wager between rounds | Custom wager edits the amount before accepting |
 |---|---|
@@ -352,7 +348,7 @@ EV does not inspect future order, the hidden dealer hole or an exact remaining-s
 
 ### Table profile and rules
 
-Open **Table profile** between rounds. Choose a preset, edit minimum/maximum in $5 steps, choose dealer cut depth, then **Apply profile**. Pending edits do not silently change the active rules before application. Presets are:
+Open **Table → Table setup** between rounds. Choose a preset, edit minimum/maximum in $5 steps, choose dealer cut depth, then **Apply profile**. Pending edits do not silently change the active rules before application. Presets are:
 
 | Menu preset | Difference from the default |
 |---|---|
@@ -391,7 +387,7 @@ If a very deep round exhausts undealt cards, the documented simulation procedure
 
 ### Optional tablemates and card reviews
 
-**Table profile → Other seats / your place** opens **TABLE SEATING**. Select 0–6 other seats, choose your place in the deal order, then **Apply seating / fresh shoe** between rounds. These virtual players use Basic strategy and flat minimum wagers; their chip ledgers are independent of yours. Zero extras keeps the shortest single-player flow.
+**Table → Table setup → Other seats / your place** opens **TABLE SEATING**. Select 0–6 other seats, choose your place in the deal order, then **Apply seating / fresh shoe** between rounds. These virtual players use Basic strategy and flat minimum wagers; their chip ledgers are independent of yours. Zero extras keeps the shortest single-player flow.
 
 Initial faces and later draws are presented before a dependent player decision/count question. The tablemate-turn display names seat/hand; it does not add a computed total to do your counting for you. **Review table cards** browses exposed hands across seats, including split hands and the exposed dealer cards. **Review cards** on the single-player path browses player/dealer groups, four cards per page. Grey advances; Blue returns. Reviews do not reveal a hidden hole or future cards.
 
@@ -405,7 +401,7 @@ Initial faces and later draws are presented before a dependent player decision/c
 
 ## Session totals and analysis
 
-**Session totals** shows round count and net, then Return, Bankroll details, Add $1000 chips, Session analysis and Color up & leave. **Bankroll details** has two pages: chips/deposits/cashouts/net, then win/loss/push/round counts and committed stakes. Grey changes page; Blue returns.
+**Session → Overview** shows current bankroll, rounds and net, with more totals on the next page. **Reports** opens session analysis. **Bankroll → Balance details** shows chips/deposits/cashouts/net, then win/loss/push/round counts and committed stakes. **Bankroll → Add $1000** adds virtual funds separately from gambling winnings. New session and Reset training stats have their own confirmations.
 
 **Session analysis** describes the controlled player's settled rounds and first answers in the current session. It does not simulate future profit. Grey changes pages/categories/history inside a report; Blue returns to analysis.
 
@@ -446,35 +442,37 @@ The displayed normal-reference band is available from 30 settled observations an
 
 </details>
 
-## Settings: sound, display, speed and count aids
+<a id="settings-sound-display-speed-and-count-aids"></a>
 
-The Settings order is **Display, Sound, Speed, Add $1000 chips, Count display, Resume session, Return**.
+## Settings: sound, display, speed and resume
 
-[![Settings groups Display, Sound and Speed before the less frequently changed options](docs/media/screens/settings.png)](docs/media/screens/settings.png)
+Settings contains **Display, Sound, Speed, Save/resume and Back**. Funding is under Session → Bankroll; live-count preferences are under Training → Live counts.
+
+[![Settings groups Display, Sound and Speed before the less frequently changed options](docs/media/menus/stick/settings.png)](docs/media/menus/stick/settings.png)
 
 *Settings groups Display, Sound and Speed before the less frequently changed options.*
 
 ### Sound
 
-**Sound** has Master sound, Volume, Menus, Cards, Results, Test deal, Test win, Test menu and Return. Master mute retains volume/category choices and also silences tests. Volume 0 is silent even with master on. Category toggles independently enable navigation/manual-chip sounds, deal/flip/shuffle sounds, and result/award sounds.
+**Sound** has **Master sound, Volume, Categories, Test sounds and Back**. Categories contains Menus/Cards/Results switches; Test sounds contains Deal/Win/Menu auditions. Master mute retains volume/category choices and also silences tests. Volume 0 is silent even with master on. Category toggles independently enable navigation/manual-chip sounds, deal/flip/shuffle sounds, and result/award sounds.
 
 In **Volume**, Grey lowers and Blue raises. Steps are one percentage point through 0–10%, then multiples of 5 up to 100%. Both ends clamp. Hold Blue auditions a deal at that level; hold Grey returns to Sound. Named tests and the editor audition intentionally bypass category toggles so you can hear a category you disabled, but respect master mute and zero volume. They never turn sound on automatically and do not reveal a training answer. New installs default 20%.
 
 | Master and category switches | Percentage volume with fine quiet steps |
 |---|---|
-| [![Master and category switches](docs/media/screens/sound.png)](docs/media/screens/sound.png) | [![Percentage volume with fine quiet steps](docs/media/screens/audio-volume.png)](docs/media/screens/audio-volume.png) |
+| [![Master and category switches](docs/media/menus/stick/sound.png)](docs/media/menus/stick/sound.png) | [![Percentage volume with fine quiet steps](docs/media/screens/audio-volume.png)](docs/media/screens/audio-volume.png) |
 
-[![Named deal, win and menu tests are available without changing training mode](docs/media/screens/sound-auditions.png)](docs/media/screens/sound-auditions.png)
+[![Named deal, win and menu tests are available without changing training mode](docs/media/menus/stick/test-sounds.png)](docs/media/menus/stick/test-sounds.png)
 
 *Named deal, win and menu tests are available without changing training mode.*
 
 ### Display
 
-**Display** has Brightness, Flip screen and Return. On Waveshare, it also includes saved Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust card backs. In **Brightness**, Grey/Blue adjust by about 5 percentage points, with a readable minimum around 8% and maximum 100%. Hold Grey returns. **Flip screen** rotates the screen 180°. In the browser, the canvas rotates. Hold Grey from Sound/Display returns to Settings.
+**Display** has Brightness, Screen and Back. On Waveshare, it also includes saved Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust card backs. In **Brightness**, Grey/Blue adjust by about 5 percentage points, with a readable minimum around 8% and maximum 100%. Hold Grey returns. **Flip screen** rotates the screen 180°. In the browser, the canvas rotates. Hold Grey from Sound/Display returns to Settings.
 
 | Brightness and screen orientation | The brightness editor shows the selected percentage |
 |---|---|
-| [![Brightness and screen orientation](docs/media/screens/display.png)](docs/media/screens/display.png) | [![The brightness editor shows the selected percentage](docs/media/screens/brightness-edited.png)](docs/media/screens/brightness-edited.png) |
+| [![Brightness and screen orientation](docs/media/menus/stick/display.png)](docs/media/menus/stick/display.png) | [![The brightness editor shows the selected percentage](docs/media/screens/brightness-edited.png)](docs/media/screens/brightness-edited.png) |
 
 ### Speed
 
@@ -482,11 +480,11 @@ In **Volume**, Grey lowers and Blue raises. Steps are one percentage point throu
 
 | Fast is the new-install default | Normal remains selectable for slower automatic stages |
 |---|---|
-| [![Fast is the new-install default](docs/media/screens/settings.png)](docs/media/screens/settings.png) | [![Normal remains selectable for slower automatic stages](docs/media/screens/settings-normal-speed.png)](docs/media/screens/settings-normal-speed.png) |
+| [![Fast is the new-install default](docs/media/menus/stick/settings.png)](docs/media/menus/stick/settings.png) | [![Normal remains selectable for slower automatic stages](docs/media/screens/settings-normal-speed.png)](docs/media/screens/settings-normal-speed.png) |
 
 ### Count and resume preferences
 
-The count row edits the independent Guide or normal HUD preference as described above. **Resume session** is opt-in and defaults OFF. See below before relying on it. [Detailed settings reference](docs/SETTINGS.md).
+**Training → Live counts** edits the two independent count preferences. **Settings → Save/resume** is opt-in and defaults OFF. See below before relying on it. [Detailed settings reference](docs/SETTINGS.md).
 
 ## Save and resume
 
@@ -566,9 +564,9 @@ The shared game, renderer and hardware application are Rust. See [Build and vali
 
 ## Releases and verification
 
-The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.0.md).
+The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.1.md).
 
-Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.0 release adds the button-only Rust Waveshare port, round layout and saved appearance choices. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.0.md) and [validation evidence](validation/release-0.12.0.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
+Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.1 release adds grouped menus, explicit reset actions and a fresh-session count fix to the Rust Waveshare port. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.1.md) and [validation evidence](validation/release-0.12.1.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
 
 ## Project and publication notes
 

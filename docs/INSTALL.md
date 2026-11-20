@@ -1,12 +1,12 @@
-# Install on StickS3 or play the web version
+# Install Blackjack Trainer
 
-The [main feature guide](../README.md) explains the controls and features, and the [screen guide](SCREEN_GUIDE.md) shows every view.
+Use the [same web flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack) for both devices. Select **Blackjack Trainer** and your exact board. GitHub releases include separate firmware downloads for [StickS3](#sticks3) and [Waveshare 1.75C](#waveshare-175c-round-device). The [feature guide](../README.md) explains play and the [menu guide](MENUS.md) shows both displays.
 
 ## Browser
 
 **[Play web version](https://xberenguer.github.io/blackjack-trainer/)** — the same Rust game and native screen renderer, without installing firmware or developer tools.
 
-Use the Grey/Blue on-screen buttons or Left/Right Arrow keys. Hold an arrow for the same shortcut as holding a device button. Sound starts after a button/key gesture if the browser requires one. Settings → Sound includes named auditions. Fresh preferences are 20% volume, Fast speed and Hi-Lo strategy; saved choices take precedence. Training still boots Off.
+Use the Grey/Blue on-screen buttons or Left/Right Arrow keys. Hold an arrow for the same shortcut as holding a device button. Sound starts after a button/key gesture if the browser requires one. Settings → Sound → Test sounds includes Deal, Win and Menu auditions. Fresh preferences are 20% volume, Fast speed and Hi-Lo strategy; saved choices take precedence. Training still boots Off.
 
 Saves belong to that browser profile and site. A different browser, a private window or clearing site data can give you a separate or empty save. They do not automatically synchronize with the Stick. Third-party notices remain in [publication notes](PUBLISHING.md).
 
@@ -74,9 +74,9 @@ This command writes the application only. It does not request a full erase or wr
 
 ### Check the result
 
-The device should boot to the player-cut screen, unless you have opted into a valid saved-session chooser. Hold Grey to check the small version in the menu. For 0.11.3, confirm the full insurance choices remain visible in Guide; your saved strategy remains selectable. New preferences are20% volume/Fast speed.
+The device should boot to the player-cut screen, unless you have opted into a valid saved-session chooser. Hold Grey to check the small version in the menu. The current version is shown in small grey type. Your saved strategy remains selectable. New setups start at 20% volume and Fast speed.
 
-Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test deal/Test win if desired. The [release notes](RELEASE-0.11.3.md) distinguish current software checks from previous physical-device observations.
+Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test sounds → Deal or Win if desired. The [release notes](RELEASE-0.12.1.md) distinguish current software checks from previous physical-device observations.
 
 ### If something goes wrong
 

@@ -1,3 +1,5 @@
+#[path = "support/navigation.rs"]
+mod nav;
 use stardust_blackjack::{
     app::App,
     controls::{Event, Key},
@@ -7,30 +9,11 @@ use stardust_blackjack::{
 };
 const BLUE: Event = Event::Tap(Key::Blue);
 const GREY: Event = Event::Tap(Key::Grey);
-fn open_menu(a: &mut App) {
-    a.event(Event::Hold(Key::Grey));
-    assert_eq!(a.view_name(), "Menu");
-}
-fn menu(a: &mut App, n: usize) {
-    open_menu(a);
-    let extras = if a.is_busy() {
-        0
-    } else {
-        [Action::Double, Action::Split, Action::Surrender]
-            .iter()
-            .filter(|&&x| a.game.legal(x))
-            .count()
-    };
-    for _ in 0..extras + n {
-        a.event(GREY)
-    }
-    a.event(BLUE)
-}
 fn select(a: &mut App, n: usize) {
     for _ in 0..n {
-        a.event(GREY)
+        a.event(GREY);
     }
-    a.event(BLUE)
+    a.event(BLUE);
 }
 fn reveal(a: &mut App) {
     for n in 1..=5 {
@@ -156,13 +139,11 @@ fn viewing_ev_then_returning_marks_current_decision() {
     if a.game.phase != Phase::Player {
         return;
     }
-    menu(&mut a, 2);
-    select(&mut a, 5);
+    nav::path(&mut a, &["Training", "Advice & EV", "Action EV"]);
     assert_eq!(a.view_name(), "ActionEV");
     a.render();
     a.event(BLUE);
-    open_menu(&mut a);
-    a.event(BLUE);
+    nav::path(&mut a, &["Back to game"]);
     assert_eq!(a.view_name(), "Table");
     a.event(BLUE);
     assert!(a.training.newest(0).unwrap().assisted);
@@ -173,8 +154,7 @@ fn count_submit_is_quiz_only_and_consumes_tails() {
     let p = a.game.position;
     a.event(Event::SubmitCount);
     assert_eq!(a.game.position, p);
-    menu(&mut a, 2);
-    select(&mut a, 2);
+    nav::path(&mut a, &["Training", "Practice", "Counting"]);
     a.event(BLUE);
     assert_eq!(a.view_name(), "CountAnswer");
     assert_eq!(a.count_practice.stats().all.decisions, 0);
@@ -190,8 +170,7 @@ fn count_submit_is_quiz_only_and_consumes_tails() {
 #[test]
 fn count_help_and_checkpoint_history_keep_assistance() {
     let mut a = App::new(5);
-    menu(&mut a, 2);
-    select(&mut a, 2);
+    nav::path(&mut a, &["Training", "Practice", "Counting"]);
     a.event(BLUE);
     a.request_count_help();
     a.event(Event::SubmitCount);
@@ -308,10 +287,8 @@ fn training_round_ids_do_not_collide_after_new_session() {
         a.event(BLUE)
     }
     let first = a.training.newest(0).unwrap().attempt.round;
-    menu(&mut a, 10);
-    select(&mut a, 1);
-    assert_eq!(a.view_name(), "Summary");
-    a.event(BLUE);
+    nav::path(&mut a, &["Session", "New session"]);
+    nav::choose(&mut a, "Start new session");
     assert_eq!(a.view_name(), "Cut");
     a.event(BLUE);
     a.event(BLUE);
@@ -336,15 +313,13 @@ fn restore_closes_after_first_actual_input() {
 #[test]
 fn shoe_information_marks_deck_quiz_assisted_at_same_checkpoint() {
     let mut a = App::new(9);
-    menu(&mut a, 5);
+    nav::path(&mut a, &["Table", "Shoe info"]);
     assert_eq!(a.view_name(), "ShoeInfo");
     a.render();
     a.event(BLUE);
-    // Returning from an information screen opens the menu. Its hold returns
-    // to cut; the next menu navigation starts at its first row.
+    // Back restores the Table category; the root helper follows visible parents.
     a.event(Event::Hold(Key::Grey));
-    menu(&mut a, 2);
-    select(&mut a, 2);
+    nav::path(&mut a, &["Training", "Practice", "Counting"]);
     select(&mut a, 1);
     assert_eq!(a.view_name(), "CountAnswer");
     a.event(Event::SubmitCount);

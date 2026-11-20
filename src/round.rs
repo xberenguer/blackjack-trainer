@@ -4,7 +4,7 @@
 //! to StickS3. Render `App` first, then compose this separate PSRAM framebuffer.
 //! No touchscreen or device I/O exists in this module.
 use crate::{
-    app::{App, MENU, View},
+    app::{App, View},
     assets::{Font, Sprite},
     canvas::{FELT, rgb},
     cards::{Card, Hand, Outcome},
@@ -171,6 +171,9 @@ pub struct LayoutInfo {
     pub ready_hint_rect: (i16, i16, u16, u16),
     pub bankroll_rect: (i16, i16, u16, u16),
     pub wager_rect: (i16, i16, u16, u16),
+    pub shared_menu: bool,
+    pub confirmation: bool,
+    pub selected_row: u8,
 }
 /// Layout plus the last publicly displayed player hand. Queued reveals can
 /// finish after the Engine advances; this small cache prevents showing a
@@ -205,6 +208,9 @@ impl RoundRenderer {
             ready_hint_rect: (0, 0, 0, 0),
             bankroll_rect: (0, 0, 0, 0),
             wager_rect: (0, 0, 0, 0),
+            shared_menu: false,
+            confirmation: false,
+            selected_row: 0,
         },
         player_cache: [Hand::EMPTY; 4],
         player_cache_valid: [false; 4],
@@ -236,56 +242,62 @@ impl RoundRenderer {
         self.card_back = app.card_back;
         frame.clear();
         self.info = LayoutInfo::default();
+        // The shared controller owns labels, capability rows and semantic-to-
+        // visual selection. The round target only composes that single model.
+        if let Some(spec) = app.menu_spec() {
+            let mut labels = [""; 16];
+            for (label, item) in labels.iter_mut().zip(spec.items.iter()).take(spec.len) {
+                *label = item.as_str();
+            }
+            self.info.shared_menu = true;
+            self.info.selected_row = spec.selected as u8;
+            let body = if spec.details.as_str().is_empty() {
+                spec.body
+            } else {
+                Some(spec.details.as_str())
+            };
+            if spec.confirmation || body.is_some() {
+                self.confirmation_menu(
+                    frame,
+                    spec.title,
+                    spec.subtitle,
+                    body,
+                    &labels[..spec.len],
+                    spec.selected,
+                );
+                self.info.confirmation = spec.confirmation;
+            } else {
+                self.list(
+                    frame,
+                    spec.title,
+                    &labels[..spec.len],
+                    spec.selected,
+                    spec.subtitle,
+                );
+            }
+            // Translate the controller's exact action hint, including read-only
+            // PAGE/BACK and sound TEST hints, to the physical button positions.
+            let hint = physical_hint(spec.footer);
+            frame.rect(0, 394, WIDTH as i32, 28, frame.background);
+            self.footer(frame, hint.as_str());
+            if app.view == View::Menu && spec.subtitle.is_none() {
+                self.text(
+                    frame,
+                    310,
+                    105,
+                    crate::VERSION,
+                    12,
+                    rgb(160, 160, 160),
+                    false,
+                    90,
+                );
+            }
+            return;
+        }
         match app.view {
             View::Table => self.table(app, frame),
             View::Cut => self.cut(app, frame),
-            View::Menu => self.menu(app, frame),
-            View::Training => self.training(app, frame),
-            View::Settings => self.settings(app, frame),
-            View::Sound => self.sound(app, frame),
             View::AudioVolume | View::Brightness => self.editor(app, frame),
-            View::Display => {
-                let mut b = Text::<48>::new();
-                let mut bg = Text::<48>::new();
-                let mut back = Text::<48>::new();
-                let _ = write!(
-                    back,
-                    "Card back: {}",
-                    CARD_BACK_NAMES[app.card_back.min(2) as usize]
-                );
-                let _ = write!(b, "Brightness: {}%", app.brightness_percent());
-                let _ = write!(
-                    bg,
-                    "Background: {}",
-                    BACKGROUND_NAMES[app.background.min(3) as usize]
-                );
-                let flip = if app.flipped {
-                    "Screen: FLIPPED"
-                } else {
-                    "Screen: NORMAL"
-                };
-                if app.round_display {
-                    self.list(
-                        frame,
-                        "DISPLAY",
-                        &[b.as_str(), flip, bg.as_str(), back.as_str(), "Return"],
-                        match app.selected {
-                            4 => 3,
-                            3 => 4,
-                            n => n,
-                        },
-                        None,
-                    );
-                } else {
-                    self.list(
-                        frame,
-                        "DISPLAY",
-                        &[b.as_str(), flip, "Return"],
-                        app.selected,
-                        None,
-                    );
-                }
-            }
             View::Controls => self.controls(app, frame),
             View::Burn => {
                 self.heading(frame, "SHOE IS READY");
@@ -992,130 +1004,55 @@ impl RoundRenderer {
         }
         self.footer(f, "RIGHT: NEXT   LEFT: SELECT");
     }
-    fn menu(&mut self, a: &App, f: &mut RoundCanvas) {
-        let (extras, n) = a.extras();
-        let mut items = [""; 14];
-        for i in 0..n {
-            items[i] = crate::table::action_name(extras[i]);
+    #[allow(clippy::too_many_arguments)]
+    fn confirmation_menu(
+        &mut self,
+        f: &mut RoundCanvas,
+        title: &str,
+        subtitle: Option<&str>,
+        body: Option<&str>,
+        items: &[&str],
+        selected: usize,
+    ) {
+        self.heading(f, title);
+        if let Some(subtitle) = subtitle {
+            self.text(f, 233, 104, subtitle, 15, MUTED, false, 350);
         }
-        items[n..n + MENU.len()].copy_from_slice(&MENU);
-        self.list(f, "MENU", &items[..n + MENU.len()], a.selected, None);
-        self.text(
-            f,
-            310,
-            105,
-            crate::VERSION,
-            12,
-            rgb(160, 160, 160),
-            false,
-            90,
-        );
-    }
-    fn training(&mut self, a: &App, f: &mut RoundCanvas) {
-        let mut mode = Text::<48>::new();
-        let mut policy = Text::<48>::new();
-        let _ = write!(mode, "Mode: {}", a.training.mode.name());
-        let _ = write!(
-            policy,
-            "Strategy: {}",
-            if a.policy == Policy::HiLo {
-                "HI-LO"
-            } else {
-                "BASIC"
+        if let Some(body) = body {
+            let physical = physical_hint(body);
+            self.wrap(
+                f,
+                233,
+                physical.as_str(),
+                128,
+                20,
+                if items.is_empty() { 10 } else { 7 },
+                350,
+                WHITE,
+            );
+        }
+        for (i, item) in items.iter().enumerate().take(2) {
+            let y = 306 + i as i32 * 38;
+            let width = 360.min(chord(y, 32));
+            let x = 233 - width / 2;
+            let active = i == selected;
+            f.rect(x, y, width, 32, if active { SELECT } else { PANEL });
+            if active {
+                f.rect(x, y, 3, 32, GOLD);
             }
-        );
-        self.list(
-            f,
-            "TRAINING",
-            &[
-                mode.as_str(),
-                policy.as_str(),
-                "Count practice",
-                "Accuracy",
-                "Review decisions",
-                "Action EV",
-                "EV review",
-                "Hint",
-                "Wager practice",
-                "Deviation drills",
-                "Return",
-            ],
-            a.selected,
-            None,
-        );
-    }
-    fn settings(&mut self, a: &App, f: &mut RoundCanvas) {
-        let mut count = Text::<48>::new();
-        let _ = write!(
-            count,
-            "{} count: {}",
-            if a.training.mode == Mode::Guide {
-                "Guide"
-            } else {
-                "Normal"
-            },
-            ["OFF", "RC", "RC + TC"][a.active_count_display() as usize]
-        );
-        self.list(
-            f,
-            "SETTINGS",
-            &[
-                "Display",
-                "Sound",
-                if a.fast_mode {
-                    "Speed: Fast"
-                } else {
-                    "Speed: Normal"
-                },
-                "Add $1000 chips",
-                count.as_str(),
-                if a.resume_enabled {
-                    "Resume session: ON"
-                } else {
-                    "Resume session: OFF"
-                },
-                "Return",
-            ],
-            a.selected,
-            None,
-        );
-    }
-    fn sound(&mut self, a: &App, f: &mut RoundCanvas) {
-        let mut volume = Text::<40>::new();
-        let _ = write!(volume, "Volume: {}%", a.audio_volume);
-        self.list(
-            f,
-            "SOUND",
-            &[
-                if a.sound_enabled {
-                    "Master sound: ON"
-                } else {
-                    "Master sound: OFF"
-                },
-                volume.as_str(),
-                if a.audio_mask & 1 != 0 {
-                    "Menus: ON"
-                } else {
-                    "Menus: OFF"
-                },
-                if a.audio_mask & 2 != 0 {
-                    "Cards: ON"
-                } else {
-                    "Cards: OFF"
-                },
-                if a.audio_mask & 4 != 0 {
-                    "Results: ON"
-                } else {
-                    "Results: OFF"
-                },
-                "Test deal",
-                "Test win",
-                "Test menu",
-                "Return",
-            ],
-            a.selected,
-            None,
-        );
+            self.text(
+                f,
+                233,
+                y + 6,
+                item,
+                23,
+                if active { GOLD } else { WHITE },
+                true,
+                width - 22,
+            );
+            self.info.visible_rows += 1;
+        }
+        self.footer(f, "RIGHT: NEXT   LEFT: SELECT");
     }
     /// Reflow specialist screens into independent header, content bands and
     /// footer. Text/cards retain their aspect ratio; whole screens are never
@@ -1307,4 +1244,22 @@ fn rendered_rect(cx: i32, y: i32, text: &str, px: u8, bold: bool) -> (i16, i16, 
     let w = (text_width(text, base, bold) * px as i32 + base as i32 - 1) / base as i32;
     let h = (text_height(text, base, bold) * px as i32 + base as i32 - 1) / base as i32;
     ((cx - w / 2) as i16, y as i16, w as u16, h as u16)
+}
+
+fn physical_hint(source: &str) -> Text<512> {
+    let mut out = Text::new();
+    let mut rest = source;
+    while !rest.is_empty() {
+        if let Some(tail) = rest.strip_prefix("GREY") {
+            let _ = out.write_str("RIGHT");
+            rest = tail;
+        } else if let Some(tail) = rest.strip_prefix("BLUE") {
+            let _ = out.write_str("LEFT");
+            rest = tail;
+        } else if let Some(c) = rest.chars().next() {
+            let _ = out.write_char(c);
+            rest = &rest[c.len_utf8()..];
+        }
+    }
+    out
 }

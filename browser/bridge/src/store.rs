@@ -97,6 +97,7 @@ struct State {
     ram_only: bool,
     error_row: u8,
     error_neutral: bool,
+    error_visible: bool,
 }
 impl State {
     const EMPTY: Self = Self {
@@ -137,6 +138,7 @@ impl State {
         ram_only: false,
         error_row: 0,
         error_neutral: false,
+        error_visible: false,
     };
 }
 #[derive(Clone, Copy)]
@@ -261,6 +263,7 @@ pub fn boot(seed: u64) {
     s.output_blocked = false;
     s.wait_neutral = false;
     s.ram_only = false;
+    s.error_visible = false;
     s.force = false;
     s.revision = app().checkpoint_revision();
     s.session = app().resume_session_id();
@@ -679,6 +682,7 @@ pub extern "C" fn sb_store_public_committed(token: u32, len: u32) -> u32 {
     s.force = false;
     s.prepared = false;
     s.uncertain_write = false;
+    s.error_visible = false;
     acknowledge();
     if frozen().resume_enabled {
         let output = unsafe { &mut *core::ptr::addr_of_mut!(CAPTURE) };
@@ -699,10 +703,15 @@ pub extern "C" fn sb_store_public_failed() {
     let bound = app().resume_enabled
         || Save::decode(&s.raw[..s.rawlen]).is_some_and(|save| save.resume_enabled);
     s.output_blocked = bound;
-    s.controls = Controls::EMPTY;
     s.wait_neutral = bound;
-    s.error_row = 0;
-    s.error_neutral = false;
+    // A background retry is the same visible failure, not a new dialog. Keep
+    // the user's choice and button neutral gate while they read or confirm it.
+    if !s.error_visible {
+        s.controls = Controls::EMPTY;
+        s.error_row = 0;
+        s.error_neutral = false;
+    }
+    s.error_visible = bound;
     if bound {
         app().render_resume_storage_error_choice(state().error_row);
     }
@@ -854,6 +863,7 @@ pub extern "C" fn sb_store_start_unsaved() {
     let s = state();
     s.blocked = true;
     s.ram_only = true;
+    s.error_visible = false;
     s.output_blocked = false;
     s.wait_neutral = true;
 }

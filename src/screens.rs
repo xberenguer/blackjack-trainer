@@ -141,7 +141,7 @@ fn review(w: &mut Widgets<'_>, d: Option<Decision>, page: usize, count: usize, c
     let Some(d) = d else {
         line(w, 48, "No decisions recorded");
         line(w, 77, "History stays in this session");
-        w.footer("BLUE: TRAINING");
+        w.footer("BLUE: BACK");
         return;
     };
     let mut b = Text::new();
@@ -186,7 +186,7 @@ fn review(w: &mut Widgets<'_>, d: Option<Decision>, page: usize, count: usize, c
             MUTED,
             false,
         );
-        w.footer("GREY: HISTORY   BLUE: TRAINING")
+        w.footer("GREY: HISTORY   BLUE: BACK")
     }
 }
 fn ev(
@@ -200,7 +200,7 @@ fn ev(
     let Some(v) = v else {
         line(w, 50, "EV snapshot unavailable");
         line(w, 77, "This attempt has no model snapshot");
-        w.footer("BLUE: TRAINING");
+        w.footer("BLUE: BACK");
         return;
     };
     label(w, 8, 22, "Infinite-deck replacement", 11, GOLD, true);
@@ -301,16 +301,16 @@ fn ev(
         )
     }
     w.footer(if history.is_some() {
-        "GREY: HISTORY   BLUE: TRAINING"
+        "GREY: HISTORY   BLUE: BACK"
     } else {
-        "GREY: ACTION   BLUE: TRAINING"
+        "GREY: ACTION   BLUE: BACK"
     });
 }
 fn count_result(w: &mut Widgets<'_>, a: Option<count_practice::Attempt>, history: bool) {
     let Some(a) = a else {
         w.title("COUNT HISTORY", None, false);
         line(w, 51, "No count attempts");
-        w.footer("BLUE: PRACTICE");
+        w.footer("BLUE: BACK");
         return;
     };
     w.title(
@@ -422,14 +422,17 @@ fn count_result(w: &mut Widgets<'_>, a: Option<count_practice::Attempt>, history
         false,
     );
     w.footer(if history {
-        "GREY: HISTORY   BLUE: PRACTICE"
+        "GREY: HISTORY   BLUE: BACK"
     } else {
-        "GREY: AGAIN   BLUE: PRACTICE"
+        "GREY: AGAIN   BLUE: BACK"
     });
 }
 /// Drawing table advice/counts returns explicit aid bits; once viewed, the
 /// decision/checkpoint remains assisted even after that aid is switched off.
 pub fn draw(a: &mut App) {
+    if crate::app::menu_ui::draw(a) {
+        return;
+    }
     if crate::app::settings_ui::draw(a) {
         return;
     }
@@ -528,7 +531,7 @@ pub fn draw(a: &mut App) {
             for i in 0..n {
                 items[i] = table::action_name(actions[i])
             }
-            items[n..n + 11].copy_from_slice(&MENU);
+            items[n..n + 11].copy_from_slice(&MENU[..11]);
             w.list(&items[..n + 11], a.selected, None)
         }
         View::Wager => {
@@ -650,7 +653,7 @@ pub fn draw(a: &mut App) {
                     s.categories[a.page - 1]
                 },
             );
-            w.footer("GREY: CATEGORY   BLUE: TRAINING")
+            w.footer("GREY: CATEGORY   BLUE: BACK")
         }
         View::TrainingReview => {
             w.title("DECISION REVIEW", None, false);
@@ -713,7 +716,7 @@ pub fn draw(a: &mut App) {
                 MUTED,
                 false,
             );
-            w.footer("BLUE: TRAINING")
+            w.footer("BLUE: BACK")
         }
         View::CoachCheck => {
             w.title(
@@ -895,7 +898,7 @@ pub fn draw(a: &mut App) {
                     s.kinds[a.page - 1]
                 },
             );
-            w.footer("GREY: SKILL   BLUE: PRACTICE")
+            w.footer("GREY: SKILL   BLUE: BACK")
         }
         View::CountInfo => {
             w.title(
@@ -931,9 +934,31 @@ pub fn draw(a: &mut App) {
                 92,
                 text(&mut b, format_args!("Left {:.2} decks", left as f64 / 52.0)),
             );
-            w.footer("BLUE: PRACTICE")
+            w.footer("BLUE: BACK")
         }
-        View::Settings | View::Sound | View::AudioVolume | View::Display | View::Brightness => {}
+        View::Settings
+        | View::Sound
+        | View::AudioVolume
+        | View::Display
+        | View::Brightness
+        | View::TableMenu
+        | View::SessionMenu
+        | View::SessionOverview
+        | View::BankrollMenu
+        | View::NewSessionConfirm
+        | View::ResetStatsConfirm
+        | View::HelpMenu
+        | View::TrainingModes
+        | View::LiveCounts
+        | View::PracticeMenu
+        | View::ProgressMenu
+        | View::AdviceMenu
+        | View::SoundCategories
+        | View::SoundTests
+        | View::HandProgress
+        | View::CountProgress
+        | View::WagerProgress
+        | View::DeviationProgress => {}
         View::Profile => {
             w.title(
                 "TABLE PROFILE",
@@ -1024,7 +1049,7 @@ pub fn draw(a: &mut App) {
                     "Finish ordinary rounds before shuffle"
                 },
             );
-            w.footer("BLUE: MENU")
+            w.footer("BLUE: BACK")
         }
         View::Rules => {
             w.title(
@@ -1108,7 +1133,7 @@ pub fn draw(a: &mut App) {
                     5,
                 ),
             }
-            w.footer("GREY: PAGE   BLUE: MENU")
+            w.footer("GREY: PAGE   BLUE: BACK")
         }
         View::Session => {
             w.title(
@@ -1129,7 +1154,7 @@ pub fn draw(a: &mut App) {
                     "Bankroll details",
                     "Add $1000 chips",
                     "Session analysis",
-                    "Color up & leave",
+                    "End session",
                 ],
                 a.selected,
                 None,
@@ -1193,7 +1218,7 @@ pub fn draw(a: &mut App) {
                     ),
                 )
             }
-            w.footer("GREY: PAGE   BLUE: SESSION")
+            w.footer("GREY: PAGE   BLUE: BACK")
         }
         View::Cards => {
             let dealer = a.card_group == a.game.hand_count;
@@ -1239,7 +1264,7 @@ pub fn draw(a: &mut App) {
                 MUTED,
                 false,
             );
-            w.footer("GREY: CARDS   BLUE: MENU")
+            w.footer("GREY: CARDS   BLUE: BACK")
         }
         View::Controls => {
             w.title("TWO BUTTONS", None, false);
@@ -1248,22 +1273,22 @@ pub fn draw(a: &mut App) {
                 32,
                 [
                     "GREY tap: hit during your turn. BLUE tap: stand. Between rounds, GREY selects wager and BLUE deals.",
-                    "Hold GREY: unified menu. Legal double, split and surrender appear first. GREY moves; BLUE selects.",
+                    "Hold GREY: open the menu; inside menus, go back one level. GREY moves; BLUE selects. Double, split and surrender come first.",
                     "Hold BLUE: cycle Off, Test, Coach, Guide. Holds consume their release; releasing does not play a card.",
-                    "Count quiz only: GREY minus, BLUE plus; both submit once. Hold GREY cancels to menu. Hold BLUE cycles training modes.",
+                    "Count quizzes: GREY minus, BLUE plus; both submit once. Hold GREY cancels the question and goes back.",
                 ][a.page.min(3)],
                 13,
                 5,
             );
-            w.footer("GREY: PAGE   BLUE: MENU")
+            w.footer("GREY: PAGE   BLUE: BACK")
         }
         View::Leave => {
             w.title(
-                "COLOR UP & LEAVE",
-                Some("Finish the session and cash out chips"),
+                "END SESSION",
+                Some("End this session and close the table"),
                 false,
             );
-            w.list(&["Stay at the table", "Cash out & leave"], a.selected, None)
+            w.list(&["Keep playing", "End session"], a.selected, None)
         }
         View::Summary => {
             w.title(

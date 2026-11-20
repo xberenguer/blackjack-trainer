@@ -29,6 +29,16 @@ fn menu(a: &mut App, label: &str) {
     }
     panic!("Missing menu item {label}");
 }
+fn select(a: &mut App, label: &str) {
+    for _ in 0..30 {
+        if a.menu_item() == label {
+            tap(a, Key::Blue);
+            return;
+        }
+        tap(a, Key::Grey);
+    }
+    panic!("Missing item {label} in {}", a.view_name());
+}
 fn gold(f: &RoundCanvas, y: usize, h: usize) -> usize {
     f.pixels[y * WIDTH..(y + h) * WIDTH]
         .iter()
@@ -154,7 +164,8 @@ fn volume_has_large_numeric_content_and_physical_button_hints() {
 fn legacy_resume_composition_preserves_circle_and_visible_contents() {
     run(|| {
         let mut a = Box::new(App::new(37));
-        menu(&mut a, "Table rules");
+        menu(&mut a, "Table");
+        select(&mut a, "Current rules");
         a.render();
         let mut f = Box::new(RoundCanvas::EMPTY);
         let mut r = RoundRenderer::new();
@@ -535,18 +546,24 @@ fn menu_six_full_rows_peek_then_advance_one_row_without_a_side_scrollbar() {
             tap(&mut a, Key::Grey);
         }
         r.render(&a, &mut f);
-        assert_eq!(a.focus(), 5);
+        assert_eq!(r.info.selected_row, 5);
         assert_eq!(
             r.info.menu_top, 0,
-            "Last full row stays inside the initial viewport"
+            "Last full row stays in the initial viewport"
+        );
+        let ink = f.pixels[359 * WIDTH..377 * WIDTH]
+            .iter()
+            .filter(|p| **p != f.background())
+            .count();
+        assert!(
+            ink > 100,
+            "Partial next row must advertise the seventh item"
         );
         tap(&mut a, Key::Grey);
         r.render(&a, &mut f);
-        assert_eq!(a.focus(), 6);
         assert_eq!(
-            (r.info.menu_top, r.info.peek_row),
-            (1, true),
-            "Moving past the last full row scrolls exactly one row"
+            (r.info.selected_row, r.info.menu_top, r.info.peek_row),
+            (6, 1, false)
         );
         for y in 135..347 {
             if inside_circle(428, y as i32) {
@@ -557,22 +574,6 @@ fn menu_six_full_rows_peek_then_advance_one_row_without_a_side_scrollbar() {
                 );
             }
         }
-        let ink: usize = f.pixels[359 * WIDTH..377 * WIDTH]
-            .iter()
-            .filter(|p| **p != f.background())
-            .count();
-        assert!(
-            ink > 100,
-            "A fading partial next row must advertise further items"
-        );
-        for _ in 0..4 {
-            tap(&mut a, Key::Grey);
-        }
-        r.render(&a, &mut f);
-        assert_eq!(
-            (a.focus(), r.info.menu_top, r.info.peek_row),
-            (10, 5, false)
-        );
         round_safe(&f);
     });
 }
@@ -607,7 +608,7 @@ fn round_display_background_row_cycles_the_same_four_persisted_choices() {
         }
         tap(&mut a, Key::Grey);
         assert_eq!(a.focus(), 3);
-        assert_eq!(a.menu_item(), "Return");
+        assert_eq!(a.menu_item(), "Back");
     });
 }
 #[test]
@@ -793,6 +794,140 @@ fn dealer_fans_recentre_with_equal_margins_and_keep_all_visible_cards_inside_cir
                 assert!(inside_circle(xx, yy));
             }
             round_safe(&f);
+        }
+    });
+}
+
+#[test]
+fn grouped_menus_share_readable_rows_and_restore_the_parent_focus() {
+    run(|| {
+        let paths: &[(&[&str], u8)] = &[
+            (&["Training"], 6),
+            (&["Training", "Live counts"], 4),
+            (&["Training", "Practice"], 4),
+            (&["Training", "Progress"], 6),
+            (&["Training", "Advice & EV"], 4),
+            (&["Settings"], 5),
+            (&["Settings", "Sound"], 5),
+            (&["Settings", "Sound", "Categories"], 4),
+            (&["Settings", "Sound", "Test sounds"], 4),
+            (&["Table"], 5),
+            (&["Session"], 5),
+            (&["Session", "Bankroll"], 3),
+            (&["Help"], 3),
+        ];
+        let mut f = Box::new(RoundCanvas::EMPTY);
+        let mut r = RoundRenderer::new();
+        for &(path, rows) in paths {
+            let mut a = Box::new(App::new(334));
+            a.round_display = true;
+            a.event(Event::Hold(Key::Grey));
+            for label in path {
+                select(&mut a, label);
+            }
+            r.render(&a, &mut f);
+            assert!(
+                r.info.shared_menu,
+                "{} bypassed shared menu definition",
+                a.view_name()
+            );
+            assert!(!r.info.confirmation);
+            assert_eq!(r.info.visible_rows, rows, "{}", a.view_name());
+            assert!(gold(&f, 60, 42) > 200, "{} heading missing", a.view_name());
+            assert!(
+                gold(&f, 130, 35) > 120,
+                "{} selected row missing",
+                a.view_name()
+            );
+            round_safe(&f);
+        }
+        let mut a = Box::new(App::new(334));
+        menu(&mut a, "Settings");
+        select(&mut a, "Sound");
+        select(&mut a, "Categories");
+        a.event(Event::Hold(Key::Grey));
+        a.render();
+        assert_eq!((a.view_name(), a.menu_item()), ("Sound", "Categories"));
+        a.event(Event::Hold(Key::Grey));
+        a.render();
+        assert_eq!((a.view_name(), a.menu_item()), ("Settings", "Sound"));
+        a.event(Event::Hold(Key::Grey));
+        a.render();
+        assert_eq!((a.view_name(), a.menu_item()), ("Menu", "Settings"));
+    });
+}
+#[test]
+fn destructive_confirmations_default_to_cancel_and_keep_explanations_above_choices() {
+    run(|| {
+        let mut f = Box::new(RoundCanvas::EMPTY);
+        let mut r = RoundRenderer::new();
+        for label in ["New session", "Reset training stats"] {
+            let mut a = Box::new(App::new(334));
+            let parent = if label == "New session" {
+                menu(&mut a, "Session");
+                "SessionMenu"
+            } else {
+                menu(&mut a, "Training");
+                select(&mut a, "Progress");
+                "ProgressMenu"
+            };
+            select(&mut a, label);
+            assert_eq!(a.menu_item(), "Cancel");
+            r.render(&a, &mut f);
+            assert!(r.info.shared_menu && r.info.confirmation);
+            assert_eq!((r.info.visible_rows, r.info.selected_row), (2, 0));
+            assert!(
+                f.pixels[128 * WIDTH..290 * WIDTH]
+                    .iter()
+                    .filter(|p| **p == 0xffff)
+                    .count()
+                    > 1000,
+                "{label}: keep/reset explanation must remain legible"
+            );
+            assert!(gold(&f, 306, 32) > 100, "Cancel must visibly be selected");
+            assert!(
+                f.pixels[344 * WIDTH..376 * WIDTH]
+                    .iter()
+                    .filter(|p| **p == 0xffff)
+                    .count()
+                    > 100,
+                "{label}: separate confirmation choice is missing"
+            );
+            round_safe(&f);
+            tap(&mut a, Key::Blue);
+            assert_eq!((a.view_name(), a.menu_item()), (parent, label));
+        }
+    });
+}
+#[test]
+fn read_only_mode_help_and_session_overview_are_native_paragraph_screens() {
+    run(|| {
+        let mut f = Box::new(RoundCanvas::EMPTY);
+        let mut r = RoundRenderer::new();
+        for path in [["Help", "Training modes"], ["Session", "Overview"]] {
+            let mut a = Box::new(App::new(334));
+            menu(&mut a, path[0]);
+            select(&mut a, path[1]);
+            for _ in 0..4 {
+                r.render(&a, &mut f);
+                assert!(r.info.shared_menu && !r.info.confirmation);
+                assert_eq!(r.info.visible_rows, 0);
+                assert!(
+                    f.pixels[128 * WIDTH..290 * WIDTH]
+                        .iter()
+                        .filter(|p| **p == 0xffff)
+                        .count()
+                        > 500
+                );
+                assert!(
+                    f.pixels[400 * WIDTH..420 * WIDTH]
+                        .iter()
+                        .any(|p| *p != f.background()),
+                    "Read-only page/back hint must be visible"
+                );
+                round_safe(&f);
+                tap(&mut a, Key::Grey);
+            }
         }
     });
 }

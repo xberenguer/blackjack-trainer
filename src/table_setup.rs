@@ -359,7 +359,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
             10,
             GOLD,
         );
-        w.footer("BLUE: MENU");
+        w.footer("BLUE: BACK");
         return true;
     }
     if a.view == View::Rules && a.page >= 5 {
@@ -396,7 +396,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
         for (i, line) in lines.iter().enumerate() {
             label(&mut w, 30 + i as i32 * 17, line, 11, WHITE)
         }
-        w.footer("GREY: PAGE   BLUE: MENU");
+        w.footer("GREY: PAGE   BLUE: BACK");
         return true;
     }
     if !(matches!(a.view, View::TableSeats | View::SeatCards)
@@ -469,7 +469,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
             } else {
                 label(&mut w, 51, "No table cards dealt yet", 15, WHITE)
             }
-            w.footer("GREY: CARDS   BLUE: MENU")
+            w.footer("GREY: CARDS   BLUE: BACK")
         }
         View::Table => {
             let seat = a.game.active_seat as usize;

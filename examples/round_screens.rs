@@ -42,7 +42,7 @@ fn main() {
     save(out, "cut", &mut a, &mut r, &mut f);
     a.event(Event::Hold(Key::Grey));
     save(out, "menu", &mut a, &mut r, &mut f);
-    for _ in 0..10 {
+    for _ in 0..6 {
         a.event(Event::Tap(Key::Grey));
     }
     save(out, "menu-bottom", &mut a, &mut r, &mut f);

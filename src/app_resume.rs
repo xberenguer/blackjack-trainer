@@ -617,6 +617,25 @@ impl Wire for View {
             62 => Ok(Self::AudioVolume),
             63 => Ok(Self::Display),
             64 => Ok(Self::Brightness),
+            65 => Ok(Self::TableMenu),
+            66 => Ok(Self::SessionMenu),
+            67 => Ok(Self::SessionOverview),
+            68 => Ok(Self::BankrollMenu),
+            69 => Ok(Self::NewSessionConfirm),
+            70 => Ok(Self::ResetStatsConfirm),
+            71 => Ok(Self::HelpMenu),
+            72 => Ok(Self::TrainingModes),
+            73 => Ok(Self::LiveCounts),
+            74 => Ok(Self::PracticeMenu),
+            75 => Ok(Self::ProgressMenu),
+            76 => Ok(Self::AdviceMenu),
+            77 => Ok(Self::SoundCategories),
+            78 => Ok(Self::SoundTests),
+            79 => Ok(Self::HandProgress),
+            80 => Ok(Self::CountProgress),
+            81 => Ok(Self::WagerProgress),
+            82 => Ok(Self::DeviationProgress),
+
             _ => Err(crate::resume_private::Error::Invalid),
         }
     }
@@ -698,14 +717,26 @@ impl App {
             View::Menu => MENU.len() + self.extras().1,
             View::Wager | View::WagerPractice | View::WagerPolicy => 6,
             View::Amount | View::ProfileAmount => 5,
-            View::Training => 11,
+            View::Training => 15,
             View::Settings => 7,
-            View::Sound => 9,
+            View::Sound => 11,
             // Display cursor3 stays Return; cursor4 is the new Card back row.
             // Hardware capability
             // is intentionally outside the private wire identity.
             View::Display => 5,
             View::AudioVolume | View::Brightness => 1,
+            View::TableMenu => 5,
+            View::HelpMenu | View::BankrollMenu => 3,
+            View::PracticeMenu => 4,
+            View::ProgressMenu => 6,
+            View::SessionMenu => 6,
+            View::LiveCounts | View::AdviceMenu | View::SoundCategories | View::SoundTests => 4,
+            View::NewSessionConfirm | View::ResetStatsConfirm => 2,
+            View::HandProgress
+            | View::CountProgress
+            | View::WagerProgress
+            | View::DeviationProgress => 3,
+            View::SessionOverview | View::TrainingModes => 1,
             View::Profile | View::ProfileDepth => 8,
             View::ProfilePreset | View::CountPractice => 7,
             View::CoachCheck | View::Leave | View::Summary => 2,
@@ -716,6 +747,11 @@ impl App {
             _ => 512,
         };
         if self.selected >= selected_limit {
+            return false;
+        }
+        if (self.view == View::SessionOverview && self.page >= 2)
+            || (self.view == View::TrainingModes && self.page >= 4)
+        {
             return false;
         }
         if self.view == View::TrainingStats && self.page > 4

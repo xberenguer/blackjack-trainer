@@ -134,7 +134,7 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
         (1, "Flip screen"),
         (2, "Background"),
         (4, "Card back"),
-        (3, "Return"),
+        (3, "Back"),
         (0, "Brightness"),
     ] {
         assert_eq!((app.focus(), app.menu_item()), (id, label));
@@ -155,14 +155,14 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
         (app.game.position, app.game.rounds, app.training.stats())
     );
     app.event(GREY);
-    assert_eq!((app.focus(), app.menu_item()), (3, "Return"));
+    assert_eq!((app.focus(), app.menu_item()), (3, "Back"));
     app.event(BLUE);
     assert_eq!(app.view_name(), "Settings");
     let mut stick = Box::new(App::new(7));
     display(&mut stick);
     stick.event(GREY);
     stick.event(GREY);
-    assert_eq!((stick.focus(), stick.menu_item()), (2, "Return"));
+    assert_eq!((stick.focus(), stick.menu_item()), (2, "Back"));
     stick.event(BLUE);
     assert_eq!(stick.view_name(), "Settings");
     assert_eq!(stick.card_back, 0);
@@ -206,7 +206,7 @@ fn old_v11_private_return_cursor3_stays_return_and_requires_a_new_v12_binding() 
     while app.focus() != 3 {
         app.event(GREY);
     }
-    assert_eq!(app.menu_item(), "Return");
+    assert_eq!(app.menu_item(), "Back");
     app.render();
     let old_public = old(app.save().encode().unwrap(), 11);
     let mut private = vec![0; snapshot::MAX_BYTES];
@@ -247,7 +247,7 @@ fn old_v11_private_return_cursor3_stays_return_and_requires_a_new_v12_binding() 
     };
     assert!(resume_binding::bind_private(&mut bound, current, &fresh[..n]).is_ok());
     candidate.round_display = true;
-    assert_eq!(candidate.menu_item(), "Return");
+    assert_eq!(candidate.menu_item(), "Back");
     candidate.event(BLUE);
     assert_eq!(candidate.view_name(), "Settings");
 }

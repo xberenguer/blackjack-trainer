@@ -396,6 +396,17 @@ impl Model {
             self.reference(token)
         }
     }
+    /// Clear learning scores/history only, retaining consumed-token protection.
+    pub fn reset_stats(&mut self) -> bool {
+        if self.pending.is_some() {
+            return false;
+        }
+        self.stats = Stats::EMPTY;
+        self.history.fill(None);
+        self.start = 0;
+        self.len = 0;
+        true
+    }
     pub fn restore(&mut self, stats: Stats) -> bool {
         if self.restored
             || self.last_token != 0

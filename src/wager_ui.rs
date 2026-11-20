@@ -183,7 +183,7 @@ impl App {
             }
         }
     }
-    fn view_wager_history(&mut self) {
+    pub(super) fn view_wager_history(&mut self) {
         if let Some(a) = self.wager_practice.newest(self.page).copied() {
             self.wager_practice.request_help(a.question.token);
             self.wager_reference_aid(a.reference)
@@ -482,7 +482,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
             let Some(attempt) = attempt else {
                 w.title("WAGER RESULT", None, false);
                 label(&mut w, 49, "No first attempt recorded", 16, WHITE);
-                w.footer("BLUE: PRACTICE");
+                w.footer("BLUE: BACK");
                 return true;
             };
             w.title(
@@ -529,7 +529,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
                 label(&mut w, 48, "No wager attempts recorded", 15, WHITE);
                 label(&mut w, 78, "History stays in this session", 11, MUTED)
             }
-            w.footer("GREY: HISTORY   BLUE: PRACTICE")
+            w.footer("GREY: HISTORY   BLUE: BACK")
         }
         View::WagerStats => {
             w.title(
@@ -582,7 +582,7 @@ pub(crate) fn draw(a: &mut App) -> bool {
                 10,
                 MUTED,
             );
-            w.footer("GREY: CATEGORY   BLUE: PRACTICE")
+            w.footer("GREY: CATEGORY   BLUE: BACK")
         }
         View::WagerPolicy => {
             w.title(

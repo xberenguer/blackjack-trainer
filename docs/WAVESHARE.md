@@ -92,7 +92,7 @@ These examples show synthetic sessions rendered at the Waveshare’s native 466 
 
 ## Install or update
 
-Use the [device flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack), select **Waveshare 1.75C** and Blackjack Trainer. Its signed release catalog verifies the matching device, firmware and flash map.
+Open the [firmware flasher](https://xn--sg8hhb.ws/flasher/), choose **Waveshare 1.75C**, then choose **Blackjack Trainer**. Its signed release catalog verifies the matching device, firmware and flash map.
 
 The Waveshare installation is **application only at `0x200000`**. It retains the complete factory partition table, bootloader, calibration/NVS and existing model/storage filesystems. Do not install the Stick image, erase the chip or flash the supplied factory-map reference as a new partition table.
 

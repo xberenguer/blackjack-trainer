@@ -1,6 +1,6 @@
 # Blackjack Trainer
 
-**[Open the flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack) · [Install on StickS3](docs/INSTALL.md#sticks3) · [Install on Waveshare 1.75C](docs/WAVESHARE.md#install-or-update) · [Play in your browser](https://xberenguer.github.io/blackjack-trainer/)**
+**[Open the flasher](https://xn--sg8hhb.ws/flasher/) · [Install on StickS3](docs/INSTALL.md#sticks3) · [Install on Waveshare 1.75C](docs/WAVESHARE.md#install-or-update) · [Play in your browser](https://xberenguer.github.io/blackjack-trainer/)**
 
 Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature. Both hardware targets share this repository and release version. Choose your device in the flasher to download the matching firmware.
 

@@ -4,7 +4,7 @@ Guide keeps the dealer insurance prompt, large Decline/Yes choices, side-bet amo
 
 The GitHub front page is now the complete illustrated feature guide. Installation and the hosted [web version](https://xberenguer.github.io/blackjack-trainer/) are linked first. The redundant Quickstart is removed. Existing feature-guide links still lead to the main guide.
 
-The [Stick flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack) consumes a versioned firmware contract from stable GitHub releases. Its signed catalogue checks source CI, artifact hashes and partition maps. Matching installs update only the application; migrations protect existing matching journals and require a recovery backup. StickS3 browser migration is **Preview**, pending physical end-to-end qualification.
+The [firmware flasher](https://xn--sg8hhb.ws/flasher/) consumes a versioned firmware contract from stable GitHub releases. Its signed catalogue checks source CI, artifact hashes and partition maps. Matching installs update only the application; migrations protect existing matching journals and require a recovery backup. StickS3 browser migration is **Preview**, pending physical end-to-end qualification.
 
 ## Verification scope
 

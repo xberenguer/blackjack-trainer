@@ -1,6 +1,6 @@
 # Install Blackjack Trainer
 
-Use the [same web flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack) for both devices. Select **Blackjack Trainer** and your exact board. GitHub releases include separate firmware downloads for [StickS3](#sticks3) and [Waveshare 1.75C](#waveshare-175c-round-device). The [feature guide](../README.md) explains play and the [menu guide](MENUS.md) shows both displays.
+Use the [same web flasher](https://xn--sg8hhb.ws/flasher/) for both devices. Select your exact board, then **Blackjack Trainer**. GitHub releases include separate firmware downloads for [StickS3](#sticks3) and [Waveshare 1.75C](#waveshare-175c-round-device). The [feature guide](../README.md) explains play and the [menu guide](MENUS.md) shows both displays.
 
 ## Browser
 
@@ -18,7 +18,7 @@ The firmware target is **M5Stack StickS3 / ESP32-S3,8MB flash and8MB OPI PSRAM**
 
 ### Web flasher
 
-**[Install or update with the Stick flasher](https://xn--sg8hhb.ws/flasher/?project=blackjack)** in desktop Chrome or Edge. Choose **Blackjack Trainer → StickS3**. The catalogue follows the latest stable GitHub release; a newly published release normally appears within 15 minutes.
+**[Open the firmware flasher](https://xn--sg8hhb.ws/flasher/)** in desktop Chrome or Edge. Choose **StickS3**, then **Blackjack Trainer**. The catalogue follows the latest stable GitHub release; a newly published release normally appears within 15 minutes.
 
 The default flow is **Connect → Flash → Verify**. Device checks, signed downloads and write verification run automatically. Recovery backup and restore are optional under **Advanced**; a layout change, a different recognized project or unknown firmware gets a prominent backup offer without blocking Flash. Choosing a backup also enables best-effort automatic rollback while the tab remains open. An existing matching trainer layout receives an app-only update, preserving saves. First installations use the reviewed boot/partition/application bundle and initialize only the new trainer journal regions. **StickS3 browser installation is marked Preview**: the migration/recovery logic has software coverage, while the complete browser USB installation path still needs physical qualification.
 

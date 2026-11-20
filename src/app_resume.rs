@@ -42,6 +42,7 @@ impl App {
             round_display: _,
             background: _,
             card_back: _,
+            compact_black: _,
             brightness,
             flipped,
             sound_enabled,
@@ -218,6 +219,7 @@ impl App {
             round_display: _,
             background: _,
             card_back: _,
+            compact_black: _,
             brightness,
             flipped,
             sound_enabled,
@@ -396,6 +398,7 @@ impl App {
             round_display,
             background,
             card_back,
+            compact_black,
             brightness,
             flipped,
             sound_enabled,
@@ -486,6 +489,7 @@ impl App {
         round_display.snapshot_copy_to(&mut out.round_display);
         background.snapshot_copy_to(&mut out.background);
         card_back.snapshot_copy_to(&mut out.card_back);
+        compact_black.snapshot_copy_to(&mut out.compact_black);
         brightness.snapshot_copy_to(&mut out.brightness);
         flipped.snapshot_copy_to(&mut out.flipped);
         sound_enabled.snapshot_copy_to(&mut out.sound_enabled);
@@ -635,6 +639,7 @@ impl Wire for View {
             80 => Ok(Self::CountProgress),
             81 => Ok(Self::WagerProgress),
             82 => Ok(Self::DeviationProgress),
+            83 => Ok(Self::CardBackPreview),
 
             _ => Err(crate::resume_private::Error::Invalid),
         }
@@ -724,7 +729,7 @@ impl App {
             // Hardware capability
             // is intentionally outside the private wire identity.
             View::Display => 5,
-            View::AudioVolume | View::Brightness => 1,
+            View::AudioVolume | View::Brightness | View::CardBackPreview => 1,
             View::TableMenu => 5,
             View::HelpMenu | View::BankrollMenu => 3,
             View::PracticeMenu => 4,

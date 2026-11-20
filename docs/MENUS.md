@@ -1,4 +1,4 @@
-# Menus — 0.12.1
+# Menus — 0.12.2
 
 The menu is organized around the task you want to do. Hold **Grey** on Stick, or the **small right button** on Waveshare, to open it. Legal Double/Split/Surrender actions still come first during a hand.
 
@@ -48,7 +48,7 @@ A `>` means another screen opens. A row showing a value, such as **Speed: Fast**
 | Session → Reports | Existing session analysis and retained round/decision evidence. |
 | Session → Bankroll | Balance details and Add $1000. Deposits are separate from winnings. |
 | Session → New session | Confirm a fresh $1000 session and shoe. |
-| Settings → Display | Brightness and orientation; Waveshare also has background and Stardust-back colors. |
+| Settings → Display | Brightness, screen orientation, saved background color and a live card-back preview on both models. |
 | Settings → Sound | Master sound and volume. Categories and Test sounds each have their own submenu. |
 | Settings → Speed | Fast or Normal; Fast remains the default. |
 | Settings → Save/resume | Opt-in exact private resume; default Off. Ordinary preferences and scores still save independently. |
@@ -180,6 +180,14 @@ These images show synthetic sessions from the shared controller and renderers. S
 | StickS3 | Waveshare 1.75C |
 |---|---|
 | [![Display on Stick](media/menus/stick/display.png)](media/menus/stick/native/display.png) | [![Display on Waveshare](media/menus/round/display.png)](media/menus/round/display.png) |
+
+### Card-back preview
+
+Open **Settings → Display → Card back**. Tap Grey/Right to cycle Gold, Red and Blue while looking at the card. Tap Blue/Left to return to Display.
+
+| StickS3 | Waveshare 1.75C |
+| :---: | :---: |
+| [![Red card back preview on StickS3](media/compare/stick-card-back-red.png)](media/compare/stick-card-back-red.png) | [![Red card back preview on Waveshare](media/compare/waveshare-card-back-red.png)](media/compare/waveshare-card-back-red.png) |
 
 ### Help
 

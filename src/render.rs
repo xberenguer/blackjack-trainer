@@ -1,6 +1,6 @@
 use crate::{
     assets::{Font, Sprite},
-    canvas::{Canvas, HEIGHT, WIDTH},
+    canvas::{Canvas, FELT, HEIGHT, WIDTH, rgb},
 };
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Align {
@@ -65,12 +65,37 @@ pub fn text_height(text: &str, size: u8, bold: bool) -> i32 {
         b.max_y - b.min_y
     })
 }
+/// Re-hue only coloured ink. The cream paper, white border, lettering shapes
+/// and lattice geometry stay exactly the same; face sprites never use this.
+pub fn card_back_color(c: u16, choice: u8) -> u16 {
+    if choice == 0 || choice > 2 {
+        return c;
+    }
+    let r = ((c >> 11) & 31) as u32 * 255 / 31;
+    let g = ((c >> 5) & 63) as u32 * 255 / 63;
+    let b = (c & 31) as u32 * 255 / 31;
+    let hi = r.max(g).max(b);
+    let lo = r.min(g).min(b);
+    let chroma = hi - lo;
+    if chroma * 100 < hi * 16 {
+        return c;
+    }
+    if choice == 1 {
+        rgb(hi as u8, lo as u8, lo as u8)
+    } else {
+        rgb(lo as u8, (lo + chroma / 4) as u8, hi as u8)
+    }
+}
 pub struct Renderer {
     mask: [u8; WIDTH * 32],
+    compact_black: bool,
+    card_back: u8,
 }
 impl Renderer {
     pub const EMPTY: Self = Self {
         mask: [0; WIDTH * 32],
+        compact_black: false,
+        card_back: 0,
     };
 }
 impl Default for Renderer {
@@ -79,6 +104,14 @@ impl Default for Renderer {
     }
 }
 impl Renderer {
+    /// Select appearance before painting; changing felt never recolours art.
+    pub fn set_appearance(&mut self, black: bool, card_back: u8) {
+        self.compact_black = black;
+        self.card_back = if card_back <= 2 { card_back } else { 0 };
+    }
+    pub fn felt(&self) -> u16 {
+        if self.compact_black { 0 } else { FELT }
+    }
     pub fn text(
         &mut self,
         canvas: &mut Canvas,
@@ -149,6 +182,16 @@ impl Renderer {
         sprite: Sprite,
         size: Option<(i32, i32)>,
     ) {
+        self.sprite_with_back(canvas, point, sprite, size, false);
+    }
+    fn sprite_with_back(
+        &mut self,
+        canvas: &mut Canvas,
+        point: (i32, i32),
+        sprite: Sprite,
+        size: Option<(i32, i32)>,
+        back: bool,
+    ) {
         let (x, y) = point;
         let (w, h) = size.unwrap_or((sprite.width as i32, sprite.height as i32));
         if w < 1 || h < 1 {
@@ -163,7 +206,16 @@ impl Renderer {
             for i in i0..i1 {
                 let sx = (i as i64 * sprite.width as i64 / w as i64) as usize;
                 if let Some((color, alpha)) = sprite.rgba565(sy * sprite.width + sx) {
-                    canvas.blend(x + i, y + j, color, alpha);
+                    canvas.blend(
+                        x + i,
+                        y + j,
+                        if back {
+                            card_back_color(color, self.card_back)
+                        } else {
+                            color
+                        },
+                        alpha,
+                    );
                 }
             }
         }
@@ -186,7 +238,12 @@ impl Renderer {
             }
         };
         if let Some(sprite) = Sprite::at(index) {
-            self.sprite(canvas, point, sprite, None)
+            self.sprite_with_back(canvas, point, sprite, None, card.is_none())
+        }
+    }
+    pub fn card_back(&mut self, canvas: &mut Canvas, point: (i32, i32), size: (i32, i32)) {
+        if let Some(sprite) = Sprite::at(104) {
+            self.sprite_with_back(canvas, point, sprite, Some(size), true);
         }
     }
 }

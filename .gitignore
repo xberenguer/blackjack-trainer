@@ -9,6 +9,7 @@
 !/validation/release-0.11.2.json
 !/validation/release-0.12.0.json
 !/validation/release-0.12.1.json
+!/validation/release-0.12.2.json
 !/validation/rust-core-validation.json
 /browser/validation/
 /device-*/

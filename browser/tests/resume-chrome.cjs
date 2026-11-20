@@ -33,6 +33,16 @@ let browser, page;
  const focus=async n=>{for(let i=0;(await state()).focus!==n;i++){assert(i<40);await tap('ArrowLeft');}};
  const select=async label=>{for(let i=0;!(await state()).menu_item.toLowerCase().includes(label.toLowerCase());i++){assert(i<40,`missing ${label}`);await tap('ArrowLeft');}await tap();};
  assert.equal((await state()).training_mode,0);assert.equal(await page.title(),`Stardust Blackjack · v${version}`);
+ // Compact display controls and the live card-back screen use the same
+ // Rust controller as the two-button Stick, without browser-only UI controls.
+ await hold('ArrowLeft');await select('Settings');await select('Display');await wait('Display');const displayRows=[];
+ for(let row=0;row<5;row++){const current=await state();displayRows.push([current.focus,current.menu_item]);await tap('ArrowLeft');}
+ assert.deepEqual(displayRows,[[0,'Brightness'],[1,'Flip screen'],[3,'Background'],[4,'Card back'],[2,'Back']]);
+ await select('Background');const blackScreen=await page.locator('#screen').evaluate(c=>c.toDataURL());await select('Background');assert.notEqual(await page.locator('#screen').evaluate(c=>c.toDataURL()),blackScreen,'Blue/Black changes the rendered screen');
+ await select('Card back');await wait('CardBackPreview');const backScreens=[];
+ for(const name of ['gold','red','blue']){backScreens.push(await page.locator('#screen').evaluate(c=>c.toDataURL()));await page.screenshot({path:out+`/display-card-back-${name}.png`});await tap('ArrowLeft');}
+ assert.equal(new Set(backScreens).size,3,'all three live card-back previews are visually distinct');await tap();await wait('Display');assert.equal((await state()).focus,4);assert.equal((await state()).menu_item,'Card back');
+ await hold('ArrowLeft');await select('Back');await wait('Menu');await select('Back to game');await wait('Cut');
  await hold('ArrowLeft');await select('Settings');await wait('Settings');await select('Save/resume');
  await page.screenshot({path:out+'/01-opt-in.png'});
  await select('Back');await wait('Menu');await select('Back to game');await hold('ArrowRight');await hold('ArrowRight');await hold('ArrowRight');assert.equal((await state()).training_mode,3);

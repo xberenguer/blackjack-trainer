@@ -1,7 +1,7 @@
 //! Approved compact table layout. Advice receives visible hand/upcard snapshots;
 //! exposed-card accounting and assistance are returned explicitly to the UI.
 use crate::{
-    canvas::{Canvas, FELT, rgb},
+    canvas::{Canvas, rgb},
     cards::Outcome,
     counting::Tracker,
     deviations::{self, Count, Threshold},
@@ -62,7 +62,7 @@ struct Painter<'a> {
 impl Painter<'_> {
     fn toast(&mut self, mode: Option<Mode>) {
         if let Some(mode) = mode {
-            self.frame.rect(164, 76, 76, 59, FELT);
+            self.frame.rect(164, 76, 76, 59, self.render.felt());
             self.label((202, 83), "MODE", 11, MUTED, true, Align::Center);
             self.label((202, 103), mode.name(), 17, GOLD, true, Align::Center);
         }
@@ -71,7 +71,7 @@ impl Painter<'_> {
         if let Some(mode) = mode {
             // Insurance always has two player cards, ending at x116. Keep the
             // transient mode label in the spare strip, never over the choices.
-            self.frame.rect(120, 76, 42, 59, FELT);
+            self.frame.rect(120, 76, 42, 59, self.render.felt());
             self.label((141, 83), "MODE", 8, MUTED, true, Align::Center);
             self.label((141, 103), mode.name(), 11, GOLD, true, Align::Center);
         }
@@ -372,7 +372,7 @@ pub fn draw(
     }
     let mut exposure = Exposure::default();
     let mut p = Painter { frame, render };
-    p.frame.clear(FELT);
+    p.frame.clear(p.render.felt());
     let mut text = Text::<64>::new();
     let _ = write!(
         text,

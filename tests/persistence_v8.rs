@@ -42,7 +42,7 @@ fn v1_through_v7_migrate_exact_old_scores_and_create_no_drill_progress() {
 fn independent_v8_packet_roundtrips_exact_original_and_replay_u64_scores() {
     let packet = include_bytes!("data/save-v8.bin");
     let s = Save::decode(packet).unwrap();
-    assert_eq!(VERSION, 12);
+    assert_eq!(VERSION, 13);
     assert_eq!(SIZE, 2636);
     assert_eq!(
         (s.drill_target, s.drill_mix, s.drill_profile),
@@ -79,7 +79,7 @@ fn v8_crc_reserved_selectors_schema_and_stat_invariants_are_checked() {
         assert!(Save::decode(&bad).is_none(), "byte{at}");
     }
     for (at, value) in [
-        (4, 13),
+        (4, 14),
         (580, 32),
         (581, 4),
         (582, 6),

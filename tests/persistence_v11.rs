@@ -53,7 +53,7 @@ fn substitute_public(private: &mut [u8], public: &[u8]) {
 }
 #[test]
 fn v11_four_backgrounds_roundtrip_without_consuming_more_packet_space() {
-    assert_eq!((VERSION, SIZE), (12, 2636));
+    assert_eq!((VERSION, SIZE), (13, 2636));
     assert_eq!(Save::default().background, 0);
     for background in 0..4 {
         let save = Save {
@@ -99,7 +99,7 @@ fn v10_migration_preserves_all_scores_rules_audio_and_preferences_exactly() {
     assert!(migrated.drill_stats.first.all.decisions > (1u64 << 53));
     let current = migrated.encode().unwrap();
     assert_eq!(&current[8..SIZE - 4], &old[8..SIZE - 4]);
-    assert_eq!(current[4], 12);
+    assert_eq!(current[4], 13);
     assert_eq!(old[4], 10);
     let mut app = Box::new(App::new(7));
     app.round_display = true;
@@ -144,7 +144,7 @@ fn every_old_version_keeps_background_bits_reserved() {
     }
 }
 #[test]
-fn background_row_exists_only_on_round_and_uses_shared_button_controls() {
+fn independent_background_rows_use_shared_button_controls() {
     let mut round = Box::new(App::new(7));
     round.round_display = true;
     display(&mut round);
@@ -181,6 +181,12 @@ fn background_row_exists_only_on_round_and_uses_shared_button_controls() {
     assert!(!stick.round_display);
     display(&mut stick);
     stick.event(GREY);
+    stick.event(GREY);
+    assert_eq!(stick.menu_item(), "Background");
+    stick.event(BLUE);
+    assert!(stick.compact_black);
+    stick.event(GREY);
+    assert_eq!(stick.menu_item(), "Card back");
     stick.event(GREY);
     assert_eq!(stick.menu_item(), "Back");
     stick.event(GREY);
@@ -260,7 +266,7 @@ fn raw_v10_private_binding_restores_and_requires_a_new_v11_commit() {
     assert_eq!(candidate.save(), app.save());
     let current = candidate.save().encode().unwrap();
     assert_ne!(current, old_public);
-    assert_eq!(current[4], 12);
+    assert_eq!(current[4], 13);
     let mut fresh = vec![0; snapshot::MAX_BYTES];
     let n = snapshot::capture_private(&candidate, &mut fresh, 42, true).unwrap();
     assert!(resume_binding::bind_private(&mut bound, old, &fresh[..n]).is_err());

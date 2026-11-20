@@ -27,7 +27,14 @@ const SOUND: [&str; 9] = [
     "Test menu",
     "Return",
 ];
-const DISPLAY: [&str; 3] = ["Brightness", "Flip screen", "Return"];
+const DISPLAY: [&str; 5] = [
+    "Brightness",
+    "Flip screen",
+    "Return",
+    "Background",
+    "Card back",
+];
+const DISPLAY_ORDER: [usize; 5] = [0, 1, 3, 4, 2];
 // Semantic IDs are stable across private saves: old Return remains ID3.
 const ROUND_DISPLAY: [&str; 5] = [
     "Brightness",
@@ -99,6 +106,7 @@ impl App {
                 View::Display => Some((View::Settings, 0)),
                 View::AudioVolume => Some((View::Sound, 1)),
                 View::Brightness => Some((View::Display, 0)),
+                View::CardBackPreview => Some((View::Display, 4)),
                 _ => None,
             };
             if let Some((view, row)) = parent {
@@ -151,25 +159,34 @@ impl App {
                     }
                 }
             }
+            View::CardBackPreview => {
+                self.emit(Cue::MenuMove);
+                if grey {
+                    self.card_back = (self.card_back + 1) % 3;
+                } else {
+                    self.set(View::Display);
+                    self.selected = 4;
+                }
+            }
             View::Display => {
                 self.emit(Cue::MenuMove);
                 if grey {
-                    self.selected = if self.round_display {
-                        ROUND_DISPLAY_ORDER
-                            .iter()
-                            .position(|id| *id == self.selected)
-                            .map_or(0, |index| {
-                                ROUND_DISPLAY_ORDER[(index + 1) % ROUND_DISPLAY_ORDER.len()]
-                            })
+                    let order = if self.round_display {
+                        &ROUND_DISPLAY_ORDER
                     } else {
-                        (self.selected + 1) % DISPLAY.len()
-                    }
+                        &DISPLAY_ORDER
+                    };
+                    self.selected = order
+                        .iter()
+                        .position(|id| *id == self.selected)
+                        .map_or(0, |index| order[(index + 1) % order.len()]);
                 } else {
                     match self.selected {
                         0 => self.set(View::Brightness),
                         1 => self.flipped = !self.flipped,
                         2 if self.round_display => self.background = (self.background + 1) % 4,
-                        4 if self.round_display => self.card_back = (self.card_back + 1) % 3,
+                        3 if !self.round_display => self.compact_black = !self.compact_black,
+                        4 => self.set(View::CardBackPreview),
                         _ => self.set(View::Settings),
                     }
                 }
@@ -185,6 +202,7 @@ impl App {
         self.fast_mode = prefs.fast_mode;
         self.background = prefs.background;
         self.card_back = prefs.card_back;
+        self.compact_black = prefs.compact_black;
     }
 }
 fn editor(w: &mut Widgets<'_>, title: &str, value: u8, volume: bool) {

@@ -287,10 +287,16 @@ pub(crate) fn focused_label(a: &App) -> Option<&'static str> {
             .copied()
             .unwrap_or("")
         } else {
-            ["Brightness", "Flip screen", "Back"]
-                .get(a.selected)
-                .copied()
-                .unwrap_or("")
+            [
+                "Brightness",
+                "Flip screen",
+                "Back",
+                "Background",
+                "Card back",
+            ]
+            .get(a.selected)
+            .copied()
+            .unwrap_or("")
         });
     }
     if let Some(rows) = labels(a.view) {
@@ -458,17 +464,23 @@ fn spec_inner(a: &App) -> Option<MenuSpec> {
                 super::settings_ui::BACKGROUNDS[a.background.min(3) as usize]
             );
             out.row(2, b.as_str(), a.selected);
+        } else {
             b.clear();
             let _ = write!(
                 b,
-                "Card back: {}",
-                super::settings_ui::CARD_BACKS[a.card_back.min(2) as usize]
+                "Background: {}",
+                if a.compact_black { "Black" } else { "Blue" }
             );
-            out.row(4, b.as_str(), a.selected);
-            out.row(3, "Back", a.selected);
-        } else {
-            out.row(2, "Back", a.selected);
+            out.row(3, b.as_str(), a.selected);
         }
+        b.clear();
+        let _ = write!(
+            b,
+            "Card back: {} >",
+            super::settings_ui::CARD_BACKS[a.card_back.min(2) as usize]
+        );
+        out.row(4, b.as_str(), a.selected);
+        out.row(if a.round_display { 3 } else { 2 }, "Back", a.selected);
         return Some(out);
     }
     let rows = labels(a.view)?;
@@ -599,6 +611,7 @@ fn parent(a: &App) -> Option<(View, usize)> {
         View::Display => (View::Settings, 0),
         View::AudioVolume => (View::Sound, 1),
         View::Brightness => (View::Display, 0),
+        View::CardBackPreview => (View::Display, 4),
         View::SoundCategories => (View::Sound, 9),
         View::SoundTests => (View::Sound, 10),
         View::SessionOverview => (View::SessionMenu, 0),

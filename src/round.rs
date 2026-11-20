@@ -23,27 +23,8 @@ pub const ORIENTATION_DEGREES: u16 = 270;
 /// OLED table/menu backgrounds. StickS3 keeps its independently approved blue.
 pub const BACKGROUND_NAMES: [&str; 4] = ["Black", "Blue", "Green", "Red"];
 pub const CARD_BACK_NAMES: [&str; 3] = ["Gold", "Red", "Blue"];
-/// Re-hue only coloured ink. The cream paper, white border, lettering shapes
-/// and lattice geometry stay exactly the same; face sprites never use this.
-pub fn card_back_color(c: u16, choice: u8) -> u16 {
-    if choice == 0 || choice > 2 {
-        return c;
-    }
-    let r = ((c >> 11) & 31) as u32 * 255 / 31;
-    let g = ((c >> 5) & 63) as u32 * 255 / 63;
-    let b = (c & 31) as u32 * 255 / 31;
-    let hi = r.max(g).max(b);
-    let lo = r.min(g).min(b);
-    let chroma = hi - lo;
-    if chroma * 100 < hi * 16 {
-        return c;
-    }
-    if choice == 1 {
-        rgb(hi as u8, lo as u8, lo as u8)
-    } else {
-        rgb(lo as u8, (lo + chroma / 4) as u8, hi as u8)
-    }
-}
+// Both displays use the same cream paper and coloured Stardust ink.
+pub use crate::render::card_back_color;
 pub const fn background_color(index: u8) -> u16 {
     match index {
         1 => FELT,
@@ -297,6 +278,21 @@ impl RoundRenderer {
         match app.view {
             View::Table => self.table(app, frame),
             View::Cut => self.cut(app, frame),
+            View::CardBackPreview => {
+                self.heading(frame, "CARD BACK");
+                self.text(
+                    frame,
+                    233,
+                    108,
+                    CARD_BACK_NAMES[app.card_back.min(2) as usize],
+                    26,
+                    GOLD,
+                    true,
+                    300,
+                );
+                self.sprite(frame, 163, 154, 140, 204, 104);
+                self.footer(frame, "RIGHT: NEXT   LEFT: DONE");
+            }
             View::AudioVolume | View::Brightness => self.editor(app, frame),
             View::Controls => self.controls(app, frame),
             View::Burn => {

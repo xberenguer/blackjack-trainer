@@ -1,11 +1,11 @@
-//! Exact little-endian SBTR V12 packets; V1–V11 migration preserves uint64 scores.
+//! Exact little-endian SBTR V13 packets; V1–V12 migration preserves uint64 scores.
 //! Session/shoe/history are deliberately absent at this stage of the roadmap.
 use crate::{
     count_practice,
     rules::{Profile, Rules},
     training::{self, Counters, Mode, Policy},
 };
-pub const VERSION: u16 = 12;
+pub const VERSION: u16 = 13;
 pub const SIZE: usize = 2636;
 pub const V7_SIZE: usize = 584;
 pub const V5_SIZE: usize = 336;
@@ -27,6 +27,7 @@ pub struct Save {
     pub brightness: u8,
     pub background: u8,
     pub card_back: u8,
+    pub compact_black: bool,
     pub sound: bool,
     pub audio_volume: u8,
     pub audio_mask: u8,
@@ -60,6 +61,7 @@ impl Default for Save {
             brightness: 255,
             background: 0,
             card_back: 0,
+            compact_black: false,
             sound: true,
             audio_volume: 20,
             audio_mask: 7,
@@ -152,7 +154,8 @@ impl Save {
             | (u8::from(self.flipped) << 1)
             | (u8::from(self.pause_on_mistake) << 2)
             | (self.background << 3)
-            | (self.card_back << 5);
+            | (self.card_back << 5)
+            | (u8::from(self.compact_black) << 7);
         out[11] = self.profile as u8;
         out[12] = self.penetration;
         out[13] = self.count_display;
@@ -231,7 +234,7 @@ impl Save {
             3 | 4 => PREVIOUS_SIZE,
             5 | 6 => V5_SIZE,
             7 => V7_SIZE,
-            8..=12 => SIZE,
+            8..=13 => SIZE,
             _ => return None,
         };
         if b.len() != expected
@@ -239,7 +242,9 @@ impl Save {
             || u32_at(b, expected - 4)? != crc32(&b[..expected - 4])
             || b[9] < 20
             || b[10]
-                & if version >= 12 {
+                & if version >= 13 {
+                    0
+                } else if version >= 12 {
                     0x80
                 } else if version >= 11 {
                     0xe0
@@ -270,6 +275,7 @@ impl Save {
             brightness: b[9],
             background: if version >= 11 { (b[10] >> 3) & 3 } else { 0 },
             card_back: if version >= 12 { (b[10] >> 5) & 3 } else { 0 },
+            compact_black: version >= 13 && b[10] & 0x80 != 0,
             sound: b[10] & 1 != 0,
             flipped: b[10] & 2 != 0,
             pause_on_mistake: b[10] & 4 != 0,

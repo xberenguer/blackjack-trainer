@@ -157,6 +157,16 @@ for(const seat of [0,3,6]){
  const b=await roundTrip(a,'Test round immutable review');assert.equal(b.w.sb_mode(),1);await b.menu();await b.select('Session');await b.select('Reports');assert.equal(b.view(),'AnalysisMenu');await b.tap();assert.equal(b.view(),'AnalysisSummary');await roundTrip(b,'current session metrics summary');cases++;
 }
 
+// The appended live-preview view and V13 display choices survive opaque
+// private checkpoints without remapping any legacy view or Display row ID.
+{
+ let a=await machine();await a.enable();await a.menu();await a.select('Settings');await a.select('Display');await a.select('Background');await a.select('Card back');assert.equal(a.view(),'CardBackPreview');
+ for(let back=0;back<3;back++){
+  assert.equal(a.save().readUInt16LE(4),13);assert.equal(a.save()[10]&0xe0,0x80|(back<<5));a=await roundTrip(a,`V13 live card-back preview ${back}`);assert.equal(a.view(),'CardBackPreview');assert.equal(a.save()[10]&0xe0,0x80|(back<<5));await a.tap(2);
+ }
+ await a.tap();assert.equal(a.view(),'Display');assert.equal(a.w.sb_focus(),4);assert.equal(a.item(),'Card back');cases++;
+}
+
 // Permanent protected write failure has an explicit fresh RAM-only exit; it
 // discards the unseen grade and never reopens the old pending question.
 {

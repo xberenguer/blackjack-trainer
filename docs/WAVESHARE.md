@@ -20,7 +20,7 @@ On a normal fresh session, **left twice** accepts the randomized player cut and 
 
 ## OLED backgrounds
 
-The round device starts with a **pitch-black** background. Under **Settings → Display → Background**, press the large left button to cycle **Black → Blue → Green → Red**. The choice is saved. The Stick and web versions keep their blue interface.
+The round device starts with a **pitch-black** background. Under **Settings → Display → Background**, press the large left button to cycle **Black → Blue → Green → Red**. The choice is saved. StickS3 and the browser default to Blue and can switch to Black.
 
 | Choice | Color |
 |---|---|
@@ -31,7 +31,7 @@ The round device starts with a **pitch-black** background. Under **Settings → 
 
 ## Card backs
 
-Under **Settings → Display → Card back**, choose **Gold**, **Red** or **Blue**. Each keeps the Stardust pattern and logo; faces keep their original readable white design. This preference is saved on the round device.
+Open **Settings → Display → Card back** to preview the current back. Tap the small Right button to cycle **Gold → Red → Blue** and see the selected color on the card. Tap the large Left button to return to Display. The selected color is saved.
 
 | Gold | Red | Blue |
 |---|---|---|

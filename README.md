@@ -4,9 +4,15 @@
 
 Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature. Both hardware targets share this repository and release version. Choose your device in the flasher to download the matching firmware.
 
-**Current version: 0.12.1.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
+**Current version: 0.12.2.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
 
-The pictures below are actual game screens from **synthetic demonstration sessions**, not player saves or device recordings. Click a screenshot to enlarge it. Both animations use successive native game frames. The separate [screen walkthrough](docs/SCREEN_GUIDE.md) remains the complete screen-by-screen catalogue.
+| M5Stack StickS3 | Waveshare AMOLED 1.75C |
+| :---: | :---: |
+| [![StickS3 playing the demonstration hand on its 240×135 display](docs/media/compare/stick-table.png)](docs/media/compare/stick-table.png) | [![Waveshare playing the same demonstration hand on its 466×466 round display](docs/media/compare/waveshare-table.png)](docs/media/compare/waveshare-table.png) |
+| **240×135** · Grey and Blue controls | **466×466** · Right and Left controls |
+| [StickS3 installation](docs/INSTALL.md#sticks3) · [StickS3 screen gallery](docs/SCREEN_GUIDE.md) | [Waveshare installation](docs/WAVESHARE.md#install-or-update) · [Waveshare screen gallery](docs/WAVESHARE.md#a-layout-for-the-circle) |
+
+The previews show the same synthetic hand on both displays. Click to enlarge. The [menu gallery](docs/MENUS.md) compares both models throughout Settings and Training.
 
 ## Find a topic
 
@@ -23,7 +29,7 @@ The pictures below are actual game screens from **synthetic demonstration sessio
 
 ## First installation and returning players
 
-A normal boot starts a new game with **$1,000**, the table minimum selected, training **Off**, and a randomized player-cut position. Press **Blue twice** to accept the cut and deal through the burn notice. If you wait for the notice to clear itself, press Blue at the ready table to deal.
+A normal boot starts a new game with **$1,000**, the table minimum selected, training **Off**, and a randomized player-cut position. Press **Blue twice** on StickS3 or the **large Left button twice** on Waveshare to accept the cut and deal through the burn notice. If the notice clears by itself, press the same button at the ready table to deal.
 
 New-install preferences are Hi-Lo strategy, Fast speed, sound on at 20%, all three sound categories enabled, full brightness, no screen flip, no tablemates, no automatic wager-practice prompts and resume off. The default table is six decks, H17, DAS, late surrender, 3:2 blackjack, $5–$500 limits and a 75% dealer marker. Normal count display is off; Guide has its own RC+TC display default.
 
@@ -55,7 +61,7 @@ In Guide, **INSURE?**, **DECLINE** and **YES $amount** remain visible at full si
 
 ## Two buttons, different contexts
 
-A **tap** is a short press and release. A **hold** is about 0.85 seconds. Holds consume their release, so releasing after a menu/mode shortcut does not also hit, stand or select. Release both buttons after boot or a resume choice.
+On StickS3, **Grey** moves and **Blue** selects. On Waveshare, **Right** is Grey and **Left** is Blue. A **tap** is a short press and release. A **hold** is about 0.85 seconds. Holds consume their release, so releasing after a menu/mode shortcut does not also hit, stand or select. Release both buttons after boot or a resume choice.
 
 | Where you are | Grey tap | Blue tap |
 |---|---|---|
@@ -468,11 +474,13 @@ In **Volume**, Grey lowers and Blue raises. Steps are one percentage point throu
 
 ### Display
 
-**Display** has Brightness, Screen and Back. On Waveshare, it also includes saved Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust card backs. In **Brightness**, Grey/Blue adjust by about 5 percentage points, with a readable minimum around 8% and maximum 100%. Hold Grey returns. **Flip screen** rotates the screen 180°. In the browser, the canvas rotates. Hold Grey from Sound/Display returns to Settings.
+Both models save your **Background** and **Card back** choices in **Settings → Display**. StickS3 offers Blue and Black. Waveshare offers Black, Blue, Green and Red. Select **Card back** to see the actual card as you cycle Gold, Red and Blue. Grey/Right cycles and Blue/Left returns to Display with the chosen back saved.
 
-| Brightness and screen orientation | The brightness editor shows the selected percentage |
-|---|---|
-| [![Brightness and screen orientation](docs/media/menus/stick/display.png)](docs/media/menus/stick/display.png) | [![The brightness editor shows the selected percentage](docs/media/screens/brightness-edited.png)](docs/media/screens/brightness-edited.png) |
+| StickS3 card-back preview | Waveshare card-back preview |
+| :---: | :---: |
+| [![Red card back in StickS3 Display settings](docs/media/compare/stick-card-back-red.png)](docs/media/compare/stick-card-back-red.png) | [![Red card back in Waveshare Display settings](docs/media/compare/waveshare-card-back-red.png)](docs/media/compare/waveshare-card-back-red.png) |
+
+In **Brightness**, Grey/Right lowers and Blue/Left raises the level by about 5 percentage points. The range runs from about 8% to 100%. Hold Grey/Right to return. **Screen** rotates the display 180°.
 
 ### Speed
 
@@ -564,9 +572,9 @@ The shared game, renderer and hardware application are Rust. See [Build and vali
 
 ## Releases and verification
 
-The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.1.md).
+The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.2.md).
 
-Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.1 release adds grouped menus, explicit reset actions and a fresh-session count fix to the Rust Waveshare port. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.1.md) and [validation evidence](validation/release-0.12.1.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
+Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.2 release adds a Black background on StickS3 and live card-back previews on both displays. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.2.md) and [validation evidence](validation/release-0.12.2.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
 
 ## Project and publication notes
 

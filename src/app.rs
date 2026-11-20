@@ -101,6 +101,7 @@ pub(crate) enum View {
     CountProgress,
     WagerProgress,
     DeviationProgress,
+    CardBackPreview,
 }
 impl View {
     pub fn name(self) -> &'static str {
@@ -188,6 +189,7 @@ impl View {
             Self::CountProgress => "CountProgress",
             Self::WagerProgress => "WagerProgress",
             Self::DeviationProgress => "DeviationProgress",
+            Self::CardBackPreview => "CardBackPreview",
         }
     }
 }
@@ -257,10 +259,12 @@ pub struct App {
     pub count_practice: count_practice::Model,
     /// Runtime display capability; never part of a saved game or private wire identity.
     pub round_display: bool,
-    /// Round OLED background: Black0, Blue1, Green2, Red3. Stick uses its fixed blue felt.
+    /// Round OLED background: Black0, Blue1, Green2, Red3. Compact displays have an independent Blue/Black setting.
     pub background: u8,
     /// Round OLED card back: Gold0, Red1, Blue2. Stick retains the original gold art.
     pub card_back: u8,
+    /// Compact Stick/browser felt: false Blue (legacy default), true Black.
+    pub compact_black: bool,
     pub brightness: u8,
     pub flipped: bool,
     pub sound_enabled: bool,
@@ -361,6 +365,7 @@ impl App {
         round_display: false,
         background: 0,
         card_back: 0,
+        compact_black: false,
         brightness: 255,
         flipped: false,
         sound_enabled: true,
@@ -1230,9 +1235,8 @@ impl App {
     pub fn event(&mut self, event: Event) {
         self.checkpoint_changed();
         self.load_allowed = false;
-        let menu_audition = self.view == View::SoundTests
-            && self.selected < 3
-            && event == Event::Tap(Key::Blue);
+        let menu_audition =
+            self.view == View::SoundTests && self.selected < 3 && event == Event::Tap(Key::Blue);
         if menu_ui::handle(self, event) {
             if !menu_audition {
                 self.emit(if event == Event::Hold(Key::Grey) {
@@ -1685,7 +1689,8 @@ impl App {
             | View::HandProgress
             | View::CountProgress
             | View::WagerProgress
-            | View::DeviationProgress => {}
+            | View::DeviationProgress
+            | View::CardBackPreview => {}
         }
     }
     fn select_menu(&mut self) {
@@ -1822,6 +1827,7 @@ impl App {
             brightness: self.brightness,
             background: self.background,
             card_back: self.card_back,
+            compact_black: self.compact_black,
             sound: self.sound_enabled,
             audio_volume: self.audio_volume,
             audio_mask: self.audio_mask,
@@ -1882,6 +1888,7 @@ impl App {
         self.brightness = s.brightness;
         self.background = s.background;
         self.card_back = s.card_back;
+        self.compact_black = s.compact_black;
         self.flipped = s.flipped;
         self.sound_enabled = s.sound;
         self.audio_volume = s.audio_volume;

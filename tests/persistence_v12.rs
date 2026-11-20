@@ -53,7 +53,7 @@ fn substitute_public(private: &mut [u8], public: &[u8]) {
 }
 #[test]
 fn v12_three_card_backs_and_all_background_flags_roundtrip_exactly() {
-    assert_eq!((VERSION, SIZE), (12, 2636));
+    assert_eq!((VERSION, SIZE), (13, 2636));
     assert_eq!(Save::default().card_back, 0);
     for background in 0..4 {
         for card_back in 0..3 {
@@ -82,12 +82,13 @@ fn v12_three_card_backs_and_all_background_flags_roundtrip_exactly() {
     );
     for invalid in [0x60, 0x80, 0xff] {
         let mut packet = Save::default().encode().unwrap();
+        packet[4..6].copy_from_slice(&12u16.to_le_bytes());
         packet[10] = invalid;
         resign(&mut packet);
         assert!(Save::decode(&packet).is_none());
     }
     let mut packet = Save::default().encode().unwrap();
-    packet[4..6].copy_from_slice(&13u16.to_le_bytes());
+    packet[4..6].copy_from_slice(&14u16.to_le_bytes());
     resign(&mut packet);
     assert!(Save::decode(&packet).is_none());
 }
@@ -144,8 +145,10 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
         app.event(GREY);
     }
     let before = (app.game.position, app.game.rounds, app.training.stats());
+    app.event(BLUE);
+    assert_eq!(app.view_name(), "CardBackPreview");
     for back in [1, 2, 0] {
-        app.event(BLUE);
+        app.event(GREY);
         assert_eq!(app.card_back, back);
         assert_eq!(app.background, 0);
         assert!(app.dirty);
@@ -154,14 +157,17 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
         before,
         (app.game.position, app.game.rounds, app.training.stats())
     );
+    app.event(BLUE);
+    assert_eq!((app.focus(), app.menu_item()), (4, "Card back"));
     app.event(GREY);
     assert_eq!((app.focus(), app.menu_item()), (3, "Back"));
     app.event(BLUE);
     assert_eq!(app.view_name(), "Settings");
     let mut stick = Box::new(App::new(7));
     display(&mut stick);
-    stick.event(GREY);
-    stick.event(GREY);
+    while stick.menu_item() != "Back" {
+        stick.event(GREY);
+    }
     assert_eq!((stick.focus(), stick.menu_item()), (2, "Back"));
     stick.event(BLUE);
     assert_eq!(stick.view_name(), "Settings");
@@ -229,7 +235,7 @@ fn old_v11_private_return_cursor3_stays_return_and_requires_a_new_v12_binding() 
     );
     assert_eq!(candidate.save(), app.save());
     let canonical = candidate.save().encode().unwrap();
-    assert_eq!(canonical[4], 12);
+    assert_eq!(canonical[4], 13);
     assert_ne!(canonical, old_public);
     // Keep the old epoch fixed once: rejection must depend on the exact changed
     // public packet, rather than merely on a different checkpoint number.

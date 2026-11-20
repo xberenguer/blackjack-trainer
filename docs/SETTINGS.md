@@ -28,12 +28,11 @@ Changing sound controls or listening to tests does not supply grading assistance
 
 ## Display
 
-Display contains Brightness, Screen and Back. Waveshare also includes saved
-Black/Blue/Green/Red backgrounds and Gold/Red/Blue Stardust backs. The brightness editor uses
-Grey to lower and Blue to raise brightness in five percentage-point steps,
-clamping at its readable minimum (about 8%) and 100%. Hold Grey returns to Display.
-Flip screen rotates the display 180 degrees. Hold Grey in Sound or Display returns
-to Settings.
+**Background** switches between Blue and Black on StickS3. Waveshare also offers Green and Red. StickS3 defaults to Blue and Waveshare defaults to Black. [StickS3 with the Black background](media/compare/stick-table-black.png).
+
+**Card back** opens a preview of the selected Gold, Red or Blue back. Tap Grey on StickS3 or Right on Waveshare to cycle colors. Tap Blue or Left to finish. The preview uses the same card art as the table. Background and card-back selections are saved.
+
+The **Brightness** editor uses Grey/Right to lower and Blue/Left to raise brightness in five percentage-point steps. The range is about 8–100%. **Screen** rotates the display 180°. Hold Grey/Right to go back one menu level.
 
 ## Speed
 

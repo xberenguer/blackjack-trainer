@@ -1,0 +1,95 @@
+{
+  "version": "0.12.2",
+  "checks": {
+    "native_tests": 256,
+    "strict_all_targets_all_features_clippy": true,
+    "storage_harnesses": {
+      "nvs-check": 15,
+      "storage-check": 5,
+      "resume-check": 12,
+      "round-storage-check": 8
+    },
+    "historical_compact_render_frames": 5326,
+    "appearance": "Both button-driven preview paths, distinct Gold/Red/Blue rendering, preservation of opaque face art, StickS3 Blue and Black felt, cross-version preference and private checkpoint restore.",
+    "browser": {
+      "passed": true,
+      "core_guard_sha256": "20ed93e29bf2fb0b24723f5a3ce6ae39a4de0fb9566f884c701661c8fa5a5d52",
+      "wasm": {
+        "file": "stardust-rust.wasm",
+        "bytes": 5845433,
+        "sha256": "079af650ca61c6022babe68f3704c2960aaa67ea7c707bcfd3c968fa30fdb1d4",
+        "memory_bytes": 16777216,
+        "stack_bytes": 2097152,
+        "runtime_imports": 0
+      },
+      "checks": {
+        "build": true,
+        "wasm": true,
+        "platform": true,
+        "settings": true,
+        "audio": true,
+        "chrome": true,
+        "journal": true,
+        "journal-clippy": true,
+        "bridge-clippy": true
+      }
+    },
+    "browser_continuation_cases": 64,
+    "chrome_session_reports": {
+      "settled_rounds": 30,
+      "report_views": 8,
+      "detail_pages": 54
+    }
+  },
+  "firmware": {
+    "sticks3": {
+      "version": "0.12.2",
+      "target": "xtensa-esp32s3-none-elf",
+      "app_offset": "0x10000",
+      "touch_enabled": false,
+      "display_orientation_degrees": 0,
+      "flash_partition_table": true,
+      "iram_dram_overlap_bytes": 0,
+      "stack_bytes": 304308,
+      "main_frame_bytes": 20736,
+      "linked_stack_audit": {
+        "functions_audited": 638,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "application": {
+        "bytes": 3384864,
+        "sha256": "3917cfc0e623cbc1eaff8bc4a79f1bb3916491ed98f978b6e559ea7f96c1cc12"
+      }
+    },
+    "waveshare175c": {
+      "version": "0.12.2",
+      "target": "xtensa-esp32s3-none-elf",
+      "app_offset": "0x200000",
+      "touch_enabled": false,
+      "display_orientation_degrees": 270,
+      "flash_partition_table": false,
+      "iram_dram_overlap_bytes": 0,
+      "stack_bytes": 284956,
+      "main_frame_bytes": 24160,
+      "linked_stack_audit": {
+        "functions_audited": 649,
+        "maximum_frame_bytes": 41312,
+        "app_decode_frame_bytes": 432,
+        "ordinary_function_cap": 32768,
+        "decoder_cap": 8192,
+        "explicit_existing_path_cap": 65536,
+        "unknown_sp_mutations": 0
+      },
+      "application": {
+        "bytes": 3432960,
+        "sha256": "d4a717f768f2c472b72ca7bd75e6f52e29283f9f787b5a13a0a1e60321578f19"
+      }
+    }
+  },
+  "scope": "Source renderer, browser, save and build checks for this release. Physical firmware qualification is recorded separately in earlier release evidence."
+}

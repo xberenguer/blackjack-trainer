@@ -1,6 +1,6 @@
 //! Shared compact menu vocabulary and geometry for the 240×135 display.
 use crate::{
-    canvas::{Canvas, FELT, rgb},
+    canvas::{Canvas, rgb},
     render::{Align, Renderer, TextStyle, text_height, text_width},
     text::Text,
     training::Mode,
@@ -23,7 +23,8 @@ impl Widgets<'_> {
         self.renderer.text(self.frame, point, text, style);
     }
     pub fn title(&mut self, text: &str, subtitle: Option<&str>, felt: bool) {
-        self.frame.clear(if felt { FELT } else { BG });
+        self.frame
+            .clear(if felt { self.renderer.felt() } else { BG });
         let mut size = if subtitle.is_some() { 14 } else { 18 };
         while size > 12 && text_width(text, size, true) > 202 {
             size -= 1
@@ -106,7 +107,9 @@ impl Widgets<'_> {
         for (i, item) in items.iter().enumerate().skip(top).take(visible) {
             self.row(30 + (i - top) as i32 * pitch, item, focus == i, true);
         }
-        if note.is_none() && let Some(next) = items.get(top + visible) {
+        if note.is_none()
+            && let Some(next) = items.get(top + visible)
+        {
             self.peek(next);
         }
         self.scroll(items.len(), top, note);
@@ -128,7 +131,12 @@ impl Widgets<'_> {
             self.label(
                 (120, 109),
                 note,
-                TextStyle { size: 9, bold: false, color: MUTED, align: Align::Center },
+                TextStyle {
+                    size: 9,
+                    bold: false,
+                    color: MUTED,
+                    align: Align::Center,
+                },
             );
         }
     }

@@ -65,7 +65,7 @@ Both are available between hands and open with **Cancel selected**. Merely openi
 
 ## Every menu, on both displays
 
-The following images come from the actual shared controller and renderers, using synthetic sessions. Stick previews enlarge exact 240×135 pixels by 3×; round examples are native 466×466. They do not contain personal saved scores. [Image/source provenance](menu-screens.json).
+These images show synthetic sessions from the shared controller and renderers. Stick previews enlarge the 240×135 display by 3×. Waveshare previews preserve the native 466×466 circle and add a charcoal surround. [Image/source provenance](menu-screens.json).
 
 ### Main menu
 

@@ -3,7 +3,7 @@
   "kind": "synthetic-native-round-renderer",
   "renderer": "src/round.rs",
   "generator": "examples/round_screens.rs",
-  "scope": "Actual Rust native466x466 renderer with synthetic examples; no hardware photograph, player save, user checkpoint or chance/frequency claim. PNGs preserve expanded RGB565 pixels.",
+  "scope": "Actual Rust 466\u00d7466 round renderer with synthetic examples. PNGs keep the expanded RGB565 pixels inside the display and add a charcoal frame outside it.",
   "source_inputs": {
     "Cargo.toml": "d866b15695cb52356cfbc464595bda0a54adec14bf01499364241db070f7d32a",
     "src/round.rs": "9a1658b339506d085adec31d266e55898f71ce1e8704950ba6d2cef85d552590",
@@ -15,291 +15,352 @@
   "images": [
     {
       "file": "docs/media/round/actual-hand.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "a7aa180b654e4a1b9abdf4ca7b8eb6eb1e89c064d9b2d849af310f1bf0d1c1dc"
+      "width": 530,
+      "height": 530,
+      "sha256": "2bc434aaf8fff8790f06ec167fb7d36acddab7c0e0100aae15b61f1917afafa0",
+      "source_rgb_sha256": "6a18515fd7439bb5efe48f180636efcc5962456843a02f14dade36cd9c139269"
     },
     {
       "file": "docs/media/round/burn.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "54651095c1f759f281c263ecb070190103cca02a1f26b07fbd63b7eaa53c69e1"
+      "width": 530,
+      "height": 530,
+      "sha256": "a14f5ccfcac9e0126c58dae5e59f22cb2a98e188ff808a86a930bc68ea9686a9",
+      "source_rgb_sha256": "673d2dee4c1f0f7afebafef6e173668162daaa3872c714a93c0f248ad7d7884e"
     },
     {
       "file": "docs/media/round/card-back-0.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6cdde68177516012300c83e7188a65aac4cd23078d0d57ef95c9fb84c025811b"
+      "width": 530,
+      "height": 530,
+      "sha256": "65902613161a1f4bfb4bd5bbd7119aaf07763d619e910ba3349d6b980872d422",
+      "source_rgb_sha256": "2f1d09582bd2065e150246ae70f0845c6dd3a35f237dbb3da93c9e8b35739de6"
     },
     {
       "file": "docs/media/round/card-back-1.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "3469fd6fb77bc2f2c908a5a9358401caa5cdc5ccc66ce134eec6f2df082b3020"
+      "width": 530,
+      "height": 530,
+      "sha256": "2b903a7b0ee44a4b89835de548cf8798c359b8254577c1a0b5951e70ff2b4a5c",
+      "source_rgb_sha256": "81c07fb32666505bac90c0750e9a787475631f71c41e196a9027c4f67b85bfbf"
     },
     {
       "file": "docs/media/round/card-back-2.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "4202c26e948001c65be0c02c81c724cf586b648940d10ec5f2b24c7ec721547f"
+      "width": 530,
+      "height": 530,
+      "sha256": "f8346556dfcf64636364e04675f23f9d536bab6bc49565f75781a816a55f025e",
+      "source_rgb_sha256": "df57617e1e6a8688193790600984f29ab0fe421631f9766b72ec256ce216e3f1"
     },
     {
       "file": "docs/media/round/cut.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "d430bb6eaaa127f229dba88734ca44aebed61b1858c4253ec584ec170109f884"
+      "width": 530,
+      "height": 530,
+      "sha256": "197875fadce752180e5b08e16baf8fae0ca2480b69b6dc0a76871bb7d020bc0e",
+      "source_rgb_sha256": "1c84f6108fd35dd3cb616c6b13b0af9e47592e2f72d894c39d5083dff8ef0bac"
     },
     {
       "file": "docs/media/round/display-background.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "1aadc0482df9bcbbe09875e485f773804e0050ab7f39887d88567af7e1c15438"
+      "width": 530,
+      "height": 530,
+      "sha256": "105d7846736adfc873bd9eaff39690369062405eb64af238e8e96902de542630",
+      "source_rgb_sha256": "36b4200be54aec155e69786ca69db0dbe49aaa4d769d418ced956205c3a72de3"
     },
     {
       "file": "docs/media/round/display-card-back.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "f527dae18fc4501a4da9e36f778899e53863b250a64408e7b6152e3de189e618"
+      "width": 530,
+      "height": 530,
+      "sha256": "0d5b289c0ae8ef59f58525ee978f495d0393f384156fe82da2002084ef54bc04",
+      "source_rgb_sha256": "3235eaeb835f67c9274cef81c20c37cfdc58ae4c8d2c8a810c28704feed8c2d8"
     },
     {
       "file": "docs/media/round/guide-insurance.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "5b9bcc7a5736a0122c69eb483dc9364b6d10050a6d883665c4ece44259765e76"
+      "width": 530,
+      "height": 530,
+      "sha256": "d55dbe09c58a956e83313870cc752580447ceb4418595fe93b7b39037e18b1e8",
+      "source_rgb_sha256": "0a7fdc86a24233f9458649d31bfe810afa40eaea58ac54c19d26e43df353998e"
     },
     {
       "file": "docs/media/round/guide-surrender-16-vs-10.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "ab3730a142a4d7010b8b4897bb69f885c7dbae1e10751ea1e0b6aaf0432f271e"
+      "width": 530,
+      "height": 530,
+      "sha256": "941feb043d325ffa64c95dde2bb0a8afa6bc75d20c49a12f06c4df2b6627c7be",
+      "source_rgb_sha256": "0ba2e6f3f365f7f3bd7878b270ae724ea4990d8fdc1a1d6eb0a03f821388b785"
     },
     {
       "file": "docs/media/round/hand-0-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "00f584ce143c4b96b6e922634f43625c331030a10040b191ccb2e6159b8c627f"
+      "width": 530,
+      "height": 530,
+      "sha256": "50b9739f25d8b9cb74f46cbca01b92d7647d719266e1fe7a03745f370aff93a6",
+      "source_rgb_sha256": "00fa52cc416d599655fb88ecc53bb8241f61a9144f705d7e9a766e837f61f188"
     },
     {
       "file": "docs/media/round/hand-0-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6cdde68177516012300c83e7188a65aac4cd23078d0d57ef95c9fb84c025811b"
+      "width": 530,
+      "height": 530,
+      "sha256": "65902613161a1f4bfb4bd5bbd7119aaf07763d619e910ba3349d6b980872d422",
+      "source_rgb_sha256": "2f1d09582bd2065e150246ae70f0845c6dd3a35f237dbb3da93c9e8b35739de6"
     },
     {
       "file": "docs/media/round/hand-1-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "c1214b06260d632a1c48ff735b9120f9b89b7e06ce12b4b3cad590d45bb3a210"
+      "width": 530,
+      "height": 530,
+      "sha256": "a72d11cddf25d7a80470753f98a2ddd0b7ae03b5bb0b6c15288537f16a2afd31",
+      "source_rgb_sha256": "7f77dc4a9ce29e780d89e4da980acc01f775aa75b4b9da60588196679696b22b"
     },
     {
       "file": "docs/media/round/hand-1-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "b0076bd19fb67c00f59575160ea17af483fc54818c5fdab48383033b2e342ae6"
+      "width": 530,
+      "height": 530,
+      "sha256": "f41517105bc50b87b20ca2df4243dfc0b09bfeefeb8188b7290689ea738692ca",
+      "source_rgb_sha256": "eb717a3dba13fd320bb62c0b8f8dd1c9535e9992e48f355cafd1fc53175c15d7"
     },
     {
       "file": "docs/media/round/hand-2-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6325d3a5a40066c3c1364817fd98289296eab88e626bf4d5494d4e7ad993c9cd"
+      "width": 530,
+      "height": 530,
+      "sha256": "d57416c277ef76dbaf1d573005445ee2fd89751ae9224de092c87756766e584a",
+      "source_rgb_sha256": "c11d70a7d2b9c74dfe9d5f6a9faa4a8770d1ac4bc1af4d6bb4bce2f13f261198"
     },
     {
       "file": "docs/media/round/hand-2-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "ce72bf45d61f3546cf75f06e940c6ff4fbb25331537110705c06a7b1130a2d68"
+      "width": 530,
+      "height": 530,
+      "sha256": "4e67e84466a4af2ade823d7cf1f55a6123450173af8b65765758071d7436b3d5",
+      "source_rgb_sha256": "c599dcf5aa11a40a1677229038c19e96f8f4704422e587bdf041790bf4dc98d8"
     },
     {
       "file": "docs/media/round/hand-3-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "ebab07732bb257951d435f2541c6a13c287bc1a04b2d55886751fc70fdcf7fd2"
+      "width": 530,
+      "height": 530,
+      "sha256": "ac4d9cde2711ae988c6d539fc0057530afd6c0ef26ed887a7486bfe561b081a6",
+      "source_rgb_sha256": "c198bdf1c3e1614e779931993e104aea0dce00340cd67ad989ddb4b6c872a5eb"
     },
     {
       "file": "docs/media/round/hand-3-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "81edfa63d0bcc25bf5cf08579806091ff603a3b20de0ad18eebe3d954ea2ef07"
+      "width": 530,
+      "height": 530,
+      "sha256": "ffbe5894df2740d5ebeb8e70fd4dc556c4c9fcb0c2d2669f42fd6e7764923877",
+      "source_rgb_sha256": "d683cbdf15c85d1b5e96183bfef164ff2313052a278ee77385d517f76d60718d"
     },
     {
       "file": "docs/media/round/hand-4-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "8fd6d2419ea32d31b027042e44f27147d14f7cc40068f5ec89aacb1c9508ad55"
+      "width": 530,
+      "height": 530,
+      "sha256": "5a506bfb66cc143058d8d3825d914763ec74c227d3a152a5c81d638f8dfd1b6b",
+      "source_rgb_sha256": "e0a9ecdf66ea6f079350b4c47ce1003efd0049ac4b724b0b814fad97d2d37f9c"
     },
     {
       "file": "docs/media/round/hand-4-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "214c7b6a21a7edbe668ce90615615ad23a2aa1c39755d26db8f5758ecd4548d8"
+      "width": 530,
+      "height": 530,
+      "sha256": "4123396cd5f98f56c96d7496ec19d2ea6a06d89261d0c155c959a4ea14cfc292",
+      "source_rgb_sha256": "a67dbcacf77dbc1898d791e84ebd57117be1065f5b85d099d0dcd7cf88783792"
     },
     {
       "file": "docs/media/round/hand-5-GUIDE.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "3381bd49e2d3403a0478d8ed34c7d017e86325465c51d9ddf662ae9d59d1a878"
+      "width": 530,
+      "height": 530,
+      "sha256": "b5ebe7f4cf78a2b5f3e6ab82f3772e95f08a6a1a24adb952b97b2e3af5733b01",
+      "source_rgb_sha256": "d7858eb85524a5e4f9a3fb3ac0ebaef66e400339d16cb54eb77e151e1da8b4ed"
     },
     {
       "file": "docs/media/round/hand-5-OFF.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "62ac98420402e50f2934af3258930eb876a9aa095d954c95d93d970d54a76dce"
+      "width": 530,
+      "height": 530,
+      "sha256": "7d15e2b83773f75a0d6a7f25b27289604e12a3e7aa6952ff689e5a73985d67a0",
+      "source_rgb_sha256": "6250f1e80b50b81fe3e0209d1aa45584115f577f4af273422078273a7a42250c"
     },
     {
       "file": "docs/media/round/menu-bottom.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "2152965eb1fe641b19a22911a4515a1c773183fbd0fb989b5b513ded7306fc9e"
+      "width": 530,
+      "height": 530,
+      "sha256": "4a432b223c98b3ded63694524217f2b9b1b4be0c214f93369519bc4444df62d8",
+      "source_rgb_sha256": "0680887eafe04f924751b751f2abc7d992ac5a21b817a18e485ce9e2fdc92ee2"
     },
     {
       "file": "docs/media/round/menu-last-full.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "371c37e00d51cb8abe14ff3cabbc247e6f09fca4bf73739a51bef9ecad398444"
+      "width": 530,
+      "height": 530,
+      "sha256": "0911af36945458ce58e1e32a8a57671194799088d9d9b2eb61d034f7c1004165",
+      "source_rgb_sha256": "b83ce099cac66fefc140bd7629337c0dd79a013a1fad5fc98237b030b2b447a5"
     },
     {
       "file": "docs/media/round/menu-scrolled-one.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "99b85271937f00b4caea3753689c0cd7d1d7fa157c286f64c0c720ec62663b14"
+      "width": 530,
+      "height": 530,
+      "sha256": "a9bd9f23c327a181849797f016db7137cf39de4b86fc7296cc40067df8b20b9c",
+      "source_rgb_sha256": "98d0039c5ce9cb484b2cd1a7fc1adfd28ce174303b67ae69ddaddc14b46ec2a8"
     },
     {
       "file": "docs/media/round/menu.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "45ad082b3cbe4ff393a35f77430e8c53bb3bbda9e655ab9a14d6ddc9f9b79609"
+      "width": 530,
+      "height": 530,
+      "sha256": "e68df96f67cb08f7f01150b68d706072834f5b8590ae75cca8cf03b6f686ef29",
+      "source_rgb_sha256": "ddd2a02a7cec74a01ef11b43c649e2906716b2aec3c4c12572d645af6302b377"
     },
     {
       "file": "docs/media/round/player-3-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "bdcb8cb4dc2db03b274dc954c152ddeca96c802d80ad4d0d7ad206b40d37b2aa"
+      "width": 530,
+      "height": 530,
+      "sha256": "94c419834172e5e7cca182e11b3c3d2645e99f83b07251ce151346f267a1970d",
+      "source_rgb_sha256": "96a78dcb8388beaec76befaacd440c0567c0236666450a8769937118830063db"
     },
     {
       "file": "docs/media/round/player-4-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "1785b4c6aab342175d5741196a249fcf6b9d65e52e379b9b140d568219b3c0b7"
+      "width": 530,
+      "height": 530,
+      "sha256": "3e9c10c1f2105806f48ff77cda7b72a14f6516b85ca47f1f99bb54dd54781de3",
+      "source_rgb_sha256": "5c4caae15367c123dfcd0121ba61a285fc87895b402bd5f047448053ef62b61b"
     },
     {
       "file": "docs/media/round/player-5-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "eeb7ea66f94e6ba959365530b176cb337fbc5aab4582e0a3eaf7e54709a4d863"
+      "width": 530,
+      "height": 530,
+      "sha256": "e8667b0d4513bc090df43e5d833bf9afd5e2d7751ab3250e74cbe03cff9f97fa",
+      "source_rgb_sha256": "942bbf2038171800d6ff3753f1228bcec0fae03411901602b335302a482e97ee"
     },
     {
       "file": "docs/media/round/player-6-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "f40015b809387e56dd55b3ce7242cfd9f31c2862562e99bde960632e6be04380"
+      "width": 530,
+      "height": 530,
+      "sha256": "ac74f715514d22bb742f4e9d54bc821d9a593ca97797fd63a676809ab0c833f6",
+      "source_rgb_sha256": "11f6c98749e518f108fb0872b64eca1341ff29727489b81f4915f54609dd29bf"
     },
     {
       "file": "docs/media/round/player-7-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "4db835190db6dcda6e52943c35517fbe2e372d968bf1e96fdb475aa52f9206b9"
+      "width": 530,
+      "height": 530,
+      "sha256": "a812c62c4784e9c0e240a1f77c2a3c9ae289cb0c3705e5f839460295503f9a67",
+      "source_rgb_sha256": "b1f515cda5a9e76e81c558ac89bc8ec527efc136c02ff4d7ecf5a0fe2f2a889a"
     },
     {
       "file": "docs/media/round/player-8-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "7a300cc43f5b30f7dc3151a837dab509cfeb5e38618a0ce9146d4dd4610b687f"
+      "width": 530,
+      "height": 530,
+      "sha256": "2028d18dd72ea44182fafe5b2997eca04d67be2a768e628480455ec12def72f6",
+      "source_rgb_sha256": "8769b4ddae664f1742a69b7de86100e09dcecd374b384bcad68c59325c80cd9c"
     },
     {
       "file": "docs/media/round/player-9-cards.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6af72c4dfe668d761d065098ae2e9cd4b2ed90fcf9761d73b7bfc3dbcae02310"
+      "width": 530,
+      "height": 530,
+      "sha256": "cb11da0887a42d9dea1f0dc77a46710f42a5a08d781ecfed211a1e5de162f1f7",
+      "source_rgb_sha256": "993515973d400d8bf6da0d2743f6fc4ee8ebfa5e5ddd5133cae354cae83a39d0"
     },
     {
       "file": "docs/media/round/ready-after-cut.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "49060c78d6e1d226cfe6227733712268a0bb1f1a83bee07ae484c41389f63a92"
+      "width": 530,
+      "height": 530,
+      "sha256": "35086b3f0faefd44a471323f3fcead04c32b8f45cd2ef95871d265214155f339",
+      "source_rgb_sha256": "ba2d65a9ec4abfd684ee7a439cec2b40b43a7e49ede33518eabad503e9953c86"
     },
     {
       "file": "docs/media/round/result.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "c5e28c82cf51ac199f8e8bf0b956c33b8c69c98c0691652b360be69269893ec9"
+      "width": 530,
+      "height": 530,
+      "sha256": "1fa4f5426aac859b5ced4535232f10523520f6724a9dabdf36977b6fd4bf6d42",
+      "source_rgb_sha256": "d6ef0df8c47cd405fa8d0c42ef934072ece09233604f3cb9d678d2764a020bde"
     },
     {
       "file": "docs/media/round/settings.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "2c66fa31a0397b4c11c40a2fb492ab1840daaed93f1af4d133977bf9fcf81180"
+      "width": 530,
+      "height": 530,
+      "sha256": "d72b1487dd19df99e2756108d23b715726dabbec6d5fe4a6edfda89444b115f0",
+      "source_rgb_sha256": "03d92432a756262bbb80a850fab178a22a92f2f93e814794423eae536c2033ee"
     },
     {
       "file": "docs/media/round/sound.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "83145e73708a8c067c54e366b34db6ab5c4193249dfce86e18e2a58ccaefd175"
+      "width": 530,
+      "height": 530,
+      "sha256": "6893f3259f6c3484ff70282300baacc8eea915cec2414ed3e32b6d4c3f965bb1",
+      "source_rgb_sha256": "8287c4ae885c94072bdacd642d14a00c5fd90dfdc5d9786cd4ed6d9d938d416d"
     },
     {
       "file": "docs/media/round/split-hand.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "dc545694c4373c21e17b123aa6764afbe23c9219d740c11a337b3064aa06cc01"
+      "width": 530,
+      "height": 530,
+      "sha256": "04d26db9f9015324bc41cc64e41392e5db669b1ff758361804af22b3f99a0380",
+      "source_rgb_sha256": "ea2bc348d98a70ca90942fb985b207808050ab9c29270276fb5a863b5f41e7d7"
     },
     {
       "file": "docs/media/round/theme-0.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6cdde68177516012300c83e7188a65aac4cd23078d0d57ef95c9fb84c025811b"
+      "width": 530,
+      "height": 530,
+      "sha256": "65902613161a1f4bfb4bd5bbd7119aaf07763d619e910ba3349d6b980872d422",
+      "source_rgb_sha256": "2f1d09582bd2065e150246ae70f0845c6dd3a35f237dbb3da93c9e8b35739de6"
     },
     {
       "file": "docs/media/round/theme-1.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "93847289c8c72dd87470702420807518ac5c13206b2988759472e9ec9e9d574e"
+      "width": 530,
+      "height": 530,
+      "sha256": "5e9fdba857fdaa00582533e0bbcffc620d7595928fc7a6eff3e2b52a817b67b1",
+      "source_rgb_sha256": "febc010cd15835e870e30ea49f59f11c05c462bd7ca0b6f91c1e743ed8ef68d4"
     },
     {
       "file": "docs/media/round/theme-2.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6b61154e7eb0da4b86c61f63e28f643a3f79c3e0a71cd2d0e3a9238930cd0afb"
+      "width": 530,
+      "height": 530,
+      "sha256": "90d5dcc8b63110d268df907a87ce0a18a148f14180fb3e9feffae5fae3948021",
+      "source_rgb_sha256": "7f114176f2999c0b840c43dcc7514c15e6a3e5ca2c9f48d8b086acf58330ea4b"
     },
     {
       "file": "docs/media/round/theme-3.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "1698370cd5de0accd2a011e6e188c0e01b5b256864d099616cf92ef4cfad0b42"
+      "width": 530,
+      "height": 530,
+      "sha256": "2fe0ef33537a6f6f97f2de282955b1cf1a404c0d534170a8fb96b30faf6c3cf9",
+      "source_rgb_sha256": "caf8681ad28e0f39c0c35e037c128389ac62e3b41b4464909e7d0e61f309fb94"
     },
     {
       "file": "docs/media/round/transition-after-stand.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "5a6783dd64d31ebd3f1dd7ce2c26e8a4a4da06cfbe66e9fd4cf44491fb33f3ae"
+      "width": 530,
+      "height": 530,
+      "sha256": "0074e4ba7dd68da9af1bdf79a416f1ffc5775fab69daf042800a05cbef466185",
+      "source_rgb_sha256": "2219cf1c97f45c71ad27affbdd02be8b70729fb10640ddfdebb1cf2616766980"
     },
     {
       "file": "docs/media/round/transition-dealer-0.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "d5d12f5da3b354b1d7a89ff71ca9ee0bb3cc0b2a629224e4e77c3e155499e048"
+      "width": 530,
+      "height": 530,
+      "sha256": "6b0998ff55a87431402c788759e748a6df6228ade0214d873f8c5137fdc2f27d",
+      "source_rgb_sha256": "dbabba74fe585f8efb8e65284d57f75d78f8d26a4984ce3ec7389a47fbb9bf0f"
     },
     {
       "file": "docs/media/round/transition-dealer-1.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "168769be2203d426fa921054489997ad1ca0e1f1ae2a335eb90b7f30ccb468d4"
+      "width": 530,
+      "height": 530,
+      "sha256": "94cb987f17583a318200fef0d817f290e898dbc699e7eaf3ec41f7f1edf75065",
+      "source_rgb_sha256": "cd43b991b1335b8721bc37e39b200924136534594ee89602a3d3c2104ff75148"
     },
     {
       "file": "docs/media/round/transition-player.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "6cdde68177516012300c83e7188a65aac4cd23078d0d57ef95c9fb84c025811b"
+      "width": 530,
+      "height": 530,
+      "sha256": "65902613161a1f4bfb4bd5bbd7119aaf07763d619e910ba3349d6b980872d422",
+      "source_rgb_sha256": "2f1d09582bd2065e150246ae70f0845c6dd3a35f237dbb3da93c9e8b35739de6"
     },
     {
       "file": "docs/media/round/transition-result.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "168769be2203d426fa921054489997ad1ca0e1f1ae2a335eb90b7f30ccb468d4"
+      "width": 530,
+      "height": 530,
+      "sha256": "94cb987f17583a318200fef0d817f290e898dbc699e7eaf3ec41f7f1edf75065",
+      "source_rgb_sha256": "cd43b991b1335b8721bc37e39b200924136534594ee89602a3d3c2104ff75148"
     },
     {
       "file": "docs/media/round/volume.png",
-      "width": 466,
-      "height": 466,
-      "sha256": "838b996a48f0d3815d1a7602c1f8b91216e6dc9d6474085729a1d2f1b1440b69"
+      "width": 530,
+      "height": 530,
+      "sha256": "70e90e5135deda862b6d5b4ec5e374b35971e69d0343e081a0a3154271b990d5",
+      "source_rgb_sha256": "4130c11fb86b16318498d441e952bb9a01f1e97b5b76713296c3f68d9f040276"
     }
-  ]
+  ],
+  "round_preview_frame": {
+    "outside_display_rgb": "#13181E",
+    "native_display_dimensions": [
+      466,
+      466
+    ],
+    "padding_pixels": 32,
+    "preview_dimensions": [
+      530,
+      530
+    ],
+    "reference": "https://github.com/xberenguer/stopwatch/blob/main/examples/preview.rs"
+  }
 }

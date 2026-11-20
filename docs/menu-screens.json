@@ -49,7 +49,7 @@
     "Cargo.toml": "ad9de256c5482e39c751e1841756b9488a940e778168ea314305c975b9ba8994",
     "Cargo.lock": "e1836fb5dfe617d3a92c217ff4084e94c02c2862ca2026e9018c1f4b3b71accc"
   },
-  "scope": "No device, player save or checkpoint used. Stick previews are exact3x nearest-neighbor; PNGs retain RGB565 colors. Walk GIF has a shared256-color palette.",
+  "scope": "Actual Rust renderer and synthetic menu inputs. Stick previews are exact 3\u00d7 nearest-neighbor. Round PNGs preserve display pixels inside a charcoal frame. The GIF keeps the shared indexed palette and adds the frame color.",
   "images": [
     {
       "device": "stick",
@@ -398,7 +398,7 @@
         466,
         466
       ],
-      "sha256": "105df162cbcac35078961f8d163fe6498a52830b76364190f606c3d3fe612f45",
+      "sha256": "976dc343250c40eaa4847913c0376b58e1c65ba352221d9bd9d1aa821ae5e09b",
       "source_rgb_sha256": "29c428640167d09ebf28833b064dad2fcc5f3b6a341759cb3b75ffa16f8e637a"
     },
     {
@@ -408,7 +408,7 @@
         466,
         466
       ],
-      "sha256": "aef9a204f784d7c8a2cc0f81cfe783e2f9ea51551a436b38d446cd7f64850aba",
+      "sha256": "b4d344986e9b4522c2fc5367d004737670d2bdd7d07592d580379ee988ee982e",
       "source_rgb_sha256": "083d460f66a56d61a9e8a86107b78b7ded11d4566fd16ce719d97bac95b564d5"
     },
     {
@@ -418,7 +418,7 @@
         466,
         466
       ],
-      "sha256": "f4415f2bbf3d09e61523898d418f2872894cc8fb357f0906ba519fc499b703a7",
+      "sha256": "da3fb224900d53816c44f831f00211d930c879a3873d3efa7e701dc2619377c2",
       "source_rgb_sha256": "4793b319094546e383678290af3ae798b7c44ed7cfade4ac9a1d3b9f8755c71a"
     },
     {
@@ -428,7 +428,7 @@
         466,
         466
       ],
-      "sha256": "d85c1ff4ce632e328a59b7bc00a7d4a111f760407edf58edd27a419b46e69560",
+      "sha256": "d92a08a08a5b0cdbdc3b847b79dee7f51b812add12016647b464e09a796dca20",
       "source_rgb_sha256": "03370d74f87a384af214c239b968413b9d876bb343961b0f8ee9049206f3d798"
     },
     {
@@ -438,7 +438,7 @@
         466,
         466
       ],
-      "sha256": "d15e9087f23d41f564a60084a717db7b5d7287b21c6ac37dae74a4a7473bd5c9",
+      "sha256": "399637dbd56b6d2bbc0397d31712680ebe4d8e6f067ae7ec1f862a1058a3726b",
       "source_rgb_sha256": "89a062289f2ce852f5143a9d5f46bcb47f6e3c0339c3629a7873c5dd99044c52"
     },
     {
@@ -448,7 +448,7 @@
         466,
         466
       ],
-      "sha256": "cbc68b570020aacd00149132ed1f9c82eced2c44c82b6b79d7eb8c4d1a0d0dfa",
+      "sha256": "65bc8a90fd11eff3b06ae457b813f654827c4324f179dc1bcfda05da4aa4c718",
       "source_rgb_sha256": "3054247a0983f8c30b7c6661f9e952a67064fc800519401658e3e84959d10275"
     },
     {
@@ -458,7 +458,7 @@
         466,
         466
       ],
-      "sha256": "35ebe50eddaea1f7ff47e3e3e6e773bfbb86e1a1d1b6377d20164e7325bf6bfb",
+      "sha256": "43ab9b70cd7eb71d00f51955e0b03c4a38c4b6c3ddbf6a045523fcf8d5af5ca7",
       "source_rgb_sha256": "3b73a7c325041c4df09867d4c33a0f2f0ea7529b868ff0e2da61625b64901459"
     },
     {
@@ -468,7 +468,7 @@
         466,
         466
       ],
-      "sha256": "2c02c96cee25919e65671dc86f55af0742a65369b0c071502febeca9e754e973",
+      "sha256": "e47cf8cc73e47c96b9288effa9a77eb56f4fcd02b045c0f8b35a559ce98a978f",
       "source_rgb_sha256": "c722215dc4971a2c802551721424cd036541685499764f25b47cbe92c3920e44"
     },
     {
@@ -478,7 +478,7 @@
         466,
         466
       ],
-      "sha256": "7ff028a35a2fc924aff6f9aafcdbf8cefc43c59bca25deca269d906f14133e40",
+      "sha256": "c261f2c9f4a2db91fcea3b9c5ea6280373f811951034736be35197b50ae8c2ee",
       "source_rgb_sha256": "657f37b39220e8077ae8e4ffd9216cf49f563544a747c3d96d1af233f0778140"
     },
     {
@@ -488,7 +488,7 @@
         466,
         466
       ],
-      "sha256": "3d9a10d305a498c08a48716048483c516eb84f7a90be87715c874d57eb0cd205",
+      "sha256": "feace621e3c85679ee088e65b607ddb9d80cd457f02b1049fbb4e9ecdb78d621",
       "source_rgb_sha256": "f5ac4345d9bb5a39c182f6acc25da7a3bc79e6a018c08ecc977413a7e9496318"
     },
     {
@@ -498,7 +498,7 @@
         466,
         466
       ],
-      "sha256": "b0483d0030ee78ff701d9694e6ff5b73bdaa03fbfca3bf3609694278ff476242",
+      "sha256": "24c57bec00e369f528b8f64507dea41cd9c0305bdb70715ce8f954dbeb0ef418",
       "source_rgb_sha256": "d3215b4a8a3eb877eccbd6bd0dbc0eb4218a900cff04fb6801f72d048ee46e69"
     },
     {
@@ -508,7 +508,7 @@
         466,
         466
       ],
-      "sha256": "5ec5cbe57948c995207172d73df939611342b42c9f8a39ba2e0f5ddad684ca61",
+      "sha256": "5b81cccb207c9147a35e6fec969f2bb7a2176d7d394a65c20d5800ee38045076",
       "source_rgb_sha256": "660e50910ba550cc966a7f0b767cb68c2bdd14d4b11b59ff8d76f8daaeb27537"
     },
     {
@@ -518,7 +518,7 @@
         466,
         466
       ],
-      "sha256": "3edc2f9be10d32257c2ca45a5cb0f879b7591b643199bda6bf8530ade5a0cd74",
+      "sha256": "0067b6182cbea1052b2060088cd14d6d19de6b896b027f1db1700c5db1c0d744",
       "source_rgb_sha256": "78f40e45a386b7b7b296113a02a7e4b626d5d50cc8ad2510b0a3811b5527c876"
     },
     {
@@ -528,7 +528,7 @@
         466,
         466
       ],
-      "sha256": "3e33b69e683b68a02a4ddcafaa76f93cbecf1f628774b34aac54d2defb873efd",
+      "sha256": "8a7d33b0c355d0ae6bd277c6954c90cbde00538f349deb2f0ae16cbbe27d557c",
       "source_rgb_sha256": "3a208395efeef4e60394b808b931a4cd69f58e0e6e99251995b90d0dbe63c2cf"
     },
     {
@@ -538,7 +538,7 @@
         466,
         466
       ],
-      "sha256": "7928ec7b1a3a353cdb44bd819682d046be4e9fc3c9aad7756fccdd4c6b9694b5",
+      "sha256": "1377bac9390b11b2cc8a7904c7e460a6fbfac911042e6e945802348b344cc18e",
       "source_rgb_sha256": "f848974aad5edb0ef2e50e5da98fdb3ec3c86bf2a9b2b507a505c41968860de6"
     },
     {
@@ -548,7 +548,7 @@
         466,
         466
       ],
-      "sha256": "47d5200f7ac53b5ab31245e3c4759cd8ed89f3b09e9b74563ad3ce45c06c42e4",
+      "sha256": "a30d33bbc6c0d5531c5ce2700d10b8f398a1f8b17b0d5f91d69d4a94ef0c4eaf",
       "source_rgb_sha256": "da9fd3cc0ce72673f6f5270a8867adc9333e4fb6a9079e328047e250126dba64"
     },
     {
@@ -558,7 +558,7 @@
         466,
         466
       ],
-      "sha256": "ded0e4003e631fb658e1a5403b8aa767cae3257d09514e5a71e23227b2b882a0",
+      "sha256": "a54d746037c91887a670ae085abb8fff5eb9a2bea3b8d6d562c0e7abea0d3401",
       "source_rgb_sha256": "dff8116c33078676448b9afa0ac4b818e7248b912eef78d64eb3062db7624eba"
     },
     {
@@ -568,7 +568,7 @@
         466,
         466
       ],
-      "sha256": "d999868bc623b312be1b1630f37f764706fe0ca26372186ebf231def4dfbe611",
+      "sha256": "47e58cb01901efaaa8b22b77633092d6c7518748f5b72433763fdc51f314091c",
       "source_rgb_sha256": "55843852212088ec0f59dd202d1dae4b5f2df15beb1e8268b4700a836e1c9936"
     },
     {
@@ -578,7 +578,7 @@
         466,
         466
       ],
-      "sha256": "89c603fa269d78d12bd67aa81b651287d0ae939f1a72ebb686e8108f1f8ef570",
+      "sha256": "8b5f341136c6c527ce686c02afad99cb5f92b937e636a3e8383779aff07e181b",
       "source_rgb_sha256": "6108124e00c472d59b95d8c7a553131433d4061fead98f72cbd7d256058ad1de"
     },
     {
@@ -588,7 +588,7 @@
         466,
         466
       ],
-      "sha256": "cb0250bb37355a21f350926861be059ddd8313aa30a92d2c21d63a30c5655266",
+      "sha256": "4b04c098f7d2aff76fd5c4383a8a08609b97801829106fcfe812c04558acc3ff",
       "source_rgb_sha256": "4ced537ada500054f5e7145d61028f15136f513d785142790b095688ab3e3d26"
     },
     {
@@ -598,7 +598,7 @@
         466,
         466
       ],
-      "sha256": "b7c28200b30b7da34f387fac936278152293f0d6080c4391377011dff0afda30",
+      "sha256": "953a23c300d870db988d8aa129c0b2866dc71e096f080cefc18166e3aa3b6c2f",
       "source_rgb_sha256": "cda6fa7d71798e390a7619c9027b8df25ffcd970225ef7b9a542ef4d7b847b24"
     },
     {
@@ -608,7 +608,7 @@
         466,
         466
       ],
-      "sha256": "8445f2778301bd3ba87d89c6a5ab875b104ad34bfe20baf246e185b13dcd2b06",
+      "sha256": "ce39572d87f34bc76424aad1a940ac36bed49c12dcadddeb2a53b08d3e8c9f31",
       "source_rgb_sha256": "025fbe006fb29fb43de37af8a021f9347916b8e983f154be650a69b3be5c0f23"
     },
     {
@@ -618,7 +618,7 @@
         466,
         466
       ],
-      "sha256": "56cdf483dafd2636685fb32529fd1a8b730464a8d82cefc578c9728b931ee0cb",
+      "sha256": "5d61ab58792d2bea0fc6833b7930ef36bdeec54f954cb45a4061103e99a82ad5",
       "source_rgb_sha256": "c65c460b4f288da4778b53b51933382ca437ee1e8415335a30fa5f84ad3196a4"
     },
     {
@@ -628,7 +628,7 @@
         466,
         466
       ],
-      "sha256": "d401346659e79d07e5f7382beb51a7129a1371b64ca12cce92b5ebcb081e75d4",
+      "sha256": "b6a63b0e9a11b03b0a0ce09d8b2683e4ff85cb4c4b8441eafb600187229102ca",
       "source_rgb_sha256": "5e09dd8109d386d4e7fd460cc8faf68d87c70ff61ba0b942d3d21839d56fcadd"
     },
     {
@@ -638,7 +638,7 @@
         466,
         466
       ],
-      "sha256": "235a34f97c7e2f3e92f07d675af2b95a06eb261ffdb70c397394ed4479e4fd3b",
+      "sha256": "326e57237e55a1e7f853af9218117c92a9543df373a4cdbd29e4b5fac640498b",
       "source_rgb_sha256": "271094147f7339f266c2290483f14e9b7f703848d5736e93d5551ceb88b0e746"
     },
     {
@@ -648,7 +648,7 @@
         466,
         466
       ],
-      "sha256": "e98112f355e939497b9f3d477c2616c0d102c9e675b7781be74b81e441a9a864",
+      "sha256": "c7cd6eb1da1155b4865d27f85d6851053aec639b74545ae5b2df8af7686114cc",
       "source_rgb_sha256": "7c5b0f074b3495074000174ec36528172d2a4974f2ff92f4e9066f91eb16a41f"
     },
     {
@@ -658,7 +658,7 @@
         466,
         466
       ],
-      "sha256": "2cb3a7a77e7fe751b6d9638b61c72ff5af7c92ad32073f41ca84ba152334f98c",
+      "sha256": "891d8cbe8d7bf14837ae6496fcc045166bad8c7b276d05094967c7ad4e7d2a47",
       "source_rgb_sha256": "9ed8230f12d4cdc1cd1d1fa1d1b543002f83d7dbe77ef3e9ccd92eaeb985ca64"
     },
     {
@@ -668,7 +668,7 @@
         466,
         466
       ],
-      "sha256": "b0483d0030ee78ff701d9694e6ff5b73bdaa03fbfca3bf3609694278ff476242",
+      "sha256": "24c57bec00e369f528b8f64507dea41cd9c0305bdb70715ce8f954dbeb0ef418",
       "source_rgb_sha256": "d3215b4a8a3eb877eccbd6bd0dbc0eb4218a900cff04fb6801f72d048ee46e69"
     },
     {
@@ -678,7 +678,7 @@
         466,
         466
       ],
-      "sha256": "56cdf483dafd2636685fb32529fd1a8b730464a8d82cefc578c9728b931ee0cb",
+      "sha256": "5d61ab58792d2bea0fc6833b7930ef36bdeec54f954cb45a4061103e99a82ad5",
       "source_rgb_sha256": "c65c460b4f288da4778b53b51933382ca437ee1e8415335a30fa5f84ad3196a4"
     },
     {
@@ -688,7 +688,7 @@
         466,
         466
       ],
-      "sha256": "d401346659e79d07e5f7382beb51a7129a1371b64ca12cce92b5ebcb081e75d4",
+      "sha256": "b6a63b0e9a11b03b0a0ce09d8b2683e4ff85cb4c4b8441eafb600187229102ca",
       "source_rgb_sha256": "5e09dd8109d386d4e7fd460cc8faf68d87c70ff61ba0b942d3d21839d56fcadd"
     },
     {
@@ -698,7 +698,7 @@
         466,
         466
       ],
-      "sha256": "d85c1ff4ce632e328a59b7bc00a7d4a111f760407edf58edd27a419b46e69560",
+      "sha256": "d92a08a08a5b0cdbdc3b847b79dee7f51b812add12016647b464e09a796dca20",
       "source_rgb_sha256": "03370d74f87a384af214c239b968413b9d876bb343961b0f8ee9049206f3d798"
     },
     {
@@ -708,7 +708,7 @@
         466,
         466
       ],
-      "sha256": "e458e5a2f84de53ae1910bc1f6416ab6c9c208b6ccf82564b55499341841f5cf",
+      "sha256": "3efb64ae20d80226ef76c55e46ec0e84bf33187a32bb0e714ffd7d2ac68a1bd7",
       "source_rgb_sha256": "c33cea9937d3aa5d640e0d34396549fa40bfe3c27839b28f07cc9ab830d774e3"
     },
     {
@@ -718,7 +718,7 @@
         466,
         466
       ],
-      "sha256": "c4b497f3d0251244bb5f53af0f4a57278ba2c5ecde3d38284d55b4763a4f1ccc",
+      "sha256": "531f045fd745d7f711982f0fe0798eb3bb502df359f357fcd3f2f2da8a364fcd",
       "source_rgb_sha256": "a5224a785b3d19249cee4e128d90e1fb60e287f918bb939f3aa7a7e832b5f6a4"
     },
     {
@@ -728,13 +728,26 @@
         466,
         466
       ],
-      "sha256": "287d936a918c7709d3efd8f183e6d014c090b639cf57e9d7a80e198b3fb99c72",
+      "sha256": "5a9d18df855cb65b5b6569e0b55b427ecaff3cacf6a23e3ee17390644bac0944",
       "source_rgb_sha256": "0d88f887245ee1f86d63704bbfd90c0cf5e02264ca0141416b82918e7b7b00ad"
     }
   ],
   "animation": {
     "file": "docs/media/menus/menu-walk-round.gif",
-    "sha256": "1f00c2f880cca8b1ab1b9a642fa0a8cb50b483c499c5cb3197829cbf72485200",
+    "sha256": "310653e21c8b34508ef8ba662bcad1ed7a8dcd11371a324953d7de2c106b2a86",
     "frames": 7
+  },
+  "round_preview_frame": {
+    "outside_display_rgb": "#13181E",
+    "native_display_dimensions": [
+      466,
+      466
+    ],
+    "padding_pixels": 32,
+    "preview_dimensions": [
+      530,
+      530
+    ],
+    "reference": "https://github.com/xberenguer/stopwatch/blob/main/examples/preview.rs"
   }
 }

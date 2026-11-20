@@ -43,7 +43,7 @@ Your cards sit in the center of the display, with the smaller dealer cards above
 
 Menus use larger native text, six full rows and a faded preview of the next option. Reaching the last full row scrolls the list up by one row; there is no side scrollbar. Specialist trainer and report screens retain the same choices and page navigation, with their content reflowed into the round display. These are the same rules, strategies, EV calculations, count accounting, drills and session reports as the Stick build.
 
-The screen examples below use the actual Rust round renderer with synthetic demonstration sessions. They are not photographs of the physical panel or recordings of a player's saved results.
+These examples show synthetic sessions rendered at the Waveshare’s native 466 × 466 resolution. The charcoal outside the circle makes the screen edge visible and matches the [Stopwatch previews](https://github.com/xberenguer/stopwatch#readme).
 
 
 | Cut the shoe | Skip the burn notice |
@@ -88,7 +88,7 @@ The screen examples below use the actual Rust round renderer with synthetic demo
 |---|---|
 | [![Green background](media/round/theme-2.png)](media/round/theme-2.png) | [![Red background](media/round/theme-3.png)](media/round/theme-3.png) |
 
-[Browse all native round examples](media/round) · [Renderer and image provenance](round-screens.json)
+[Browse all round previews](media/round) · [Renderer and image provenance](round-screens.json)
 
 ## Install or update
 

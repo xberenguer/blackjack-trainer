@@ -79,7 +79,7 @@ fn v8_crc_reserved_selectors_schema_and_stat_invariants_are_checked() {
         assert!(Save::decode(&bad).is_none(), "byte{at}");
     }
     for (at, value) in [
-        (4, 14),
+        (4, 15),
         (580, 32),
         (581, 4),
         (582, 6),

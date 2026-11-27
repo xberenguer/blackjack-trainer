@@ -270,19 +270,35 @@ impl RoundRenderer {
             View::Table => self.table(app, frame),
             View::Cut => self.cut(app, frame),
             View::CardBackPreview => {
-                self.heading(frame, "CARD BACK");
-                self.text(
+                let rows = crate::app::settings_ui::color_items(app);
+                self.heading(frame, "COLORS");
+                self.sprite(frame, 179, 105, 108, 157, 104);
+                for (i, row) in rows.iter().enumerate() {
+                    let y = 274 + i as i32 * 36;
+                    let active = app.selected == i;
+                    frame.rect(83, y, 300, 30, if active { SELECT } else { PANEL });
+                    if active {
+                        frame.rect(83, y, 3, 30, GOLD);
+                    }
+                    self.text(
+                        frame,
+                        233,
+                        y + 5,
+                        row.as_str(),
+                        22,
+                        if active { GOLD } else { WHITE },
+                        true,
+                        278,
+                    );
+                }
+                self.footer(
                     frame,
-                    233,
-                    108,
-                    CARD_BACK_NAMES[app.card_back.min(3) as usize],
-                    26,
-                    GOLD,
-                    true,
-                    300,
+                    if app.selected == 2 {
+                        "RIGHT: NEXT   LEFT: BACK"
+                    } else {
+                        "RIGHT: NEXT   LEFT: CHANGE"
+                    },
                 );
-                self.sprite(frame, 163, 154, 140, 204, 104);
-                self.footer(frame, "RIGHT: NEXT   LEFT: DONE");
             }
             View::AudioVolume | View::Brightness => self.editor(app, frame),
             View::Controls => self.controls(app, frame),

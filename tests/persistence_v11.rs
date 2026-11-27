@@ -144,61 +144,48 @@ fn every_old_version_keeps_background_bits_reserved() {
     }
 }
 #[test]
-fn independent_background_rows_use_shared_button_controls() {
-    let mut round = Box::new(App::new(7));
-    round.round_display = true;
-    display(&mut round);
-    assert_eq!(round.menu_item(), "Brightness");
-    round.event(GREY);
-    assert_eq!(round.menu_item(), "Flip screen");
-    round.event(GREY);
-    assert_eq!(round.menu_item(), "Background");
-    let before = (
-        round.game.position,
-        round.game.rounds,
-        round.training.stats(),
-    );
-    for expected in [1, 2, 3, 0] {
-        round.event(BLUE);
-        assert_eq!(round.background, expected);
-        assert!(round.dirty);
+fn both_devices_preview_all_four_independent_backgrounds_in_colors() {
+    for round in [false, true] {
+        let mut app = Box::new(App::new(7));
+        app.round_display = round;
+        display(&mut app);
+        assert_eq!(app.menu_item(), "Brightness");
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Flip screen");
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Colors");
+        app.event(BLUE);
+        assert_eq!(app.menu_item(), "Background");
+        let before = (app.game.position, app.game.rounds, app.training.stats());
+        let cycle = if round { [1, 2, 3, 0] } else { [2, 3, 0, 1] };
+        for expected in cycle {
+            app.event(BLUE);
+            let selected = if round {
+                app.background
+            } else {
+                app.compact_background
+            };
+            assert_eq!(selected, expected);
+            assert!(app.dirty);
+        }
+        assert_eq!(
+            before,
+            (app.game.position, app.game.rounds, app.training.stats())
+        );
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Card back");
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Back");
+        app.event(BLUE);
+        assert_eq!((app.view_name(), app.menu_item()), ("Display", "Colors"));
+        let save = app.save();
+        app.round_display = !round;
+        assert_eq!(
+            app.save(),
+            save,
+            "hardware capability changes no saved option"
+        );
     }
-    assert_eq!(
-        before,
-        (
-            round.game.position,
-            round.game.rounds,
-            round.training.stats()
-        )
-    );
-    round.event(GREY);
-    assert_eq!(round.menu_item(), "Card back");
-    round.event(GREY);
-    assert_eq!(round.menu_item(), "Back");
-    round.event(BLUE);
-    assert_eq!(round.view_name(), "Settings");
-    let mut stick = Box::new(App::new(7));
-    assert!(!stick.round_display);
-    display(&mut stick);
-    stick.event(GREY);
-    stick.event(GREY);
-    assert_eq!(stick.menu_item(), "Background");
-    stick.event(BLUE);
-    assert_eq!(stick.compact_background, 2);
-    stick.event(GREY);
-    assert_eq!(stick.menu_item(), "Card back");
-    stick.event(GREY);
-    assert_eq!(stick.menu_item(), "Back");
-    stick.event(GREY);
-    assert_eq!(stick.menu_item(), "Brightness");
-    assert_eq!(stick.background, 0);
-    let save = stick.save();
-    stick.round_display = true;
-    assert_eq!(
-        stick.save(),
-        save,
-        "hardware capability must not affect wire identity"
-    );
 }
 #[test]
 fn background_private_copy_restore_and_round_return_cursor_remain_valid() {
@@ -207,7 +194,6 @@ fn background_private_copy_restore_and_round_return_cursor_remain_valid() {
         app.round_display = true;
         app.background = background;
         display(&mut app);
-        app.event(GREY);
         app.event(GREY);
         app.event(GREY);
         app.event(GREY);

@@ -66,20 +66,30 @@ impl Widgets<'_> {
         );
     }
     pub fn row(&mut self, y: i32, text: &str, selected: bool, enabled: bool) {
+        self.row_at((8, y, 224), text, selected, enabled);
+    }
+
+    pub fn row_at(
+        &mut self,
+        (x, y, width): (i32, i32, i32),
+        text: &str,
+        selected: bool,
+        enabled: bool,
+    ) {
         self.frame.round_rect(
-            (8, y, 224, 17),
+            (x, y, width, 17),
             if selected { SELECT } else { PANEL },
             if selected { GOLD } else { LINE },
             if selected { 2 } else { 1 },
         );
         let mut size = 14;
         while size > 10
-            && (text_width(text, size, true) > 212 || text_height(text, size, true) > 14)
+            && (text_width(text, size, true) > width - 12 || text_height(text, size, true) > 14)
         {
             size -= 1
         }
         self.label(
-            (120, y + (17 - text_height(text, size, true)) / 2),
+            (x + width / 2, y + (17 - text_height(text, size, true)) / 2),
             text,
             TextStyle {
                 size,

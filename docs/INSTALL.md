@@ -76,7 +76,7 @@ This command writes the application only. It does not request a full erase or wr
 
 The device should boot to the player-cut screen, unless you have opted into a valid saved-session chooser. Hold Grey to check the small version in the menu. The current version is shown in small grey type. Your saved strategy remains selectable. New setups start at 20% volume and Fast speed.
 
-Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test sounds → Deal or Win if desired. The [release notes](RELEASE-0.12.3.md) link the current verification results.
+Press Blue twice into a hand, check Grey/Blue play, then use Settings → Sound → Test sounds → Deal or Win if desired. The [release notes](RELEASE-0.12.4.md) link the current verification results.
 
 ### If something goes wrong
 

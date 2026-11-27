@@ -1,6 +1,9 @@
 //! Shared hierarchy and semantic row IDs for both displays. Legacy IDs retain
 //! their original actions when a private checkpoint reopens an older menu.
-use super::*;
+use super::{
+    settings_ui::{display_back_id, display_cursor},
+    *,
+};
 use crate::{
     render::{Align, TextStyle},
     text::{Cash, Text},
@@ -275,28 +278,11 @@ pub(crate) fn focused_label(a: &App) -> Option<&'static str> {
         });
     }
     if a.view == View::Display {
-        return Some(if a.round_display {
-            [
-                "Brightness",
-                "Flip screen",
-                "Background",
-                "Back",
-                "Card back",
-            ]
-            .get(a.selected)
-            .copied()
-            .unwrap_or("")
-        } else {
-            [
-                "Brightness",
-                "Flip screen",
-                "Back",
-                "Background",
-                "Card back",
-            ]
-            .get(a.selected)
-            .copied()
-            .unwrap_or("")
+        return Some(match display_cursor(a.round_display, a.selected) {
+            0 => "Brightness",
+            1 => "Flip screen",
+            4 => "Colors",
+            _ => "Back",
         });
     }
     if let Some(rows) = labels(a.view) {
@@ -325,7 +311,7 @@ fn submenu(a: &App, id: usize) -> bool {
         View::Training => matches!(id, 11..=14),
         View::Settings => matches!(id, 0 | 1),
         View::Sound => matches!(id, 1 | 9 | 10),
-        View::Display => id == 0,
+        View::Display => matches!(id, 0 | 4),
         View::TableMenu => id < 4,
         View::SessionMenu => id < 5,
         View::BankrollMenu => id == 0,
@@ -456,31 +442,9 @@ fn spec_inner(a: &App) -> Option<MenuSpec> {
             },
             a.selected,
         );
-        if a.round_display {
-            b.clear();
-            let _ = write!(
-                b,
-                "Background: {}",
-                crate::canvas::BACKGROUND_NAMES[a.background.min(3) as usize]
-            );
-            out.row(2, b.as_str(), a.selected);
-        } else {
-            b.clear();
-            let _ = write!(
-                b,
-                "Background: {}",
-                crate::canvas::BACKGROUND_NAMES[a.compact_background.min(3) as usize]
-            );
-            out.row(3, b.as_str(), a.selected);
-        }
-        b.clear();
-        let _ = write!(
-            b,
-            "Card back: {} >",
-            crate::render::CARD_BACK_NAMES[a.card_back.min(3) as usize]
-        );
-        out.row(4, b.as_str(), a.selected);
-        out.row(if a.round_display { 3 } else { 2 }, "Back", a.selected);
+        let cursor = display_cursor(a.round_display, a.selected);
+        out.row(4, "Colors", cursor);
+        out.row(display_back_id(a.round_display), "Back", cursor);
         return Some(out);
     }
     let rows = labels(a.view)?;

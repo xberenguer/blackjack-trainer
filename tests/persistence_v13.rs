@@ -128,50 +128,47 @@ fn both_display_menus_have_live_preview_and_preserve_historical_back_ids() {
         for (id, label) in [
             (0, "Brightness"),
             (1, "Flip screen"),
-            (if round { 2 } else { 3 }, "Background"),
-            (4, "Card back"),
+            (4, "Colors"),
             (if round { 3 } else { 2 }, "Back"),
             (0, "Brightness"),
         ] {
             assert_eq!((app.focus(), app.menu_item()), (id, label));
             app.event(GREY);
         }
-        nav::choose(&mut app, "Background");
+        nav::choose(&mut app, "Colors");
+        assert_eq!(app.menu_item(), "Background");
+        app.event(BLUE);
         assert_eq!(app.background, if round { 1 } else { 0 });
         assert_eq!(app.compact_background, if round { 1 } else { 2 });
-        if !round {
-            for colour in [3, 0, 1] {
-                app.event(BLUE);
-                assert_eq!(app.compact_background, colour);
-                assert_eq!(app.save().compact_background, colour);
-            }
-        }
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Card back");
         let before = (
             app.game.rng,
             app.game.position,
             app.game.bankroll,
             app.training.stats(),
         );
-        nav::choose(&mut app, "Card back");
-        assert_eq!((app.view_name(), app.focus()), ("CardBackPreview", 0));
+        assert_eq!((app.view_name(), app.focus()), ("CardBackPreview", 1));
         for colour in [1, 2, 3, 0] {
             app.dirty = false;
-            app.event(GREY);
+            app.event(BLUE);
             assert_eq!(app.card_back, colour);
             assert_eq!(app.save().card_back, colour);
             assert!(app.dirty);
         }
+        app.event(GREY);
+        assert_eq!(app.menu_item(), "Back");
         app.event(BLUE);
         assert_eq!(
             (app.view_name(), app.menu_item(), app.focus()),
-            ("Display", "Card back", 4)
+            ("Display", "Colors", 4)
         );
         app.event(BLUE);
         app.event(GREY);
         app.event(Event::Hold(Key::Grey));
         assert_eq!(
             (app.view_name(), app.menu_item(), app.focus()),
-            ("Display", "Card back", 4)
+            ("Display", "Colors", 4)
         );
         assert_eq!(
             before,
@@ -191,8 +188,9 @@ fn preview_and_compact_choice_survive_private_copy_restore_and_done_routing() {
         app.round_display = round;
         app.compact_background = 0;
         app.background = 2;
-        nav::path(&mut app, &["Settings", "Display", "Card back"]);
+        nav::path(&mut app, &["Settings", "Display", "Colors"]);
         app.event(GREY);
+        app.event(BLUE);
         app.render();
         let mut copy = Box::new(App::EMPTY);
         app.capture_clone_into(&mut copy).unwrap();
@@ -207,8 +205,10 @@ fn preview_and_compact_choice_survive_private_copy_restore_and_done_routing() {
         candidate.round_display = round;
         assert_eq!(candidate.compact_background, 0);
         assert_eq!(candidate.card_back, 1);
+        assert_eq!(candidate.menu_item(), "Card back");
         assert_eq!(candidate.background, 2);
         assert_eq!(candidate.save(), app.save());
+        candidate.event(GREY);
         candidate.event(BLUE);
         assert_eq!(
             (
@@ -216,7 +216,7 @@ fn preview_and_compact_choice_survive_private_copy_restore_and_done_routing() {
                 candidate.focus(),
                 candidate.menu_item()
             ),
-            ("Display", 4, "Card back")
+            ("Display", 4, "Colors")
         );
     }
 }

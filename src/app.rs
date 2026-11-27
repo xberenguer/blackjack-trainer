@@ -462,7 +462,7 @@ impl App {
                 MENU.get(self.selected - n).copied().unwrap_or("")
             }
         } else {
-            settings_ui::item(self.view, self.selected, self.round_display)
+            settings_ui::item(self.view, self.selected)
         }
     }
     /// Publicly displayed tablemate animation only; never exposes a pending shoe.

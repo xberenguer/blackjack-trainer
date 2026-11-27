@@ -438,23 +438,26 @@ pub fn draw(a: &mut App) {
     };
     a.renderer.set_appearance(background, a.card_back);
     if a.view == View::CardBackPreview {
+        let rows = crate::app::settings_ui::color_items(a);
         let mut w = Widgets {
             frame: &mut a.frame,
             renderer: &mut a.renderer,
         };
-        w.title("CARD BACK", None, true);
-        w.renderer.card_back(w.frame, (24, 26), (60, 88));
-        w.label(
-            (157, 59),
-            crate::round::CARD_BACK_NAMES[a.card_back.min(3) as usize],
-            TextStyle {
-                size: 24,
-                bold: true,
-                color: GOLD,
-                align: Align::Center,
-            },
-        );
-        w.footer("GREY: NEXT   BLUE: DONE");
+        w.title("COLORS", None, true);
+        w.renderer.card_back(w.frame, (16, 27), (58, 84));
+        for (i, row) in rows.iter().enumerate() {
+            w.row_at(
+                (85, 35 + i as i32 * 25, 147),
+                row.as_str(),
+                a.selected == i,
+                true,
+            );
+        }
+        w.footer(if a.selected == 2 {
+            "GREY: NEXT   BLUE: BACK"
+        } else {
+            "GREY: NEXT   BLUE: CHANGE"
+        });
         return;
     }
     if crate::app::menu_ui::draw(a) {

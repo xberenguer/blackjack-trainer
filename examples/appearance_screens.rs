@@ -55,7 +55,7 @@ fn save(out: &Path, name: &str, a: &mut App, r: &mut RoundRenderer, f: &mut Roun
 fn main() {
     let root = std::env::args()
         .nth(1)
-        .unwrap_or("/tmp/blackjack-appearance-v0123".into());
+        .unwrap_or("/tmp/blackjack-appearance-v0124".into());
     let mut r = RoundRenderer::new();
     let mut f = Box::new(RoundCanvas::EMPTY);
     for round in [false, true] {
@@ -75,34 +75,31 @@ fn main() {
         save(&out, "table-default", &mut a, &mut r, &mut f);
         display(&mut a);
         save(&out, "display", &mut a, &mut r, &mut f);
-        choose(&mut a, "Card back");
-        assert_eq!(a.view_name(), "CardBackPreview");
-        for name in ["gold", "red", "blue", "charcoal"] {
-            save(&out, &format!("preview-{name}"), &mut a, &mut r, &mut f);
-            press(&mut a, Event::Tap(Key::Grey));
-        }
-        press(&mut a, Event::Tap(Key::Blue));
-        table(&mut a);
-        for (color, name) in ["gold", "red", "blue", "charcoal"].iter().enumerate() {
-            display(&mut a);
-            choose(&mut a, "Card back");
-            while a.card_back != color as u8 {
-                press(&mut a, Event::Tap(Key::Grey));
-            }
-            press(&mut a, Event::Tap(Key::Blue));
-            table(&mut a);
-            save(&out, &format!("table-{name}"), &mut a, &mut r, &mut f);
-        }
+        choose(&mut a, "Colors");
+        assert_eq!(a.menu_item(), "Background");
         for _ in 0..4 {
-            display(&mut a);
-            choose(&mut a, "Background");
             let color = if round {
                 a.background
             } else {
                 a.compact_background
             };
-            table(&mut a);
-            save(&out, &format!("background-{color}"), &mut a, &mut r, &mut f);
+            save(
+                &out,
+                &format!("display-background-{color}"),
+                &mut a,
+                &mut r,
+                &mut f,
+            );
+            press(&mut a, Event::Tap(Key::Blue));
         }
+        press(&mut a, Event::Tap(Key::Grey));
+        assert_eq!(a.menu_item(), "Card back");
+        for name in ["gold", "red", "blue", "charcoal"] {
+            save(&out, &format!("preview-{name}"), &mut a, &mut r, &mut f);
+            press(&mut a, Event::Tap(Key::Blue));
+        }
+        press(&mut a, Event::Tap(Key::Grey));
+        press(&mut a, Event::Tap(Key::Blue));
+        table(&mut a);
     }
 }

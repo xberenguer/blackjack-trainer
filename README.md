@@ -4,7 +4,7 @@
 
 Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature. Both hardware targets share this repository and release version. Choose your device in the flasher to download the matching firmware.
 
-**Current version: 0.12.3.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
+**Current version: 0.12.4.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
 
 | M5Stack StickS3 | Waveshare AMOLED 1.75C |
 | :---: | :---: |
@@ -474,11 +474,21 @@ In **Volume**, Grey lowers and Blue raises. Steps are one percentage point throu
 
 ### Display
 
-Both models save your **Background** and **Card back** choices in **Settings → Display**. Both devices offer Black, Blue, Green and Red backgrounds. Select **Card back** to see the actual card as you cycle Gold, Red, Blue and Charcoal. Grey/Right cycles and Blue/Left returns to Display with the chosen back saved.
+Open **Settings → Display → Colors** to preview the table background and card back together. Tap **Grey** on StickS3 or **Right** on Waveshare to move between Background, Card back and Back. Tap **Blue** or **Left** to cycle the highlighted choice. Both choices update live and are saved automatically.
 
-| StickS3 card-back preview | Waveshare card-back preview |
-| :---: | :---: |
-| [![Red card back in StickS3 Display settings](docs/media/compare/stick-card-back-red.png)](docs/media/compare/stick-card-back-red.png) | [![Red card back in Waveshare Display settings](docs/media/compare/waveshare-card-back-red.png)](docs/media/compare/waveshare-card-back-red.png) |
+**Table backgrounds**
+
+| Device | Black | Blue | Green | Red |
+| --- | :---: | :---: | :---: | :---: |
+| StickS3 | [![StickS3 Black background preview](docs/media/colors/stick-background-black.png)](docs/media/colors/stick-background-black.png) | [![StickS3 Blue background preview](docs/media/colors/stick-background-blue.png)](docs/media/colors/stick-background-blue.png) | [![StickS3 Green background preview](docs/media/colors/stick-background-green.png)](docs/media/colors/stick-background-green.png) | [![StickS3 Red background preview](docs/media/colors/stick-background-red.png)](docs/media/colors/stick-background-red.png) |
+| Waveshare | [![Waveshare Black background preview](docs/media/colors/waveshare-background-black.png)](docs/media/colors/waveshare-background-black.png) | [![Waveshare Blue background preview](docs/media/colors/waveshare-background-blue.png)](docs/media/colors/waveshare-background-blue.png) | [![Waveshare Green background preview](docs/media/colors/waveshare-background-green.png)](docs/media/colors/waveshare-background-green.png) | [![Waveshare Red background preview](docs/media/colors/waveshare-background-red.png)](docs/media/colors/waveshare-background-red.png) |
+
+**Card backs**
+
+| Device | Gold | Red | Blue | Charcoal |
+| --- | :---: | :---: | :---: | :---: |
+| StickS3 | [![StickS3 Gold card back preview](docs/media/colors/stick-card-back-gold.png)](docs/media/colors/stick-card-back-gold.png) | [![StickS3 Red card back preview](docs/media/colors/stick-card-back-red.png)](docs/media/colors/stick-card-back-red.png) | [![StickS3 Blue card back preview](docs/media/colors/stick-card-back-blue.png)](docs/media/colors/stick-card-back-blue.png) | [![StickS3 Charcoal card back preview](docs/media/colors/stick-card-back-charcoal.png)](docs/media/colors/stick-card-back-charcoal.png) |
+| Waveshare | [![Waveshare Gold card back preview](docs/media/colors/waveshare-card-back-gold.png)](docs/media/colors/waveshare-card-back-gold.png) | [![Waveshare Red card back preview](docs/media/colors/waveshare-card-back-red.png)](docs/media/colors/waveshare-card-back-red.png) | [![Waveshare Blue card back preview](docs/media/colors/waveshare-card-back-blue.png)](docs/media/colors/waveshare-card-back-blue.png) | [![Waveshare Charcoal card back preview](docs/media/colors/waveshare-card-back-charcoal.png)](docs/media/colors/waveshare-card-back-charcoal.png) |
 
 In **Brightness**, Grey/Right lowers and Blue/Left raises the level by about 5 percentage points. The range runs from about 8% to 100%. Hold Grey/Right to return. **Screen** rotates the display 180°.
 
@@ -572,9 +582,9 @@ The shared game, renderer and hardware application are Rust. See [Build and vali
 
 ## Releases and verification
 
-The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.3.md).
+The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.4.md).
 
-Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.3 release adds Green and Red backgrounds on StickS3 and a Charcoal card back on both displays. The [current release notes](docs/RELEASE-0.12.3.md) describe the changes. Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
+Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.4 release combines background and card-back choices in one live preview on both displays. The [current release notes](docs/RELEASE-0.12.4.md) describe the changes. Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
 
 ## Project and publication notes
 

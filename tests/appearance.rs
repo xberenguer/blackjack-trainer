@@ -2,7 +2,7 @@
 use stardust_blackjack::{
     app::App,
     assets::Sprite,
-    canvas::{Canvas, FELT},
+    canvas::{Canvas, FELT, background_color},
     controls::{Event, Key},
     render::{Renderer, card_back_color},
     round::{RoundCanvas, RoundRenderer},
@@ -135,6 +135,33 @@ fn shared_back_colours_preserve_faces_and_gold_is_exact_original_art() {
     assert!(channels[0] < 150);
 }
 #[test]
+fn compact_colors_screen_repaints_the_table_background_on_each_blue_tap() {
+    run(|| {
+        let mut a = play();
+        a.event(Event::Hold(Key::Grey));
+        choose(&mut a, "Settings");
+        let settings_backdrop = a.frame.pixels[0];
+        choose(&mut a, "Display");
+        choose(&mut a, "Colors");
+        assert_eq!(a.menu_item(), "Background");
+        assert_eq!(a.frame.pixels[0], FELT);
+        for color in [2, 3, 0, 1] {
+            tap(&mut a, Key::Blue);
+            assert_eq!(a.menu_item(), "Background");
+            assert_eq!(a.compact_background, color);
+            assert_eq!(a.frame.pixels[0], background_color(color));
+            assert_eq!(a.card_back, 0);
+        }
+        a.event(Event::Hold(Key::Grey));
+        a.render();
+        assert_eq!((a.view_name(), a.menu_item()), ("Display", "Colors"));
+        a.event(Event::Hold(Key::Grey));
+        a.render();
+        assert_eq!(a.view_name(), "Settings");
+        assert_eq!(a.frame.pixels[0], settings_backdrop);
+    });
+}
+#[test]
 fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row() {
     run(|| {
         let source = Sprite::at(104).unwrap();
@@ -144,7 +171,10 @@ fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row()
             a.event(Event::Hold(Key::Grey));
             choose(&mut a, "Settings");
             choose(&mut a, "Display");
-            choose(&mut a, "Card back");
+            choose(&mut a, "Colors");
+            assert_eq!(a.menu_item(), "Background");
+            tap(&mut a, Key::Grey);
+            assert_eq!(a.menu_item(), "Card back");
             assert_eq!(a.view_name(), "CardBackPreview");
             let mut r = RoundRenderer::new();
             let mut f = Box::new(RoundCanvas::EMPTY);
@@ -153,9 +183,9 @@ fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row()
                 a.render();
                 r.render(&a, &mut f);
                 let (x, y, w, h) = if round {
-                    (163, 154, 140, 204)
+                    (179, 105, 108, 157)
                 } else {
-                    (24, 26, 60, 88)
+                    (16, 27, 58, 84)
                 };
                 for dy in 0..h {
                     for dx in 0..w {
@@ -177,8 +207,10 @@ fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row()
                         }
                     }
                 }
-                tap(&mut a, Key::Grey);
+                tap(&mut a, Key::Blue);
             }
+            tap(&mut a, Key::Grey);
+            assert_eq!(a.menu_item(), "Back");
             tap(&mut a, Key::Blue);
             assert_eq!((a.view_name(), a.focus()), ("Display", 4));
         }

@@ -28,9 +28,9 @@ Changing sound controls or listening to tests does not supply grading assistance
 
 ## Display
 
-**Background** cycles Black, Blue, Green and Red on both models. StickS3 defaults to Blue and Waveshare defaults to Black. [StickS3 with the Black background](media/compare/stick-table-black.png).
+Open **Display → Colors** to see the selected table background and card back together. Grey on StickS3 or Right on Waveshare moves between **Background**, **Card back** and **Back**. Blue or Left cycles the highlighted color and updates the preview immediately. Choose Back or hold Grey/Right to return to Display.
 
-**Card back** opens a preview of the selected Gold, Red, Blue or Charcoal back. Tap Grey on StickS3 or Right on Waveshare to cycle colors. Tap Blue or Left to finish. The preview uses the same card art as the table. Background and card-back selections are saved.
+Backgrounds are Black, Blue, Green and Red. Card backs are Gold, Red, Blue and Charcoal. Both choices are saved. StickS3 defaults to Blue and Waveshare defaults to Black. [See every color on both devices](../README.md#display).
 
 The **Brightness** editor uses Grey/Right to lower and Blue/Left to raise brightness in five percentage-point steps. The range is about 8–100%. **Screen** rotates the display 180°. Hold Grey/Right to go back one menu level.
 

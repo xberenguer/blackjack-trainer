@@ -8,7 +8,7 @@ version = "0.1.0"
 
 [[package]]
 name = "stardust-blackjack"
-version = "0.12.3"
+version = "0.12.4"
 
 [[package]]
 name = "stardust-round-storage-check"

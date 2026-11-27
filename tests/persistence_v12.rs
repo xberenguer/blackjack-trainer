@@ -133,8 +133,7 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
     for (id, label) in [
         (0, "Brightness"),
         (1, "Flip screen"),
-        (2, "Background"),
-        (4, "Card back"),
+        (4, "Colors"),
         (3, "Back"),
         (0, "Brightness"),
     ] {
@@ -147,8 +146,10 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
     let before = (app.game.position, app.game.rounds, app.training.stats());
     app.event(BLUE);
     assert_eq!(app.view_name(), "CardBackPreview");
+    app.event(GREY);
+    assert_eq!(app.menu_item(), "Card back");
     for back in [1, 2, 3, 0] {
-        app.event(GREY);
+        app.event(BLUE);
         assert_eq!(app.card_back, back);
         assert_eq!(app.background, 0);
         assert!(app.dirty);
@@ -157,8 +158,9 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
         before,
         (app.game.position, app.game.rounds, app.training.stats())
     );
+    app.event(GREY);
     app.event(BLUE);
-    assert_eq!((app.focus(), app.menu_item()), (4, "Card back"));
+    assert_eq!((app.focus(), app.menu_item()), (4, "Colors"));
     app.event(GREY);
     assert_eq!((app.focus(), app.menu_item()), (3, "Back"));
     app.event(BLUE);
@@ -199,7 +201,7 @@ fn all_card_back_choices_survive_private_copy_and_round_card_back_cursor_restore
         );
         assert!(!candidate.round_display);
         candidate.round_display = true;
-        assert_eq!(candidate.menu_item(), "Card back");
+        assert_eq!(candidate.menu_item(), "Colors");
         assert_eq!(candidate.save(), app.save());
     }
 }

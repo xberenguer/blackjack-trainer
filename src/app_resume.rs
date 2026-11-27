@@ -725,11 +725,12 @@ impl App {
             View::Training => 15,
             View::Settings => 7,
             View::Sound => 11,
-            // Display cursor3 stays Return; cursor4 is the new Card back row.
+            // Display retains both legacy Back IDs and color entry IDs.
             // Hardware capability
             // is intentionally outside the private wire identity.
             View::Display => 5,
-            View::AudioVolume | View::Brightness | View::CardBackPreview => 1,
+            View::AudioVolume | View::Brightness => 1,
+            View::CardBackPreview => 3,
             View::TableMenu => 5,
             View::HelpMenu | View::BankrollMenu => 3,
             View::PracticeMenu => 4,

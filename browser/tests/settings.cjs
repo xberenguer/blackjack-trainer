@@ -37,19 +37,26 @@ for(const invalid of [packet(10,1),packet(11,0,1),packet(12,0,3),packet(12,0,0,1
  boot();const before=save();new Uint8Array(w.memory.buffer,w.sb_save_buffer(),invalid.length).set(invalid);assert.equal(w.sb_save_import(invalid.length),0);assert.deepEqual(save(),before,'invalid packets cannot alter a live session');
 }
 boot();hold(2);select('Settings');select('Display');assert.equal(view(),'Display');const displayRows=[];
-for(let i=0;i<5;i++){displayRows.push([w.sb_focus(),item()]);tap(2);}assert.deepEqual(displayRows,[[0,'Brightness'],[1,'Flip screen'],[3,'Background'],[4,'Card back'],[2,'Back']],'compact visual order retains legacy semantic IDs');
+for(let i=0;i<4;i++){displayRows.push([w.sb_focus(),item()]);tap(2);}
+assert.deepEqual(displayRows,[[0,'Brightness'],[1,'Flip screen'],[4,'Colors'],[2,'Back']]);
+select('Colors');assert.equal(view(),'CardBackPreview');assert.equal(item(),'Background');
 const backgroundFrames=[];
+const tableColors=[0x0000,0x080d,0x0341,0x6840];
 for(const color of [2,3,0,1,2]){
- select('Background');assert.equal((save()[203]>>4)^1,color);backgroundFrames.push(frame());
+ tap();assert.equal((save()[203]>>4)^1,color);assert.equal(item(),'Background');
+ const pixels=frame();
+ assert.equal(pixels.readUInt16LE(0),tableColors[color],'Colors paints the selected table color');
+ backgroundFrames.push(pixels);
 }
 assert.equal(new Set(backgroundFrames.map(pixels=>pixels.toString('base64'))).size,4);
-select('Card back');assert.equal(view(),'CardBackPreview');const backFrames=[];
-for(let back=0;back<4;back++){assert.equal((save()[10]>>5)&3,back);backFrames.push(frame());tap(2);}
+tap(2);assert.equal(item(),'Card back');const backFrames=[];
+for(let back=0;back<4;back++){assert.equal((save()[10]>>5)&3,back);backFrames.push(frame());tap();}
 assert.equal(new Set(backFrames.map(pixels=>pixels.toString('base64'))).size,4);
-for(let i=0;i<3;i++)tap(2);
-assert.equal((save()[10]>>5)&3,3);tap();assert.equal(view(),'Display');assert.equal(w.sb_focus(),4);assert.equal(item(),'Card back');
+for(let i=0;i<3;i++)tap();
+assert.equal((save()[10]>>5)&3,3);tap(2);assert.equal(item(),'Back');tap();
+assert.equal(view(),'Display');assert.equal(w.sb_focus(),4);assert.equal(item(),'Colors');
 const chosen=save();boot();load(chosen);assert.equal(save()[10]&0x60,0x60);assert.equal((save()[203]>>4)^1,2);
-hold(2);select('Settings');select('Display');select('Card back');hold(2);assert.equal(view(),'Display');assert.equal(w.sb_focus(),4,'hold Grey returns to the same card-back row');
+hold(2);select('Settings');select('Display');select('Colors');hold(2);assert.equal(view(),'Display');assert.equal(w.sb_focus(),4,'hold Grey returns to Colors');
 for(let cue=1;cue<=14;cue++){let peak=0;const n=w.sb_audio_samples(cue);assert(n>0);for(let i=0;i<n;i+=97)peak=Math.max(peak,Math.abs(w.sb_audio_playback_sample(cue,i)));assert(peak>0,`cue${cue} has a nonzero playback signal`);}
 // Grouped navigation and cancel feedback must reach PCM exactly once, while
 // master mute, zero volume and disabled Menus filter ordinary navigation.

@@ -27,29 +27,49 @@ const SOUND: [&str; 9] = [
     "Test menu",
     "Return",
 ];
-const DISPLAY: [&str; 5] = [
-    "Brightness",
-    "Flip screen",
-    "Return",
-    "Background",
-    "Card back",
-];
-const DISPLAY_ORDER: [usize; 5] = [0, 1, 3, 4, 2];
-// Semantic IDs are stable across private saves: old Return remains ID3.
-const ROUND_DISPLAY: [&str; 5] = [
-    "Brightness",
-    "Flip screen",
-    "Background",
-    "Return",
-    "Card back",
-];
-const ROUND_DISPLAY_ORDER: [usize; 5] = [0, 1, 2, 4, 3];
-pub(crate) fn item(view: View, selected: usize, round_display: bool) -> &'static str {
+const COLOR_FIELDS: [&str; 3] = ["Background", "Card back", "Back"];
+
+pub(crate) const fn display_back_id(round: bool) -> usize {
+    if round { 3 } else { 2 }
+}
+
+pub(crate) const fn display_cursor(round: bool, selected: usize) -> usize {
+    // Earlier checkpoints can still reopen the former stand-alone background row.
+    if selected == (if round { 2 } else { 3 }) {
+        4
+    } else {
+        selected
+    }
+}
+
+pub(crate) fn color_items(a: &App) -> [Text<32>; 3] {
+    let mut rows = [Text::new(), Text::new(), Text::new()];
+    let color = if a.round_display {
+        a.background
+    } else {
+        a.compact_background
+    };
+    let _ = write!(
+        rows[0],
+        "{}: {}",
+        COLOR_FIELDS[0],
+        BACKGROUND_NAMES[color.min(3) as usize]
+    );
+    let _ = write!(
+        rows[1],
+        "{}: {}",
+        COLOR_FIELDS[1],
+        CARD_BACK_NAMES[a.card_back.min(3) as usize]
+    );
+    let _ = rows[2].write_str(COLOR_FIELDS[2]);
+    rows
+}
+
+pub(crate) fn item(view: View, selected: usize) -> &'static str {
     match view {
         View::Settings => SETTINGS.get(selected),
         View::Sound => SOUND.get(selected),
-        View::Display if round_display => ROUND_DISPLAY.get(selected),
-        View::Display => DISPLAY.get(selected),
+        View::CardBackPreview => COLOR_FIELDS.get(selected),
         _ => None,
     }
     .copied()
@@ -160,35 +180,38 @@ impl App {
             View::CardBackPreview => {
                 self.emit(Cue::MenuMove);
                 if grey {
-                    self.card_back = (self.card_back + 1) % CARD_BACK_NAMES.len() as u8;
+                    self.selected = (self.selected + 1) % COLOR_FIELDS.len();
                 } else {
-                    self.set(View::Display);
-                    self.selected = 4;
+                    match self.selected {
+                        0 => {
+                            let color = if self.round_display {
+                                &mut self.background
+                            } else {
+                                &mut self.compact_background
+                            };
+                            *color = (*color + 1) % BACKGROUND_NAMES.len() as u8;
+                        }
+                        1 => self.card_back = (self.card_back + 1) % CARD_BACK_NAMES.len() as u8,
+                        _ => {
+                            self.set(View::Display);
+                            self.selected = 4;
+                        }
+                    }
                 }
             }
             View::Display => {
                 self.emit(Cue::MenuMove);
+                let cursor = display_cursor(self.round_display, self.selected);
                 if grey {
-                    let order = if self.round_display {
-                        &ROUND_DISPLAY_ORDER
-                    } else {
-                        &DISPLAY_ORDER
-                    };
+                    let order = [0, 1, 4, display_back_id(self.round_display)];
                     self.selected = order
                         .iter()
-                        .position(|id| *id == self.selected)
+                        .position(|id| *id == cursor)
                         .map_or(0, |index| order[(index + 1) % order.len()]);
                 } else {
-                    match self.selected {
+                    match cursor {
                         0 => self.set(View::Brightness),
                         1 => self.flipped = !self.flipped,
-                        2 if self.round_display => {
-                            self.background = (self.background + 1) % BACKGROUND_NAMES.len() as u8;
-                        }
-                        3 if !self.round_display => {
-                            self.compact_background =
-                                (self.compact_background + 1) % BACKGROUND_NAMES.len() as u8;
-                        }
                         4 => self.set(View::CardBackPreview),
                         _ => self.set(View::Settings),
                     }
@@ -257,7 +280,7 @@ fn editor(w: &mut Widgets<'_>, title: &str, value: u8, volume: bool) {
 pub(crate) fn draw(a: &mut App) -> bool {
     if !matches!(
         a.view,
-        View::Settings | View::Sound | View::AudioVolume | View::Display | View::Brightness
+        View::Settings | View::Sound | View::AudioVolume | View::Brightness
     ) {
         return false;
     }
@@ -346,47 +369,6 @@ pub(crate) fn draw(a: &mut App) -> bool {
                 a.selected,
                 None,
             );
-        }
-        View::Display => {
-            w.title("DISPLAY", None, false);
-            let mut brightness = Text::<32>::new();
-            let _ = write!(brightness, "Brightness: {percent}%");
-            let screen = if a.flipped {
-                "Screen: FLIPPED"
-            } else {
-                "Screen: NORMAL"
-            };
-            if a.round_display {
-                let mut background = Text::<24>::new();
-                let _ = write!(
-                    background,
-                    "Background: {}",
-                    BACKGROUND_NAMES[a.background.min(3) as usize]
-                );
-                let mut card_back = Text::<24>::new();
-                let _ = write!(
-                    card_back,
-                    "Card back: {}",
-                    CARD_BACK_NAMES[a.card_back.min(3) as usize]
-                );
-                let selected = ROUND_DISPLAY_ORDER
-                    .iter()
-                    .position(|id| *id == a.selected)
-                    .unwrap_or(0);
-                w.list(
-                    &[
-                        brightness.as_str(),
-                        screen,
-                        background.as_str(),
-                        card_back.as_str(),
-                        "Return",
-                    ],
-                    selected,
-                    None,
-                );
-            } else {
-                w.list(&[brightness.as_str(), screen, "Return"], a.selected, None);
-            }
         }
         View::AudioVolume => editor(&mut w, "VOLUME", a.audio_volume, true),
         View::Brightness => editor(&mut w, "BRIGHTNESS", percent, false),

@@ -588,26 +588,26 @@ fn round_display_background_row_cycles_the_same_four_persisted_choices() {
         assert_eq!(a.view_name(), "Display");
         tap(&mut a, Key::Grey);
         tap(&mut a, Key::Grey);
-        assert!(a.menu_item().to_ascii_lowercase().contains("background"));
+        assert_eq!(a.menu_item(), "Colors");
+        tap(&mut a, Key::Blue);
+        assert_eq!(a.view_name(), "CardBackPreview");
         let mut f = Box::new(RoundCanvas::EMPTY);
         let mut r = RoundRenderer::new();
         for expected in [1, 2, 3, 0] {
             tap(&mut a, Key::Blue);
+            assert_eq!(a.menu_item(), "Background");
             assert_eq!(a.background, expected);
             r.render(&a, &mut f);
-            assert_eq!(r.info.visible_rows, 5);
             assert_eq!(f.background(), background_color(expected));
             round_safe(&f);
         }
         tap(&mut a, Key::Grey);
-        assert_eq!(a.focus(), 4);
-        assert!(a.menu_item().to_ascii_lowercase().contains("card back"));
-        tap(&mut a, Key::Blue);
-        assert_eq!(a.view_name(), "CardBackPreview");
+        assert_eq!(a.menu_item(), "Card back");
         for back in [1, 2, 3, 0] {
-            tap(&mut a, Key::Grey);
+            tap(&mut a, Key::Blue);
             assert_eq!(a.card_back, back);
         }
+        tap(&mut a, Key::Grey);
         tap(&mut a, Key::Blue);
         assert_eq!((a.view_name(), a.focus()), ("Display", 4));
         tap(&mut a, Key::Grey);

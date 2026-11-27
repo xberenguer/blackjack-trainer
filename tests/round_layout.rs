@@ -604,7 +604,7 @@ fn round_display_background_row_cycles_the_same_four_persisted_choices() {
         assert!(a.menu_item().to_ascii_lowercase().contains("card back"));
         tap(&mut a, Key::Blue);
         assert_eq!(a.view_name(), "CardBackPreview");
-        for back in [1, 2, 0] {
+        for back in [1, 2, 3, 0] {
             tap(&mut a, Key::Grey);
             assert_eq!(a.card_back, back);
         }

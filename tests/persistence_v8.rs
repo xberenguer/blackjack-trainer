@@ -42,7 +42,7 @@ fn v1_through_v7_migrate_exact_old_scores_and_create_no_drill_progress() {
 fn independent_v8_packet_roundtrips_exact_original_and_replay_u64_scores() {
     let packet = include_bytes!("data/save-v8.bin");
     let s = Save::decode(packet).unwrap();
-    assert_eq!(VERSION, 13);
+    assert_eq!(VERSION, 14);
     assert_eq!(SIZE, 2636);
     assert_eq!(
         (s.drill_target, s.drill_mix, s.drill_profile),

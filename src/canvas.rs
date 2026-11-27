@@ -4,6 +4,15 @@ pub const fn rgb(r: u8, g: u8, b: u8) -> u16 {
     ((r as u16 >> 3) << 11) | ((g as u16 >> 2) << 5) | (b as u16 >> 3)
 }
 pub const FELT: u16 = rgb(11, 0, 107);
+pub const BACKGROUND_NAMES: [&str; 4] = ["Black", "Blue", "Green", "Red"];
+pub const fn background_color(index: u8) -> u16 {
+    match index {
+        1 => FELT,
+        2 => rgb(0, 107, 11),
+        3 => rgb(107, 11, 0),
+        _ => 0,
+    }
+}
 #[derive(Clone, Eq, PartialEq)]
 pub struct Canvas {
     pub pixels: [u16; WIDTH * HEIGHT],

@@ -15,35 +15,40 @@ drain();hold(1);assert(drain().includes(3),'holdBlue auditions card deal');asser
 hold(2);select('Categories');select('Menu');select('Card');select('Result');assert.equal(w.sb_audio_mask(),0);select('Back');
 select('Test sounds');drain();select('Deal');assert(drain().includes(3),'explicit audition works with category off');select('Back');select('Master');assert.equal(w.sb_sound_enabled(),0);select('Test sounds');drain();select('Deal');assert.deepEqual(drain(),[],'preview cannot unmute');select('Back');select('Master');
 select('Back');select('Speed');assert.equal(w.sb_fast_mode(),0);select('Speed');assert.equal(w.sb_fast_mode(),1);select('Display');select('Brightness');assert.equal(view(),'Brightness');const old=w.sb_brightness();tap(2);assert(w.sb_brightness()<old);hold(2);assert.equal(view(),'Display');hold(2);assert.equal(view(),'Settings');
-const saved=save();assert.equal(saved.readUInt16LE(4),13);boot();load(saved);assert.equal(w.sb_audio_volume(),100);assert.equal(w.sb_audio_mask(),0);assert.equal(w.sb_fast_mode(),1);assert.equal(w.sb_sound_enabled(),1);assert.equal(w.sb_brightness(),saved[9]);
+const saved=save();assert.equal(saved.readUInt16LE(4),14);boot();load(saved);assert.equal(w.sb_audio_volume(),100);assert.equal(w.sb_audio_mask(),0);assert.equal(w.sb_fast_mode(),1);assert.equal(w.sb_sound_enabled(),1);assert.equal(w.sb_brightness(),saved[9]);
 // A V9 packet has zero reserved bytes202/203; migration must initialize new prefs.
 const legacy=Buffer.from(saved);legacy.writeUInt16LE(9,4);legacy[202]=legacy[203]=0;let crc=0xffffffff;for(const b of legacy.subarray(0,-4)){crc^=b;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}legacy.writeUInt32LE((crc^0xffffffff)>>>0,legacy.length-4);
 boot();load(legacy);assert.equal(w.sb_audio_volume(),20);assert.equal(w.sb_audio_mask(),7);assert.equal(w.sb_fast_mode(),1);assert.equal(save().readBigUInt64LE(24),legacy.readBigUInt64LE(24));
-// V13 keeps round-only themes independent from the compact Blue/Black felt,
-// while all displays now share the chosen card back.
+// Compact and round themes remain independent. V13 used bit 7 of byte 10 for compact Black.
 const seal=bytes=>{let c=0xffffffff;for(const b of bytes.subarray(0,-4)){c^=b;for(let i=0;i<8;i++)c=(c>>>1)^((c&1)?0xedb88320:0);}bytes.writeUInt32LE((c^0xffffffff)>>>0,bytes.length-4);return bytes;};
 const packet=(version,bg=0,back=0,black=0)=>{const b=Buffer.from(saved);b.writeUInt16LE(version,4);b[10]=(b[10]&7)|(bg<<3)|(back<<5)|(black<<7);return seal(b);};
 const frame=()=>Buffer.from(new Uint8Array(w.memory.buffer,w.sb_frame(),w.sb_frame_len()*2));
-boot();assert.equal(save().readUInt16LE(4),13);assert.equal(save()[10]&0xe0,0,'fresh compact defaults remain Blue and Gold');
+boot();assert.equal(save().readUInt16LE(4),14);assert.equal(save()[10]&0xe0,0,'fresh compact defaults remain Blue and Gold');
 for(let back=0;back<3;back++)for(let black=0;black<2;black++){
  boot();load(packet(13,0,back,black));const reference=frame();
  for(let bg=0;bg<4;bg++){
-  boot();load(packet(13,bg,back,black));const current=save();assert.equal(current.readUInt16LE(4),13);assert.equal(current[10]&0xf8,(bg<<3)|(back<<5)|(black<<7));assert.deepEqual(frame(),reference,'round theme must not alter the compact display');
+  boot();load(packet(13,bg,back,black));const current=save();assert.equal(current.readUInt16LE(4),14);assert.equal(current[10]&0xf8,(bg<<3)|(back<<5));assert.equal(current[203]>>4,black);assert.deepEqual(frame(),reference,'round theme must not alter the compact display');
  }
 }
 for(const version of [10,11,12]){
- const bg=version>=11?3:0,back=version>=12?2:0;boot();load(packet(version,bg,back));const current=save();assert.equal(current.readUInt16LE(4),13);assert.equal(current[10]&0xf8,(bg<<3)|(back<<5),'old saves migrate to Blue while retaining available theme/back preferences');
+ const bg=version>=11?3:0,back=version>=12?2:0;boot();load(packet(version,bg,back));const current=save();assert.equal(current.readUInt16LE(4),14);assert.equal(current[10]&0xf8,(bg<<3)|(back<<5),'old saves migrate to Blue while retaining available theme/back preferences');
 }
-for(const invalid of [packet(10,1),packet(11,0,1),packet(12,0,3),packet(12,0,0,1),packet(13,0,3),packet(14)]){
+for(const invalid of [packet(10,1),packet(11,0,1),packet(12,0,3),packet(12,0,0,1),packet(13,0,3),packet(14,0,0,1),packet(15)]){
  boot();const before=save();new Uint8Array(w.memory.buffer,w.sb_save_buffer(),invalid.length).set(invalid);assert.equal(w.sb_save_import(invalid.length),0);assert.deepEqual(save(),before,'invalid packets cannot alter a live session');
 }
 boot();hold(2);select('Settings');select('Display');assert.equal(view(),'Display');const displayRows=[];
 for(let i=0;i<5;i++){displayRows.push([w.sb_focus(),item()]);tap(2);}assert.deepEqual(displayRows,[[0,'Brightness'],[1,'Flip screen'],[3,'Background'],[4,'Card back'],[2,'Back']],'compact visual order retains legacy semantic IDs');
-select('Background');assert.equal(save()[10]&0x80,0x80);const blackDisplay=frame();select('Background');assert.equal(save()[10]&0x80,0);assert.notDeepEqual(frame(),blackDisplay,'background toggle visibly changes the screen');select('Background');
+const backgroundFrames=[];
+for(const color of [2,3,0,1,2]){
+ select('Background');assert.equal((save()[203]>>4)^1,color);backgroundFrames.push(frame());
+}
+assert.equal(new Set(backgroundFrames.map(pixels=>pixels.toString('base64'))).size,4);
 select('Card back');assert.equal(view(),'CardBackPreview');const backFrames=[];
-for(let back=0;back<3;back++){assert.equal((save()[10]>>5)&3,back);backFrames.push(frame());tap(2);}
-assert.notDeepEqual(backFrames[0],backFrames[1]);assert.notDeepEqual(backFrames[1],backFrames[2]);assert.notDeepEqual(backFrames[0],backFrames[2]);
-tap(2);tap(2);assert.equal((save()[10]>>5)&3,2);tap();assert.equal(view(),'Display');assert.equal(w.sb_focus(),4);assert.equal(item(),'Card back');const chosen=save();boot();load(chosen);assert.equal(save()[10]&0xe0,0xc0,'Black/Blue card-back choices survive reload');
+for(let back=0;back<4;back++){assert.equal((save()[10]>>5)&3,back);backFrames.push(frame());tap(2);}
+assert.equal(new Set(backFrames.map(pixels=>pixels.toString('base64'))).size,4);
+for(let i=0;i<3;i++)tap(2);
+assert.equal((save()[10]>>5)&3,3);tap();assert.equal(view(),'Display');assert.equal(w.sb_focus(),4);assert.equal(item(),'Card back');
+const chosen=save();boot();load(chosen);assert.equal(save()[10]&0x60,0x60);assert.equal((save()[203]>>4)^1,2);
 hold(2);select('Settings');select('Display');select('Card back');hold(2);assert.equal(view(),'Display');assert.equal(w.sb_focus(),4,'hold Grey returns to the same card-back row');
 for(let cue=1;cue<=14;cue++){let peak=0;const n=w.sb_audio_samples(cue);assert(n>0);for(let i=0;i<n;i+=97)peak=Math.max(peak,Math.abs(w.sb_audio_playback_sample(cue,i)));assert(peak>0,`cue${cue} has a nonzero playback signal`);}
 // Grouped navigation and cancel feedback must reach PCM exactly once, while
@@ -59,5 +64,5 @@ for(const [name,enabled,volume,mask]of [['audible',1,20,7],['master mute',0,20,7
   while(item()!==label)tap(2);drain();tap();assert.deepEqual(drain(),enabled&&volume>0?[cue]:[],`${name}: ${label} audition has one cue, no navigation overlay`);
  }
 }
-console.log('PASS actualWASM granular sound/mute/categories/audition/fine volume/display/Normal-Fast controls and filtered grouped navigation/cancel/single-cue auditions; V13 compact Blue/Black and shared card-back roundtrip, V10–V12 migration and strict bits, independent round themes, live card-back previews and stable Display IDs and V9 defaults with exact counters.');
+console.log('PASS actualWASM granular sound/mute/categories/audition/fine volume/display/Normal-Fast controls and filtered grouped navigation/cancel/single-cue auditions; V14 compact four-color felt and Charcoal card-back roundtrip, V10–V13 migration and strict bits, independent round themes, live card-back previews and stable Display IDs and V9 defaults with exact counters.');
 })().catch(e=>{console.error(e);process.exitCode=1});

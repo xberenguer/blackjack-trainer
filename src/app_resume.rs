@@ -42,7 +42,7 @@ impl App {
             round_display: _,
             background: _,
             card_back: _,
-            compact_black: _,
+            compact_background: _,
             brightness,
             flipped,
             sound_enabled,
@@ -219,7 +219,7 @@ impl App {
             round_display: _,
             background: _,
             card_back: _,
-            compact_black: _,
+            compact_background: _,
             brightness,
             flipped,
             sound_enabled,
@@ -398,7 +398,7 @@ impl App {
             round_display,
             background,
             card_back,
-            compact_black,
+            compact_background,
             brightness,
             flipped,
             sound_enabled,
@@ -489,7 +489,7 @@ impl App {
         round_display.snapshot_copy_to(&mut out.round_display);
         background.snapshot_copy_to(&mut out.background);
         card_back.snapshot_copy_to(&mut out.card_back);
-        compact_black.snapshot_copy_to(&mut out.compact_black);
+        compact_background.snapshot_copy_to(&mut out.compact_background);
         brightness.snapshot_copy_to(&mut out.brightness);
         flipped.snapshot_copy_to(&mut out.flipped);
         sound_enabled.snapshot_copy_to(&mut out.sound_enabled);

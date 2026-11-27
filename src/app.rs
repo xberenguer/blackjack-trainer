@@ -259,12 +259,12 @@ pub struct App {
     pub count_practice: count_practice::Model,
     /// Runtime display capability; never part of a saved game or private wire identity.
     pub round_display: bool,
-    /// Round OLED background: Black0, Blue1, Green2, Red3. Compact displays have an independent Blue/Black setting.
+    /// Round table background: Black0, Blue1, Green2, Red3.
     pub background: u8,
-    /// Round OLED card back: Gold0, Red1, Blue2. Stick retains the original gold art.
+    /// Shared card back: Gold0, Red1, Blue2, Charcoal3.
     pub card_back: u8,
-    /// Compact Stick/browser felt: false Blue (legacy default), true Black.
-    pub compact_black: bool,
+    /// Independent Stick/browser background. Defaults to Blue.
+    pub compact_background: u8,
     pub brightness: u8,
     pub flipped: bool,
     pub sound_enabled: bool,
@@ -365,7 +365,7 @@ impl App {
         round_display: false,
         background: 0,
         card_back: 0,
-        compact_black: false,
+        compact_background: 1,
         brightness: 255,
         flipped: false,
         sound_enabled: true,
@@ -1827,7 +1827,7 @@ impl App {
             brightness: self.brightness,
             background: self.background,
             card_back: self.card_back,
-            compact_black: self.compact_black,
+            compact_background: self.compact_background,
             sound: self.sound_enabled,
             audio_volume: self.audio_volume,
             audio_mask: self.audio_mask,
@@ -1888,7 +1888,7 @@ impl App {
         self.brightness = s.brightness;
         self.background = s.background;
         self.card_back = s.card_back;
-        self.compact_black = s.compact_black;
+        self.compact_background = s.compact_background;
         self.flipped = s.flipped;
         self.sound_enabled = s.sound;
         self.audio_volume = s.audio_volume;

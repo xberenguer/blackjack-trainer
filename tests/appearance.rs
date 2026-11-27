@@ -43,10 +43,10 @@ fn play() -> Box<App> {
 fn blue_default_is_unchanged_and_black_preserves_opaque_art() {
     run(|| {
         let mut a = play();
-        assert!(!a.compact_black);
+        assert_eq!(a.compact_background, 1);
         assert_eq!(a.card_back, 0);
         let blue = a.frame.pixels.to_vec();
-        a.compact_black = true;
+        a.compact_background = 0;
         a.render();
         assert!(blue.iter().filter(|p| **p == FELT).count() > 3000);
         for (&before, &after) in blue.iter().zip(a.frame.pixels.iter()) {
@@ -70,7 +70,7 @@ fn blue_default_is_unchanged_and_black_preserves_opaque_art() {
                 }
             }
         }
-        a.compact_black = false;
+        a.compact_background = 1;
         a.render();
         assert_eq!(
             blue.as_slice(),
@@ -81,7 +81,7 @@ fn blue_default_is_unchanged_and_black_preserves_opaque_art() {
         let mut f = Box::new(RoundCanvas::EMPTY);
         r.render(&a, &mut f);
         let native = f.pixels.to_vec();
-        a.compact_black = true;
+        a.compact_background = 0;
         a.render();
         r.render(&a, &mut f);
         assert_eq!(
@@ -103,8 +103,8 @@ fn shared_back_colours_preserve_faces_and_gold_is_exact_original_art() {
     assert_eq!(gold.pixels, original.pixels);
     let mut faces = Vec::new();
     let mut backs = Vec::new();
-    for color in 0..3 {
-        r.set_appearance(false, color);
+    for color in 0..4 {
+        r.set_appearance(1, color);
         let mut c = Canvas::default();
         c.clear(FELT);
         r.card(
@@ -119,8 +119,20 @@ fn shared_back_colours_preserve_faces_and_gold_is_exact_original_art() {
     }
     assert_eq!(faces[0], faces[1]);
     assert_eq!(faces[1], faces[2]);
+    assert_eq!(faces[2], faces[3]);
     assert_ne!(backs[0], backs[1]);
     assert_ne!(backs[1], backs[2]);
+    assert_ne!(backs[2], backs[3]);
+    assert_eq!(card_back_color(0xffff, 3), 0xffff);
+    let charcoal = card_back_color(0xc580, 3);
+    let channels = [
+        ((charcoal >> 11) & 31) * 255 / 31,
+        ((charcoal >> 5) & 63) * 255 / 63,
+        (charcoal & 31) * 255 / 31,
+    ];
+    assert!(channels[0].abs_diff(channels[1]) <= 5);
+    assert_eq!(channels[0], channels[2]);
+    assert!(channels[0] < 150);
 }
 #[test]
 fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row() {
@@ -136,7 +148,7 @@ fn live_preview_both_targets_cycles_shared_ink_and_returns_to_same_display_row()
             assert_eq!(a.view_name(), "CardBackPreview");
             let mut r = RoundRenderer::new();
             let mut f = Box::new(RoundCanvas::EMPTY);
-            for color in 0..3 {
+            for color in 0..4 {
                 assert_eq!(a.card_back, color);
                 a.render();
                 r.render(&a, &mut f);

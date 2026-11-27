@@ -41,15 +41,15 @@ fn substitute_public(private: &mut [u8], public: &[u8]) {
     private[44..48].copy_from_slice(&crc.to_le_bytes());
 }
 #[test]
-fn v13_independent_compact_background_and_all_existing_flags_roundtrip() {
-    assert_eq!((VERSION, SIZE), (13, 2636));
-    assert!(!Save::default().compact_black);
-    for compact_black in [false, true] {
+fn v14_independent_backgrounds_and_four_card_backs_roundtrip() {
+    assert_eq!((VERSION, SIZE), (14, 2636));
+    assert_eq!(Save::default().compact_background, 1);
+    for compact_background in 0..4 {
         for background in 0..4 {
-            for card_back in 0..3 {
+            for card_back in 0..4 {
                 for flags in 0..8 {
                     let save = Save {
-                        compact_black,
+                        compact_background,
                         background,
                         card_back,
                         sound: flags & 1 != 0,
@@ -58,22 +58,35 @@ fn v13_independent_compact_background_and_all_existing_flags_roundtrip() {
                         ..Save::default()
                     };
                     let packet = save.encode().unwrap();
-                    assert_eq!(
-                        packet[10],
-                        flags | background << 3 | card_back << 5 | u8::from(compact_black) << 7
-                    );
+                    assert_eq!(packet[10], flags | background << 3 | card_back << 5);
+                    assert_eq!(packet[203] >> 4, compact_background ^ 1);
                     assert_eq!(Save::decode(&packet), Some(save));
                 }
             }
         }
     }
     let mut invalid = Save::default().encode().unwrap();
-    invalid[10] = 0xe0; // colour selector3 remains invalid with compact Black set
+    invalid[203] |= 0x40;
     resign(&mut invalid);
     assert!(Save::decode(&invalid).is_none());
-    invalid[4..6].copy_from_slice(&14u16.to_le_bytes());
-    resign(&mut invalid);
-    assert!(Save::decode(&invalid).is_none());
+
+    let original = Save::decode(include_bytes!("data/save-v8.bin")).unwrap();
+    for compact_background in [0, 1] {
+        let mut old = original.encode().unwrap();
+        old[4..6].copy_from_slice(&13u16.to_le_bytes());
+        old[10] |= u8::from(compact_background == 0) << 7;
+        resign(&mut old);
+        assert_eq!(
+            Save::decode(&old),
+            Some(Save {
+                compact_background,
+                ..original
+            })
+        );
+        old[10] |= 0x60;
+        resign(&mut old);
+        assert!(Save::decode(&old).is_none(), "V13 reserved card-back ID");
+    }
 }
 #[test]
 fn v12_migrates_every_score_and_preference_and_keeps_bit7_reserved() {
@@ -100,10 +113,10 @@ fn v12_migrates_every_score_and_preference_and_keeps_bit7_reserved() {
     // Existing boot policy starts regular play; stored scores and all preferences remain exact.
     save.mode = stardust_blackjack::training::Mode::Off;
     assert_eq!(app.save(), save);
-    assert!(!app.compact_black);
-    app.compact_black = true;
+    assert_eq!(app.compact_background, 1);
+    app.compact_background = 0;
     let mut changed = save;
-    changed.compact_black = true;
+    changed.compact_background = 0;
     assert_eq!(app.save(), changed);
 }
 #[test]
@@ -125,7 +138,14 @@ fn both_display_menus_have_live_preview_and_preserve_historical_back_ids() {
         }
         nav::choose(&mut app, "Background");
         assert_eq!(app.background, if round { 1 } else { 0 });
-        assert_eq!(app.compact_black, !round);
+        assert_eq!(app.compact_background, if round { 1 } else { 2 });
+        if !round {
+            for colour in [3, 0, 1] {
+                app.event(BLUE);
+                assert_eq!(app.compact_background, colour);
+                assert_eq!(app.save().compact_background, colour);
+            }
+        }
         let before = (
             app.game.rng,
             app.game.position,
@@ -134,7 +154,7 @@ fn both_display_menus_have_live_preview_and_preserve_historical_back_ids() {
         );
         nav::choose(&mut app, "Card back");
         assert_eq!((app.view_name(), app.focus()), ("CardBackPreview", 0));
-        for colour in [1, 2, 0] {
+        for colour in [1, 2, 3, 0] {
             app.dirty = false;
             app.event(GREY);
             assert_eq!(app.card_back, colour);
@@ -169,14 +189,14 @@ fn preview_and_compact_choice_survive_private_copy_restore_and_done_routing() {
     for round in [false, true] {
         let mut app = Box::new(App::new(7));
         app.round_display = round;
-        app.compact_black = true;
+        app.compact_background = 0;
         app.background = 2;
         nav::path(&mut app, &["Settings", "Display", "Card back"]);
         app.event(GREY);
         app.render();
         let mut copy = Box::new(App::EMPTY);
         app.capture_clone_into(&mut copy).unwrap();
-        assert!(copy.compact_black);
+        assert_eq!(copy.compact_background, 0);
         assert_eq!(copy.round_display, round);
         let mut private = vec![0; snapshot::MAX_BYTES];
         let n = snapshot::capture_private(&app, &mut private, 41, true).unwrap();
@@ -185,7 +205,7 @@ fn preview_and_compact_choice_survive_private_copy_restore_and_done_routing() {
         assert_eq!(candidate.view_name(), "CardBackPreview");
         assert!(!candidate.round_display);
         candidate.round_display = round;
-        assert!(candidate.compact_black);
+        assert_eq!(candidate.compact_background, 0);
         assert_eq!(candidate.card_back, 1);
         assert_eq!(candidate.background, 2);
         assert_eq!(candidate.save(), app.save());
@@ -227,7 +247,7 @@ fn raw_v12_private_compact_back2_and_round_back3_keep_old_meaning_and_binding() 
         let mut candidate = Box::new(App::EMPTY);
         resume_binding::restore_bound(&mut candidate, &bound[..n], old, 1000, true).unwrap();
         candidate.round_display = round;
-        assert!(!candidate.compact_black);
+        assert_eq!(candidate.compact_background, 1);
         assert_eq!(
             (candidate.focus(), candidate.menu_item()),
             (if round { 3 } else { 2 }, "Back")

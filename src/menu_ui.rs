@@ -461,7 +461,7 @@ fn spec_inner(a: &App) -> Option<MenuSpec> {
             let _ = write!(
                 b,
                 "Background: {}",
-                super::settings_ui::BACKGROUNDS[a.background.min(3) as usize]
+                crate::canvas::BACKGROUND_NAMES[a.background.min(3) as usize]
             );
             out.row(2, b.as_str(), a.selected);
         } else {
@@ -469,7 +469,7 @@ fn spec_inner(a: &App) -> Option<MenuSpec> {
             let _ = write!(
                 b,
                 "Background: {}",
-                if a.compact_black { "Black" } else { "Blue" }
+                crate::canvas::BACKGROUND_NAMES[a.compact_background.min(3) as usize]
             );
             out.row(3, b.as_str(), a.selected);
         }
@@ -477,7 +477,7 @@ fn spec_inner(a: &App) -> Option<MenuSpec> {
         let _ = write!(
             b,
             "Card back: {} >",
-            super::settings_ui::CARD_BACKS[a.card_back.min(2) as usize]
+            crate::render::CARD_BACK_NAMES[a.card_back.min(3) as usize]
         );
         out.row(4, b.as_str(), a.selected);
         out.row(if a.round_display { 3 } else { 2 }, "Back", a.selected);

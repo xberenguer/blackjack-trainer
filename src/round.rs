@@ -20,19 +20,10 @@ pub const WIDTH: usize = 466;
 pub const HEIGHT: usize = 466;
 pub const PIXELS: usize = WIDTH * HEIGHT;
 pub const ORIENTATION_DEGREES: u16 = 270;
-/// OLED table/menu backgrounds. StickS3 keeps its independently approved blue.
-pub const BACKGROUND_NAMES: [&str; 4] = ["Black", "Blue", "Green", "Red"];
-pub const CARD_BACK_NAMES: [&str; 3] = ["Gold", "Red", "Blue"];
-// Both displays use the same cream paper and coloured Stardust ink.
-pub use crate::render::card_back_color;
-pub const fn background_color(index: u8) -> u16 {
-    match index {
-        1 => FELT,
-        2 => rgb(0, 107, 11),
-        3 => rgb(107, 11, 0),
-        _ => 0,
-    }
-}
+pub use crate::{
+    canvas::{BACKGROUND_NAMES, background_color},
+    render::{CARD_BACK_NAMES, card_back_color},
+};
 const WHITE: u16 = rgb(255, 255, 255);
 const GOLD: u16 = rgb(255, 255, 0);
 const MUTED: u16 = rgb(168, 155, 193);
@@ -284,7 +275,7 @@ impl RoundRenderer {
                     frame,
                     233,
                     108,
-                    CARD_BACK_NAMES[app.card_back.min(2) as usize],
+                    CARD_BACK_NAMES[app.card_back.min(3) as usize],
                     26,
                     GOLD,
                     true,

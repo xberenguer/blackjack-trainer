@@ -17,7 +17,7 @@ fn v9(mut b: [u8; SIZE]) -> [u8; SIZE] {
 }
 #[test]
 fn v10_volume_mask_speed_all_boundaries_and_legacy_defaults() {
-    assert_eq!((VERSION, SIZE), (13, 2636));
+    assert_eq!((VERSION, SIZE), (14, 2636));
     let defaults = Save::default();
     assert_eq!(defaults.policy, stardust_blackjack::training::Policy::HiLo);
     assert_eq!(
@@ -44,7 +44,7 @@ fn v10_volume_mask_speed_all_boundaries_and_legacy_defaults() {
             }
         }
     }
-    for (at, value) in [(202, 101), (202, 255), (203, 16), (203, 128)] {
+    for (at, value) in [(202, 101), (202, 255), (203, 64), (203, 128)] {
         let mut b = defaults.encode().unwrap();
         b[at] = value;
         resign(&mut b);
@@ -140,7 +140,7 @@ fn raw_v9_public_and_old_private_public_tlv_restore_then_require_new_v10_binding
         (20, 7, true)
     );
     let canonical = candidate.save().encode().unwrap();
-    assert_eq!(u16::from_le_bytes(canonical[4..6].try_into().unwrap()), 13);
+    assert_eq!(u16::from_le_bytes(canonical[4..6].try_into().unwrap()), 14);
     assert_ne!(canonical, old_public);
     let mut new_private = vec![0; snapshot::MAX_BYTES];
     let n = snapshot::capture_private(&candidate, &mut new_private, 42, true).unwrap();

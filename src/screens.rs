@@ -430,7 +430,13 @@ fn count_result(w: &mut Widgets<'_>, a: Option<count_practice::Attempt>, history
 /// Drawing table advice/counts returns explicit aid bits; once viewed, the
 /// decision/checkpoint remains assisted even after that aid is switched off.
 pub fn draw(a: &mut App) {
-    a.renderer.set_appearance(a.compact_black, a.card_back);
+    // The round compositor substitutes its own background for compact felt pixels.
+    let background = if a.round_display {
+        1
+    } else {
+        a.compact_background
+    };
+    a.renderer.set_appearance(background, a.card_back);
     if a.view == View::CardBackPreview {
         let mut w = Widgets {
             frame: &mut a.frame,
@@ -440,7 +446,7 @@ pub fn draw(a: &mut App) {
         w.renderer.card_back(w.frame, (24, 26), (60, 88));
         w.label(
             (157, 59),
-            crate::round::CARD_BACK_NAMES[a.card_back.min(2) as usize],
+            crate::round::CARD_BACK_NAMES[a.card_back.min(3) as usize],
             TextStyle {
                 size: 24,
                 bold: true,

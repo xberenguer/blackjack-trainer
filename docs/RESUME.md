@@ -6,7 +6,7 @@ Native checkpoints coalesce after 1200 ms of stable state; the browser captures 
 
 ## Formats and invariants
 
-- Public SBTR V13:2636 bytes, default-off resume boolean at583; byte202 stores volume0–100 and byte203 stores Menus/Cards/Results bits0–2 plus Fast bit3. V1–V9 initialize volume20%, all categories enabled and Fast speed while retaining exact existing scores/preferences. Public SBRJ V2 wraps exact raw SBTR bytes with generation64, checkpoint epoch64 and independent128-bit transaction nonce. Normal boot's Off override occurs after reading these raw binding bytes.
+- Public SBTR V14:2636 bytes, default-off resume boolean at583; byte202 stores volume0–100 and byte203 stores Menus/Cards/Results bits0–2 plus Fast bit3. V1–V9 initialize volume20%, all categories enabled and Fast speed while retaining exact existing scores/preferences. Public SBRJ V2 wraps exact raw SBTR bytes with generation64, checkpoint epoch64 and independent128-bit transaction nonce. Normal boot's Off override occurs after reading these raw binding bytes.
 - Private SBRS V1/schema`0x000a0001`:48-byte header with declared length, sequence/epoch, saved clock and header/payload CRC32; required TLVs contain explicit typed private fields and the matching public packet. Integers/floats use fixed little-endian wire encoding; options/enums are checked. No pointers, Rust padding, framebuffer or allocator state is serialized.
 - SBTX V1:64-byte transaction header followed by exact public bytes and SBRS. Restore requires equality with the latest trusted public packet, generation, epoch and nonce. An old private packet cannot roll back a grade, assistance exposure, reset or scoreless Off move. Private-ahead-public is refused too.
 - Private RSMJ V1: two256KB slots at`0x770000`;40-byte header and fixed32-byte footer. Footer-sector erase invalidates the old target marker first; only used payload sectors are erased. One4KB erase or at most512-byte hash/program/verify per step. Footer commit is last; CRC covers declared unpadded bytes. Internal-RAM staging pads only the final physical word with erased bits.
@@ -31,13 +31,13 @@ restore applies those preferences before comparing the reconstructed public Save
 New view tags append after the previous tags. A V9 public commit and its V9 private
 checkpoint can therefore be validated and offered without an eager rewrite. After
 explicit restore, the next acknowledged public checkpoint migrates canonically to
-V13 before any new private capture can bind. Waiting at the chooser never performs
+V14 before any new private capture can bind. Waiting at the chooser never performs
 that migration, and a stale unanswered question cannot replace newer public progress.
 
 <a id="round-display-preferences-and-older-saves"></a>
 
 ## Display preferences and older saves
 
-V11 added the round background in byte 10 bits 3–4. V12 added the card-back choice in bits 5–6. V13 uses bit 7 for the compact display’s Black background setting. Earlier compact saves default to Blue. Waveshare backgrounds, saved card backs, other preferences and lifetime scores carry over. All versions keep their original reserved-bit checks. The packet remains 2,636 bytes.
+V11 added the round background in byte 10 bits 3–4. V12 added the card-back choice in bits 5–6. V13 used bit 7 for the compact display’s Black setting. V14 moves the independent compact background to byte 203 bits 4–5 and adds Charcoal as card-back ID 3. V13 Blue and Black selections, earlier Waveshare backgrounds, saved card backs and lifetime scores carry over. Compact saves from V12 and earlier default to Blue. All versions keep their original reserved-bit checks. The packet remains 2,636 bytes.
 
-Appearance choices travel in the existing mirrored public Save TLV. The private body schema stays the same and the preview view has a new tag. Older private checkpoints are verified against their original public bytes and migrate to V13 after explicit resume and acknowledgment. The Display menu keeps the saved Back selection IDs for each device.
+Appearance choices travel in the existing mirrored public Save TLV. The private body schema stays the same and the preview view has a new tag. Older private checkpoints are verified against their original public bytes and migrate to V14 after explicit resume and acknowledgment. The Display menu keeps the saved Back selection IDs for each device.

@@ -53,7 +53,7 @@ fn substitute_public(private: &mut [u8], public: &[u8]) {
 }
 #[test]
 fn v12_three_card_backs_and_all_background_flags_roundtrip_exactly() {
-    assert_eq!((VERSION, SIZE), (13, 2636));
+    assert_eq!((VERSION, SIZE), (14, 2636));
     assert_eq!(Save::default().card_back, 0);
     for background in 0..4 {
         for card_back in 0..3 {
@@ -74,7 +74,7 @@ fn v12_three_card_backs_and_all_background_flags_roundtrip_exactly() {
     }
     assert!(
         Save {
-            card_back: 3,
+            card_back: 4,
             ..Save::default()
         }
         .encode()
@@ -88,7 +88,7 @@ fn v12_three_card_backs_and_all_background_flags_roundtrip_exactly() {
         assert!(Save::decode(&packet).is_none());
     }
     let mut packet = Save::default().encode().unwrap();
-    packet[4..6].copy_from_slice(&14u16.to_le_bytes());
+    packet[4..6].copy_from_slice(&15u16.to_le_bytes());
     resign(&mut packet);
     assert!(Save::decode(&packet).is_none());
 }
@@ -147,7 +147,7 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
     let before = (app.game.position, app.game.rounds, app.training.stats());
     app.event(BLUE);
     assert_eq!(app.view_name(), "CardBackPreview");
-    for back in [1, 2, 0] {
+    for back in [1, 2, 3, 0] {
         app.event(GREY);
         assert_eq!(app.card_back, back);
         assert_eq!(app.background, 0);
@@ -175,7 +175,7 @@ fn round_display_uses_stable_return_id_and_visual_card_back_order() {
 }
 #[test]
 fn all_card_back_choices_survive_private_copy_and_round_card_back_cursor_restore() {
-    for card_back in 0..3 {
+    for card_back in 0..4 {
         let mut app = Box::new(App::new(7));
         app.round_display = true;
         app.background = 3;
@@ -235,7 +235,7 @@ fn old_v11_private_return_cursor3_stays_return_and_requires_a_new_v12_binding() 
     );
     assert_eq!(candidate.save(), app.save());
     let canonical = candidate.save().encode().unwrap();
-    assert_eq!(canonical[4], 13);
+    assert_eq!(canonical[4], 14);
     assert_ne!(canonical, old_public);
     // Keep the old epoch fixed once: rejection must depend on the exact changed
     // public packet, rather than merely on a different checkpoint number.

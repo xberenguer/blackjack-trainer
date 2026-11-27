@@ -1,11 +1,11 @@
-//! Exact little-endian SBTR V13 packets; V1–V12 migration preserves uint64 scores.
+//! Exact little-endian SBTR V14 packets; V1–V13 migration preserves uint64 scores.
 //! Session/shoe/history are deliberately absent at this stage of the roadmap.
 use crate::{
     count_practice,
     rules::{Profile, Rules},
     training::{self, Counters, Mode, Policy},
 };
-pub const VERSION: u16 = 13;
+pub const VERSION: u16 = 14;
 pub const SIZE: usize = 2636;
 pub const V7_SIZE: usize = 584;
 pub const V5_SIZE: usize = 336;
@@ -27,7 +27,7 @@ pub struct Save {
     pub brightness: u8,
     pub background: u8,
     pub card_back: u8,
-    pub compact_black: bool,
+    pub compact_background: u8,
     pub sound: bool,
     pub audio_volume: u8,
     pub audio_mask: u8,
@@ -61,7 +61,7 @@ impl Default for Save {
             brightness: 255,
             background: 0,
             card_back: 0,
-            compact_black: false,
+            compact_background: 1,
             sound: true,
             audio_volume: 20,
             audio_mask: 7,
@@ -123,7 +123,8 @@ impl Save {
     }
     pub fn valid(self) -> bool {
         self.background <= 3
-            && self.card_back <= 2
+            && self.card_back <= 3
+            && self.compact_background <= 3
             && self.audio_volume <= 100
             && self.audio_mask & !7 == 0
             && self.drill_target <= 31
@@ -154,8 +155,7 @@ impl Save {
             | (u8::from(self.flipped) << 1)
             | (u8::from(self.pause_on_mistake) << 2)
             | (self.background << 3)
-            | (self.card_back << 5)
-            | (u8::from(self.compact_black) << 7);
+            | (self.card_back << 5);
         out[11] = self.profile as u8;
         out[12] = self.penetration;
         out[13] = self.count_display;
@@ -194,7 +194,10 @@ impl Save {
         out[200] = self.extra_seats;
         out[201] = self.player_seat;
         out[202] = self.audio_volume;
-        out[203] = self.audio_mask | (u8::from(self.fast_mode) << 3);
+        // Blue is zero on disk, so earlier saves with reserved bits clear retain it.
+        out[203] = self.audio_mask
+            | (u8::from(self.fast_mode) << 3)
+            | ((self.compact_background ^ 1) << 4);
         out[332] = u8::from(self.wager_enabled);
         out[333] = self.wager_policy.version as u8;
         for (i, n) in self.wager_policy.units.into_iter().enumerate() {
@@ -234,7 +237,7 @@ impl Save {
             3 | 4 => PREVIOUS_SIZE,
             5 | 6 => V5_SIZE,
             7 => V7_SIZE,
-            8..=13 => SIZE,
+            8..=14 => SIZE,
             _ => return None,
         };
         if b.len() != expected
@@ -242,7 +245,7 @@ impl Save {
             || u32_at(b, expected - 4)? != crc32(&b[..expected - 4])
             || b[9] < 20
             || b[10]
-                & if version >= 13 {
+                & if version == 13 {
                     0
                 } else if version >= 12 {
                     0x80
@@ -252,6 +255,7 @@ impl Save {
                     0xf8
                 }
                 != 0
+            || (version < 14 && b[10] & 0x60 == 0x60)
             || b[8] > if version == 1 { 2 } else { 3 }
         {
             return None;
@@ -262,7 +266,8 @@ impl Save {
             }
         } else if (version < 6 && b[200..204].iter().any(|v| *v != 0))
             || ((6..10).contains(&version) && b[202..204].iter().any(|v| *v != 0))
-            || (version >= 10 && (b[202] > 100 || b[203] & 0xf0 != 0))
+            || (version >= 10
+                && (b[202] > 100 || b[203] & if version >= 14 { 0xc0 } else { 0xf0 } != 0))
             || (version < 5 && b[15] != 0)
             || (version == 3 && b[14] != 0)
         {
@@ -275,7 +280,11 @@ impl Save {
             brightness: b[9],
             background: if version >= 11 { (b[10] >> 3) & 3 } else { 0 },
             card_back: if version >= 12 { (b[10] >> 5) & 3 } else { 0 },
-            compact_black: version >= 13 && b[10] & 0x80 != 0,
+            compact_background: if version >= 14 {
+                ((b[203] >> 4) & 3) ^ 1
+            } else {
+                u8::from(version < 13 || b[10] & 0x80 == 0)
+            },
             sound: b[10] & 1 != 0,
             flipped: b[10] & 2 != 0,
             pause_on_mistake: b[10] & 4 != 0,

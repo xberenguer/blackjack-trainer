@@ -26,6 +26,7 @@ The accepted 0.1.3 appearance and controls remain the design contract. The game 
 | 0.12.0 | Rust Waveshare 1.75C port: native round layout, top physical buttons, touch disabled, centered card fans, fixed card size/height, OLED backgrounds and Stardust back colors, six-row menus with a next-row preview. |
 
 | 0.12.1 | Grouped menus, consistent Back, clear mode help, explicit session/stat confirmations, safe learning reset and fresh-shoe count reset. |
+| 0.12.3 | Green and Red backgrounds on StickS3 and a Charcoal card back on both devices. |
 | 0.12.2 | StickS3 Black background and card-back colors, live card-back preview on both displays and side-by-side game screenshots. |
 
 ## How feedback shaped the result

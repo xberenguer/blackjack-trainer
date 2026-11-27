@@ -4,7 +4,7 @@
 
 Stardust Blackjack is a two-button blackjack simulator and trainer for the **M5Stack StickS3** and **Waveshare 1.75C round display**, with a browser version using the same Rust game and the Stick’s 240×135 interface. This illustrated guide assumes you already know regular blackjack and explains every app feature. Both hardware targets share this repository and release version. Choose your device in the flasher to download the matching firmware.
 
-**Current version: 0.12.2.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
+**Current version: 0.12.3.** New-install preferences: **Hi-Lo · Fast · 20% volume**. Saved preferences take precedence; ordinary boot starts at **$1,000**, the table minimum and training **Off**.
 
 | M5Stack StickS3 | Waveshare AMOLED 1.75C |
 | :---: | :---: |
@@ -474,7 +474,7 @@ In **Volume**, Grey lowers and Blue raises. Steps are one percentage point throu
 
 ### Display
 
-Both models save your **Background** and **Card back** choices in **Settings → Display**. StickS3 offers Blue and Black. Waveshare offers Black, Blue, Green and Red. Select **Card back** to see the actual card as you cycle Gold, Red and Blue. Grey/Right cycles and Blue/Left returns to Display with the chosen back saved.
+Both models save your **Background** and **Card back** choices in **Settings → Display**. Both devices offer Black, Blue, Green and Red backgrounds. Select **Card back** to see the actual card as you cycle Gold, Red, Blue and Charcoal. Grey/Right cycles and Blue/Left returns to Display with the chosen back saved.
 
 | StickS3 card-back preview | Waveshare card-back preview |
 | :---: | :---: |
@@ -572,9 +572,9 @@ The shared game, renderer and hardware application are Rust. See [Build and vali
 
 ## Releases and verification
 
-The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.2.md).
+The roadmap through 0.10 is implemented; later releases refine controls and defaults. [Release history](docs/ROADMAP.md) · [Current release](docs/RELEASE-0.12.3.md).
 
-Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.2 release adds a Black background on StickS3 and live card-back previews on both displays. Source-bound firmware builds, browser parity and scoped actual-device checks are recorded in the [current release](docs/RELEASE-0.12.2.md) and [validation evidence](validation/release-0.12.2.json). Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
+Automated native, mathematical, browser and firmware checks are recorded separately from actual-device checks. The 0.12.3 release adds Green and Red backgrounds on StickS3 and a Charcoal card back on both displays. The [current release notes](docs/RELEASE-0.12.3.md) describe the changes. Earlier sound validation included user-confirmed audible deal and win cues on StickS3.
 
 ## Project and publication notes
 

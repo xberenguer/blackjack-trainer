@@ -1,6 +1,6 @@
 use crate::{
     assets::{Font, Sprite},
-    canvas::{Canvas, FELT, HEIGHT, WIDTH, rgb},
+    canvas::{Canvas, HEIGHT, WIDTH, background_color, rgb},
 };
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Align {
@@ -65,10 +65,12 @@ pub fn text_height(text: &str, size: u8, bold: bool) -> i32 {
         b.max_y - b.min_y
     })
 }
-/// Re-hue only coloured ink. The cream paper, white border, lettering shapes
+pub const CARD_BACK_NAMES: [&str; 4] = ["Gold", "Red", "Blue", "Charcoal"];
+
+/// Recolor only coloured ink. The cream paper, white border, lettering shapes
 /// and lattice geometry stay exactly the same; face sprites never use this.
 pub fn card_back_color(c: u16, choice: u8) -> u16 {
-    if choice == 0 || choice > 2 {
+    if choice == 0 || usize::from(choice) >= CARD_BACK_NAMES.len() {
         return c;
     }
     let r = ((c >> 11) & 31) as u32 * 255 / 31;
@@ -80,21 +82,25 @@ pub fn card_back_color(c: u16, choice: u8) -> u16 {
     if chroma * 100 < hi * 16 {
         return c;
     }
-    if choice == 1 {
-        rgb(hi as u8, lo as u8, lo as u8)
-    } else {
-        rgb(lo as u8, (lo + chroma / 4) as u8, hi as u8)
+    match choice {
+        1 => rgb(hi as u8, lo as u8, lo as u8),
+        2 => rgb(lo as u8, (lo + chroma / 4) as u8, hi as u8),
+        _ => {
+            // Retain tonal detail in the lattice while darkening its ink.
+            let gray = ((54 * r + 183 * g + 19 * b) * 3 / 1024) as u8;
+            rgb(gray, gray, gray)
+        }
     }
 }
 pub struct Renderer {
     mask: [u8; WIDTH * 32],
-    compact_black: bool,
+    compact_background: u8,
     card_back: u8,
 }
 impl Renderer {
     pub const EMPTY: Self = Self {
         mask: [0; WIDTH * 32],
-        compact_black: false,
+        compact_background: 1,
         card_back: 0,
     };
 }
@@ -105,12 +111,12 @@ impl Default for Renderer {
 }
 impl Renderer {
     /// Select appearance before painting; changing felt never recolours art.
-    pub fn set_appearance(&mut self, black: bool, card_back: u8) {
-        self.compact_black = black;
-        self.card_back = if card_back <= 2 { card_back } else { 0 };
+    pub fn set_appearance(&mut self, background: u8, card_back: u8) {
+        self.compact_background = background;
+        self.card_back = card_back;
     }
     pub fn felt(&self) -> u16 {
-        if self.compact_black { 0 } else { FELT }
+        background_color(self.compact_background)
     }
     pub fn text(
         &mut self,

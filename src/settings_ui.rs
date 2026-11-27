@@ -1,8 +1,8 @@
 //! Settings controls and screens. Audio previews never supply play/count advice.
 use super::*;
 use crate::{
-    canvas::rgb,
-    render::{Align, TextStyle},
+    canvas::{BACKGROUND_NAMES, rgb},
+    render::{Align, CARD_BACK_NAMES, TextStyle},
     text::Text,
     widgets::{GOLD, MUTED, PANEL, Widgets},
 };
@@ -44,8 +44,6 @@ const ROUND_DISPLAY: [&str; 5] = [
     "Card back",
 ];
 const ROUND_DISPLAY_ORDER: [usize; 5] = [0, 1, 2, 4, 3];
-pub(crate) const CARD_BACKS: [&str; 3] = ["Gold", "Red", "Blue"];
-pub(crate) const BACKGROUNDS: [&str; 4] = ["Black", "Blue", "Green", "Red"];
 pub(crate) fn item(view: View, selected: usize, round_display: bool) -> &'static str {
     match view {
         View::Settings => SETTINGS.get(selected),
@@ -162,7 +160,7 @@ impl App {
             View::CardBackPreview => {
                 self.emit(Cue::MenuMove);
                 if grey {
-                    self.card_back = (self.card_back + 1) % 3;
+                    self.card_back = (self.card_back + 1) % CARD_BACK_NAMES.len() as u8;
                 } else {
                     self.set(View::Display);
                     self.selected = 4;
@@ -184,8 +182,13 @@ impl App {
                     match self.selected {
                         0 => self.set(View::Brightness),
                         1 => self.flipped = !self.flipped,
-                        2 if self.round_display => self.background = (self.background + 1) % 4,
-                        3 if !self.round_display => self.compact_black = !self.compact_black,
+                        2 if self.round_display => {
+                            self.background = (self.background + 1) % BACKGROUND_NAMES.len() as u8;
+                        }
+                        3 if !self.round_display => {
+                            self.compact_background =
+                                (self.compact_background + 1) % BACKGROUND_NAMES.len() as u8;
+                        }
                         4 => self.set(View::CardBackPreview),
                         _ => self.set(View::Settings),
                     }
@@ -202,7 +205,7 @@ impl App {
         self.fast_mode = prefs.fast_mode;
         self.background = prefs.background;
         self.card_back = prefs.card_back;
-        self.compact_black = prefs.compact_black;
+        self.compact_background = prefs.compact_background;
     }
 }
 fn editor(w: &mut Widgets<'_>, title: &str, value: u8, volume: bool) {
@@ -358,13 +361,13 @@ pub(crate) fn draw(a: &mut App) -> bool {
                 let _ = write!(
                     background,
                     "Background: {}",
-                    BACKGROUNDS[a.background.min(3) as usize]
+                    BACKGROUND_NAMES[a.background.min(3) as usize]
                 );
                 let mut card_back = Text::<24>::new();
                 let _ = write!(
                     card_back,
                     "Card back: {}",
-                    CARD_BACKS[a.card_back.min(2) as usize]
+                    CARD_BACK_NAMES[a.card_back.min(3) as usize]
                 );
                 let selected = ROUND_DISPLAY_ORDER
                     .iter()
